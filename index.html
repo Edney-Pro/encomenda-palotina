@@ -14,12 +14,43 @@
     <link rel="stylesheet" href="global/components.css">
     
     <style>
-        /* CORREÇÃO DO LAYOUT MOBILE */
+        /* ESTILOS PRINCIPAIS */
         body {
-            padding-bottom: 0 !important;
+            margin: 0;
+            padding: 0;
             height: 100dvh;
-            display: flex;
-            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+
+        /* VÍDEO DE FUNDO */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4) contrast(1.2);
+        }
+
+        /* OVERLAY PARA MELHOR LEGIBILIDADE */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
         }
 
         .container {
@@ -29,6 +60,47 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: calc(100dvh - 120px);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* HEADER PERSONALIZADO */
+        #global-header {
+            background: rgba(42, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid;
+            border-image: linear-gradient(45deg, #ffd700, #ff8c00, #ff4500) 1;
+            padding: 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header-icon {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffd700, #ff8c00, #ff4500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            text-shadow: 0 2px 10px rgba(255, 69, 0, 0.3);
         }
 
         /* GRID 3x4 ESPECÍFICO PARA HOME */
@@ -36,19 +108,23 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(4, 1fr);
-            gap: 10px;
+            gap: 12px;
             width: 100%;
             max-width: 500px;
             height: 100%;
-            max-height: 600px;
+            max-height: 650px;
+            position: relative;
+            z-index: 2;
         }
 
-        /* CARDS COMPACTOS PARA HOME */
+        /* CARDS ESTILO HOMEM DE FERRO SOBRE VÍDEO */
         .home-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 8px;
+            background: rgba(42, 10, 10, 0.85);
+            backdrop-filter: blur(10px);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ffd700, #ff8c00, #ff4500) 1;
+            border-radius: 12px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -56,100 +132,341 @@
             text-align: center;
             aspect-ratio: 1/1;
             text-decoration: none;
-            color: var(--text-primary);
-            transition: var(--transition);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 4px 15px rgba(255, 69, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .home-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .home-card:hover::before {
+            left: 100%;
         }
 
         .home-card:hover {
-            transform: scale(1.05);
-            border-color: var(--primary);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 8px 25px rgba(255, 69, 0, 0.5),
+                0 0 30px rgba(255, 215, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-image: linear-gradient(45deg, #ffd700, #ff8c00, #ff4500, #ffd700) 1;
         }
 
-        .home-card .card-icon {
-            font-size: 1.4rem;
-            margin-bottom: 6px;
+        /* ÍCONES COM EFEITO DE ENERGIA */
+        .card-icon {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+            transition: all 0.3s ease;
         }
 
-        .home-card .card-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 2px;
+        .home-card:hover .card-icon {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
         }
 
-        .home-card .card-subtitle {
+        /* TEXTOS */
+        .card-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ffd700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 3px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-subtitle {
             font-size: 0.65rem;
-            color: var(--text-muted);
+            font-weight: 500;
+            color: #ffa07a;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
-        /* CORREÇÃO DO FOOTER MOBILE */
-        .premium-footer {
-            position: relative;
-            z-index: 1000;
-            flex-shrink: 0;
+        /* SCROLLBAR PERSONALIZADA */
+        .container::-webkit-scrollbar {
+            width: 6px;
         }
 
-        /* CORREÇÃO DO MATRIX */
-        #matrix-bg {
-            z-index: -1;
-            opacity: 0.15;
+        .container::-webkit-scrollbar-track {
+            background: rgba(42, 10, 10, 0.8);
+            border-radius: 3px;
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            border-radius: 3px;
+        }
+
+        .container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #ff8c00, #ff4500);
+        }
+
+        /* ANIMAÇÃO DE ENTRADA DOS CARDS */
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .home-card {
+            animation: cardAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* DELAY NAS ANIMAÇÕES DOS CARDS */
+        .home-card:nth-child(1) { animation-delay: 0.1s; }
+        .home-card:nth-child(2) { animation-delay: 0.15s; }
+        .home-card:nth-child(3) { animation-delay: 0.2s; }
+        .home-card:nth-child(4) { animation-delay: 0.25s; }
+        .home-card:nth-child(5) { animation-delay: 0.3s; }
+        .home-card:nth-child(6) { animation-delay: 0.35s; }
+        .home-card:nth-child(7) { animation-delay: 0.4s; }
+        .home-card:nth-child(8) { animation-delay: 0.45s; }
+        .home-card:nth-child(9) { animation-delay: 0.5s; }
+        .home-card:nth-child(10) { animation-delay: 0.55s; }
+        .home-card:nth-child(11) { animation-delay: 0.6s; }
+        .home-card:nth-child(12) { animation-delay: 0.65s; }
+
+        /* RESPONSIVO ANDROID */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.8rem;
+                min-height: calc(100dvh - 100px);
+            }
+            
+            .home-grid {
+                gap: 8px;
+                max-height: 600px;
+            }
+            
+            .home-card {
+                padding: 8px;
+                border-width: 1.5px;
+            }
+            
+            .card-icon {
+                font-size: 1.4rem;
+            }
+            
+            .card-title {
+                font-size: 0.75rem;
+            }
+            
+            .card-subtitle {
+                font-size: 0.6rem;
+            }
+            
+            .header-title {
+                font-size: 1.1rem;
+            }
+            
+            .header-icon {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 0.5rem;
+            }
+            
+            .header-title {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <canvas id="matrix-bg"></canvas>
+    <!-- VÍDEO DE FUNDO EM LOOP -->
+    <div class="video-background">
+        <video id="bg-video" autoplay muted loop playsinline>
+            <source src="assets/backgrounds/videos/INDEX-GERAL-bg.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos HTML5.
+        </video>
+    </div>
 
-    <!-- HEADER -->
-    <header class="premium-header">
+    <!-- OVERLAY PARA MELHOR CONTRASTE -->
+    <div class="video-overlay"></div>
+
+    <!-- HEADER GLOBAL PERSONALIZADO -->
+    <div id="global-header">
         <div class="header-content">
-            <div class="logo-container">
-                <i class="fas fa-rocket logo-icon"></i>
-            </div>
-            <div class="brand-text">
-                <h1>Sistema de Parcelas</h1>
-                <p class="tagline">Ferramentas profissionais</p>
-            </div>
+            <i class="fas fa-robot header-icon"></i>
+            <h1 class="header-title">Sistema de Parcelas</h1>
         </div>
-    </header>
+    </div>
 
-    <!-- GRID 3x4 -->
+    <!-- GRID 3x4 PRINCIPAL -->
     <main class="container">
         <div class="home-grid">
-            <!-- Seus 12 cards aqui (mantenha o mesmo conteúdo) -->
-            <a href="apps/CADASTRO/index.html" class="home-card" style="color: #3b82f6">
+            <!-- 1 - CADASTRO -->
+            <a href="apps/CADASTRO/index.html" class="home-card">
                 <div class="card-icon"><i class="fas fa-users"></i></div>
                 <div class="card-title">Cadastro</div>
                 <div class="card-subtitle">Clientes</div>
             </a>
-            <!-- ... outros 11 cards -->
+
+            <!-- 2 - CATÁLOGO -->
+            <a href="apps/CATALOGO/index.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-box-open"></i></div>
+                <div class="card-title">Catálogo</div>
+                <div class="card-subtitle">Produtos</div>
+            </a>
+
+            <!-- 3 - EMPRÉSTIMOS -->
+            <a href="apps/EMPRESTIMOS/index.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                <div class="card-title">Empréstimos</div>
+                <div class="card-subtitle">Cálculos</div>
+            </a>
+
+            <!-- 4 - FERRAMENTAS -->
+            <a href="apps/FERRAMENTAS/index.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-tools"></i></div>
+                <div class="card-title">Ferramentas</div>
+                <div class="card-subtitle">Utilitários</div>
+            </a>
+
+            <!-- 5 - FERRAMENTAS AVANÇADAS -->
+            <a href="apps/FERRAMENTAS_AVANCADAS/index.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="card-title">Ferramentas Av.</div>
+                <div class="card-subtitle">Avançadas</div>
+            </a>
+
+            <!-- 6 - PRODUTOS -->
+            <a href="apps/PRODUTOS/index.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-shopping-cart"></i></div>
+                <div class="card-title">Produtos</div>
+                <div class="card-subtitle">Vendas</div>
+            </a>
+
+            <!-- 7 - RENEGOCIAÇÃO -->
+            <a href="apps/RENEGOCIACAO/index.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-exchange-alt"></i></div>
+                <div class="card-title">Renegociação</div>
+                <div class="card-subtitle">Dívidas</div>
+            </a>
+
+            <!-- 8 - VEÍCULOS AUTOMOTORES -->
+            <a href="apps/VEICULOS AUTOMOTORES/index.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-car"></i></div>
+                <div class="card-title">Veículos</div>
+                <div class="card-subtitle">Automotores</div>
+            </a>
+
+            <!-- 9 - VEÍCULOS ELÉTRICOS -->
+            <a href="apps/VEICULOS ELETRICOS/index.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-bolt"></i></div>
+                <div class="card-title">Veículos Elétricos</div>
+                <div class="card-subtitle">Elétricos</div>
+            </a>
+
+            <!-- 10 - COMPRAMOS -->
+            <a href="apps/COMPRAMOS/index.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-store"></i></div>
+                <div class="card-title">Compramos</div>
+                <div class="card-subtitle">Para Você</div>
+            </a>
+
+            <!-- 11 - CONFIGURAÇÕES -->
+            <a href="apps/CONFIGURACAO/index.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                <div class="card-title">Configurações</div>
+                <div class="card-subtitle">Sistema</div>
+            </a>
+
+            <!-- 12 - AJUDA -->
+            <a href="apps/AJUDA/ajuda.html" class="home-card">
+                <div class="card-icon"><i class="fas fa-question-circle"></i></div>
+                <div class="card-title">Ajuda</div>
+                <div class="card-subtitle">Suporte</div>
+            </a>
         </div>
     </main>
 
-    <!-- FOOTER CORRIGIDO -->
-    <nav class="premium-footer">
-        <div class="footer-nav">
-            <a href="index.html" class="nav-item">
-                <i class="fas fa-home nav-icon"></i>
-                <span class="nav-label">Home</span>
-            </a>
-            <a href="#" class="nav-item" onclick="window.open('https://wa.me/5544998408460','_blank')">
-                <i class="fab fa-whatsapp nav-icon"></i>
-                <span class="nav-label">WhatsApp</span>
-            </a>
-            <a href="#" class="nav-item" onclick="window.open('https://www.instagram.com/encomendapalotina','_blank')">
-                <i class="fab fa-instagram nav-icon"></i>
-                <span class="nav-label">Instagram</span>
-            </a>
-            <a href="apps/AJUDA/ajuda.html" class="nav-item">
-                <i class="fas fa-question-circle nav-icon"></i>
-                <span class="nav-label">Ajuda</span>
-            </a>
-        </div>
-    </nav>
-
-    <script src="global/matrix-background.js"></script>
+    <!-- SCRIPTS GLOBAIS -->
+    <script src="global/config-manager.js"></script>
+    <script src="global/header-footer.js"></script>
+    
     <script>
+        // CONFIGURAÇÃO DO VÍDEO DE FUNDO
         document.addEventListener('DOMContentLoaded', function() {
-            if (window.MatrixBackground) MatrixBackground.init();
+            const video = document.getElementById('bg-video');
+            
+            // Garante que o vídeo vai rodar
+            video.play().catch(function(error) {
+                console.log('Autoplay prevenido, tentando reproduzir com interação do usuário');
+            });
+
+            // Remove o footer global da home
+            const footer = document.getElementById('global-footer');
+            if (footer) {
+                footer.style.display = 'none';
+            }
+            
+            // Configuração básica do header se não existir
+            const header = document.getElementById('global-header');
+            if (header && !header.querySelector('.header-content')) {
+                header.innerHTML = `
+                    <div class="header-content">
+                        <i class="fas fa-robot header-icon"></i>
+                        <h1 class="header-title">Sistema de Parcelas</h1>
+                    </div>
+                `;
+            }
+            
+            // Inicializa gerenciador de configurações se existir
+            if (window.ConfigManager) {
+                ConfigManager.init();
+            }
+            
+            console.log('✅ Sistema de Parcelas - Home com vídeo inicializada!');
+        });
+
+        // FORÇA O PLAY DO VÍDEO NO TOUCH
+        document.addEventListener('touchstart', function() {
+            const video = document.getElementById('bg-video');
+            if (video.paused) {
+                video.play();
+            }
+        }, { once: true });
+
+        // PREVENÇÃO DE COMPORTAMENTOS INDESEJADOS NO MOBILE
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('gesturechange', function(e) {
+            e.preventDefault();
         });
     </script>
 </body>
