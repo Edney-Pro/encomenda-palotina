@@ -1,0 +1,189 @@
+/* HOME STYLE - TEMA HOMEM DE FERRO */
+.home-ironman {
+    background: linear-gradient(135deg, #8B0000 0%, #B22222 25%, #8B0000 50%, #B22222 75%, #8B0000 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* EFEITO DE ENERGIA DO REATOR */
+.home-ironman::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 69, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(255, 140, 0, 0.06) 0%, transparent 50%);
+    animation: energyPulse 4s ease-in-out infinite;
+    z-index: 0;
+}
+
+@keyframes energyPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+/* GRID 3x4 COM EFEITO METÁLICO */
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    max-height: 650px;
+    position: relative;
+    z-index: 2;
+}
+
+/* CARDS HOMEM DE FERRO */
+.home-card {
+    background: linear-gradient(145deg, #2a0a0a, #1a0505);
+    border: 2px solid;
+    border-image: linear-gradient(45deg, #ffd700, #ff8c00, #ff4500) 1;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    aspect-ratio: 1/1;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 4px 15px rgba(255, 69, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.home-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.home-card:hover::before {
+    left: 100%;
+}
+
+.home-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 
+        0 8px 25px rgba(255, 69, 0, 0.5),
+        0 0 30px rgba(255, 215, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-image: linear-gradient(45deg, #ffd700, #ff8c00, #ff4500, #ffd700) 1;
+}
+
+/* ÍCONES COM EFEITO DE ENERGIA */
+.card-icon {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    background: linear-gradient(45deg, #ffd700, #ff8c00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+    transition: all 0.3s ease;
+}
+
+.home-card:hover .card-icon {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+}
+
+/* TEXTOS */
+.card-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fff, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 3px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-subtitle {
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: #ffa07a;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* PARTÍCULAS DE ENERGIA */
+.energy-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #ffd700;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* RESPONSIVO ANDROID */
+@media (max-width: 480px) {
+    .home-grid {
+        gap: 8px;
+        max-height: 600px;
+    }
+    
+    .home-card {
+        padding: 8px;
+        border-width: 1.5px;
+    }
+    
+    .card-icon {
+        font-size: 1.4rem;
+    }
+    
+    .card-title {
+        font-size: 0.75rem;
+    }
+    
+    .card-subtitle {
+        font-size: 0.6rem;
+    }
+}
+
+/* ANIMAÇÃO DE INICIALIZAÇÃO */
+@keyframes cardAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.home-card {
+    animation: cardAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* DELAY NAS ANIMAÇÕES DOS CARDS */
+.home-card:nth-child(1) { animation-delay: 0.1s; }
+.home-card:nth-child(2) { animation-delay: 0.15s; }
+.home-card:nth-child(3) { animation-delay: 0.2s; }
+.home-card:nth-child(4) { animation-delay: 0.25s; }
+.home-card:nth-child(5) { animation-delay: 0.3s; }
+.home-card:nth-child(6) { animation-delay: 0.35s; }
+.home-card:nth-child(7) { animation-delay: 0.4s; }
+.home-card:nth-child(8) { animation-delay: 0.45s; }
+.home-card:nth-child(9) { animation-delay: 0.5s; }
+.home-card:nth-child(10) { animation-delay: 0.55s; }
+.home-card:nth-child(11) { animation-delay: 0.6s; }
+.home-card:nth-child(12) { animation-delay: 0.65s; }
