@@ -25,7 +25,7 @@
             --card-hover: rgba(255, 255, 255, 0.12);
             --header-bg: rgba(15, 15, 15, 0.7);
             --footer-bg: rgba(20, 20, 20, 0.8);
-            --border-radius: 16px;
+            --border-radius: 12px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -76,7 +76,7 @@
             background: var(--header-bg);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--card-border);
-            padding: 1.2rem 1rem;
+            padding: 1rem;
             position: relative;
             z-index: 100;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -86,19 +86,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .header-icon {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: var(--primary);
             filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
         }
 
         .header-title {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: var(--text-primary);
             margin: 0;
@@ -110,7 +110,7 @@
         }
 
         .header-subtitle {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 400;
             color: var(--text-secondary);
             margin-top: 2px;
@@ -119,7 +119,7 @@
 
         /* CONTAINER PRINCIPAL */
         .container {
-            padding: 2rem 1rem;
+            padding: 1rem 0.8rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -129,19 +129,19 @@
             overflow: hidden;
         }
 
-        /* GRID DE FERRAMENTAS - 2x2 */
+        /* GRID DE FERRAMENTAS - 3x4 (PADRÃO DO SISTEMA) */
         .module-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-auto-rows: minmax(140px, auto);
-            gap: 18px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 8px;
             width: 100%;
-            max-width: 450px;
+            max-width: 500px;
             height: 100%;
             max-height: 700px;
         }
 
-        /* CARDS PROFISSIONAIS */
+        /* CARDS PROFISSIONAIS COMPACTOS (PADRÃO DO SISTEMA) */
         .app-card {
             aspect-ratio: 1 / 1;
             display: flex;
@@ -151,14 +151,14 @@
             text-align: center;
             text-decoration: none;
             border-radius: var(--border-radius);
-            padding: 15px 10px;
+            padding: 8px 4px;
             position: relative;
             overflow: hidden;
             transition: var(--transition);
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
 
         /* EFEITO DE GRADIENTE NO HOVER */
@@ -185,16 +185,16 @@
         .app-card:hover {
             background: var(--card-hover);
             border: 1px solid rgba(255, 255, 255, 0.25);
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 
-                0 10px 25px rgba(0, 0, 0, 0.2),
-                0 5px 10px rgba(139, 92, 246, 0.1);
+                0 8px 20px rgba(0, 0, 0, 0.2),
+                0 3px 8px rgba(139, 92, 246, 0.1);
         }
 
         /* ÍCONES COM GRADIENTE */
         .card-icon {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
+            font-size: 1.3rem;
+            margin-bottom: 6px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             background-clip: text;
             -webkit-background-clip: text;
@@ -203,17 +203,17 @@
         }
 
         .app-card:hover .card-icon {
-            transform: scale(1.15);
-            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.4));
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.4));
         }
 
-        /* TEXTOS MELHORADOS */
+        /* TEXTOS COMPACTOS */
         .card-title {
-            font-size: 0.85rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 4px;
-            line-height: 1.2;
+            margin-bottom: 2px;
+            line-height: 1.1;
             transition: var(--transition);
         }
 
@@ -222,10 +222,10 @@
         }
 
         .card-subtitle {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             font-weight: 500;
             color: var(--text-secondary);
-            line-height: 1.1;
+            line-height: 1;
             transition: var(--transition);
         }
 
@@ -236,11 +236,11 @@
         /* ÍCONES DECORATIVOS NO CANTO SUPERIOR DIREITO */
         .card-decoration {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            font-size: 0.9rem;
+            top: 6px;
+            right: 6px;
+            font-size: 0.7rem;
             opacity: 0.6;
-            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
         }
 
         /* ANIMAÇÕES DIFERENTES PARA OS ÍCONES DECORATIVOS */
@@ -260,16 +260,24 @@
             animation: bounceDecoration 5s infinite ease-in-out;
         }
 
+        .decoration-shake {
+            animation: shakeDecoration 7s infinite ease-in-out;
+        }
+
+        .decoration-fade {
+            animation: fadeDecoration 5s infinite ease-in-out;
+        }
+
         @keyframes floatDecoration {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-3px) rotate(5deg); }
-            50% { transform: translateY(2px) rotate(-3deg); }
-            75% { transform: translateY(-2px) rotate(2deg); }
+            25% { transform: translateY(-2px) rotate(3deg); }
+            50% { transform: translateY(1px) rotate(-2deg); }
+            75% { transform: translateY(-1px) rotate(2deg); }
         }
 
         @keyframes pulseDecoration {
             0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.2); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
 
         @keyframes rotateDecoration {
@@ -279,9 +287,34 @@
 
         @keyframes bounceDecoration {
             0%, 100% { transform: translateY(0px); }
-            25% { transform: translateY(-4px); }
-            50% { transform: translateY(2px); }
-            75% { transform: translateY(-2px); }
+            25% { transform: translateY(-2px); }
+            50% { transform: translateY(1px); }
+            75% { transform: translateY(-1px); }
+        }
+
+        @keyframes shakeDecoration {
+            0%, 100% { transform: translateX(0px) rotate(0deg); }
+            25% { transform: translateX(1px) rotate(2deg); }
+            50% { transform: translateX(-1px) rotate(-2deg); }
+            75% { transform: translateX(0.5px) rotate(1deg); }
+        }
+
+        @keyframes fadeDecoration {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        /* CARD PLACEHOLDER */
+        .placeholder-card {
+            background: none;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .placeholder-card:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            transform: none;
         }
 
         /* FOOTER MELHORADO */
@@ -291,29 +324,29 @@
             background: var(--footer-bg);
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--card-border);
-            padding: 1.2rem 1rem;
+            padding: 1rem;
             z-index: 100;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .footer-button {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 12px 18px;
+            border-radius: 10px;
+            padding: 10px 14px;
             color: var(--text-primary);
             text-decoration: none;
-            font-size: 0.82rem;
+            font-size: 0.75rem;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: var(--transition);
             flex: 1;
-            max-width: 160px;
+            max-width: 140px;
             justify-content: center;
         }
 
@@ -321,11 +354,11 @@
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .footer-icon {
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .footer-button:nth-child(1) .footer-icon {
@@ -347,7 +380,7 @@
         @keyframes cardEntrance {
             from {
                 opacity: 0;
-                transform: translateY(30px) scale(0.95);
+                transform: translateY(20px) scale(0.95);
             }
             to {
                 opacity: 1;
@@ -356,15 +389,23 @@
         }
 
         .app-card {
-            animation: cardEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            animation: cardEntrance 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             opacity: 0;
         }
 
         /* DELAY PROGRESSIVO NAS ANIMAÇÕES */
         .app-card:nth-child(1) { animation-delay: 0.05s; }
-        .app-card:nth-child(2) { animation-delay: 0.1s; }
-        .app-card:nth-child(3) { animation-delay: 0.15s; }
-        .app-card:nth-child(4) { animation-delay: 0.2s; }
+        .app-card:nth-child(2) { animation-delay: 0.08s; }
+        .app-card:nth-child(3) { animation-delay: 0.11s; }
+        .app-card:nth-child(4) { animation-delay: 0.14s; }
+        .app-card:nth-child(5) { animation-delay: 0.17s; }
+        .app-card:nth-child(6) { animation-delay: 0.2s; }
+        .app-card:nth-child(7) { animation-delay: 0.23s; }
+        .app-card:nth-child(8) { animation-delay: 0.26s; }
+        .app-card:nth-child(9) { animation-delay: 0.29s; }
+        .app-card:nth-child(10) { animation-delay: 0.32s; }
+        .app-card:nth-child(11) { animation-delay: 0.35s; }
+        .app-card:nth-child(12) { animation-delay: 0.38s; }
 
         /* INDICADOR DE CARREGAMENTO */
         .loading-indicator {
@@ -389,93 +430,92 @@
         /* RESPONSIVIDADE MELHORADA */
         @media (max-width: 768px) {
             .header-title {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .header-subtitle {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
             
             .card-decoration {
-                font-size: 0.8rem;
-                top: 6px;
-                right: 6px;
+                font-size: 0.65rem;
+                top: 4px;
+                right: 4px;
             }
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 1.5rem 0.8rem;
+                padding: 0.8rem 0.6rem;
             }
             
             .module-grid {
-                gap: 14px;
-                max-height: 620px;
+                gap: 6px;
             }
             
             .app-card {
-                padding: 12px 8px;
+                padding: 6px 3px;
             }
             
             .card-icon {
-                font-size: 1.6rem;
-                margin-bottom: 10px;
+                font-size: 1.2rem;
+                margin-bottom: 4px;
             }
             
             .card-title {
-                font-size: 0.8rem;
+                font-size: 0.65rem;
             }
             
             .card-subtitle {
-                font-size: 0.68rem;
+                font-size: 0.55rem;
             }
             
             .card-decoration {
-                font-size: 0.75rem;
-                top: 5px;
-                right: 5px;
-            }
-            
-            .header-title {
-                font-size: 1.1rem;
-            }
-            
-            .header-icon {
-                font-size: 1.5rem;
-            }
-            
-            .home-footer {
-                padding: 1rem;
-                gap: 10px;
-            }
-            
-            .footer-button {
-                padding: 10px 14px;
-                font-size: 0.78rem;
-                max-width: 130px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .container {
-                padding: 1rem 0.6rem;
-            }
-            
-            .module-grid {
-                gap: 12px;
+                font-size: 0.6rem;
+                top: 3px;
+                right: 3px;
             }
             
             .header-title {
                 font-size: 1rem;
             }
             
-            .header-content {
-                flex-direction: column;
+            .header-icon {
+                font-size: 1.4rem;
+            }
+            
+            .home-footer {
+                padding: 0.8rem;
                 gap: 8px;
             }
             
-            .card-decoration {
+            .footer-button {
+                padding: 8px 12px;
                 font-size: 0.7rem;
+                max-width: 120px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 0.6rem 0.5rem;
+            }
+            
+            .module-grid {
+                gap: 5px;
+            }
+            
+            .header-title {
+                font-size: 0.9rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 6px;
+            }
+            
+            .card-decoration {
+                font-size: 0.55rem;
             }
         }
     </style>
@@ -535,6 +575,55 @@
                 <div class="card-subtitle">Cálculo de juros</div>
                 <div class="card-decoration decoration-bounce" style="animation-delay: 2.1s;">⚠️</div>
             </a>
+
+            <!-- CARDS VAZIOS PARA COMPLETAR O GRID 3x4 -->
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novas Ferramentas</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novas Ferramentas</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novas Ferramentas</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novas Ferramentas</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novas Ferramentas</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novas Ferramentas</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novas Ferramentas</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novas Ferramentas</div>
+            </div>
         </div>
     </main>
 
@@ -559,7 +648,7 @@
     <script>
         // INICIALIZAÇÃO MELHORADA
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎯 Ferramentas Utilitárias - Iniciando...');
+            console.log('🛠️ Ferramentas Utilitárias - Iniciando...');
             
             // Adiciona classe de carregamento completo
             setTimeout(() => {
@@ -571,4 +660,3 @@
     </script>
 </body>
 </html>
-
