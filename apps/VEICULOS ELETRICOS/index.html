@@ -3,217 +3,697 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Veículos Elétricos</title>
+    <meta name="description" content="Veículos Elétricos - Parcelamento em até 48x - Encomenda Palotina">
+    <title>Veículos Elétricos | Encomenda Palotina</title>
     
-    <!-- GLOBAIS -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FONTES E ÍCONES -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../../global/theme.css">
-    <link rel="stylesheet" href="../../global/components.css">
     
     <style>
-        /* BLOQUEIA ROLAGEM E FIXA ESTRUTURA */
-        html, body {
-            height: 100%;
+        /* RESET E CONFIGURAÇÕES GERAIS */
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --secondary: #06B6D4;
+            --accent: #10B981;
+            --text-primary: #F9FAFB;
+            --text-secondary: #D1D5DB;
+            --bg-overlay: rgba(0, 0, 0, 0.4);
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --card-hover: rgba(255, 255, 255, 0.12);
+            --header-bg: rgba(15, 15, 15, 0.7);
+            --footer-bg: rgba(20, 20, 20, 0.8);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
             margin: 0;
-            overflow: hidden; /* IMPEDE ROLAGEM */
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura/altura */
-        }
-
-        .premium-header, .premium-footer {
-            flex-shrink: 0; /* Impede que o header/footer encolham */
-            z-index: 1000;
-        }
-
-        main.main-content {
-            flex: 1; /* Ocupa todo o espaço restante disponível */
-            display: flex;
-            justify-content: center; /* Centraliza horizontalmente o conteúdo */
-            align-items: center; /* Centraliza verticalmente o conteúdo */
-            padding: 0.8rem; /* Reduz um pouco o padding para dar mais espaço, se necessário */
-            background: transparent;
-            overflow: hidden; /* Garante que nada dentro role se a tela for muito pequena */
+            padding: 0;
             box-sizing: border-box;
         }
 
-        /* GRID 2x3 CENTRALIZADO E ESTÁVEL */
-        .module-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Duas colunas flexíveis */
-            /* Usar fr aqui faz com que as colunas ocupem o espaço disponível igualmente */
-            
-            /* Ajusta a altura das linhas para serem flexíveis, mas com um mínimo */
-            /* A altura de cada card será calculada com base no espaço disponível e no gap */
-            grid-auto-rows: minmax(130px, auto); /* Altura mínima de 130px, mas pode crescer */
-            
-            gap: 12px; /* Reduz o espaçamento entre os itens para caber mais */
-            justify-content: center; /* Centraliza a grade na área disponível */
-            align-content: center; /* Centraliza a grade verticalmente na área disponível */
-            width: 100%; /* Ocupa toda a largura disponível do main-content */
-            max-width: 450px; /* Limita a largura máxima para não ficar muito grande em desktops, ajustado um pouco */
-            height: 100%; /* Garante que a grade tente preencher a altura disponível */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            height: 100dvh;
+            overflow: hidden;
+            position: relative;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
         }
 
-        /* CARD PADRONIZADO */
+        /* IMAGEM DE FUNDO ESPECÍFICA PARA VEÍCULOS ELÉTRICOS */
+        .image-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background-image: url('../../assets/backgrounds/videos/VEICULOS-ELETRICOS-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* OVERLAY PARA CONTRASTE */
+        .image-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-overlay);
+            z-index: -1;
+        }
+
+        /* HEADER REFINADO */
+        #global-header {
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem;
+            position: relative;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-icon {
+            font-size: 1.6rem;
+            color: var(--primary);
+            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-subtitle {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-top: 2px;
+            text-align: center;
+        }
+
+        /* CONTAINER PRINCIPAL */
+        .container {
+            padding: 1rem 0.8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        /* GRID DE VEÍCULOS ELÉTRICOS - 3x4 (MESMO PADRÃO) */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 500px;
+            height: 100%;
+            max-height: 700px;
+        }
+
+        /* CARDS PROFISSIONAIS COMPACTOS (MESMO PADRÃO) */
         .app-card {
+            aspect-ratio: 1 / 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             text-decoration: none;
-            border-radius: 14px;
-            padding: 8px; /* Reduz o padding interno do card */
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            border-radius: var(--border-radius);
+            padding: 8px 4px;
             position: relative;
             overflow: hidden;
-            box-sizing: border-box;
+            transition: var(--transition);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
 
+        /* EFEITO DE GRADIENTE NO HOVER */
+        .app-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(139, 92, 246, 0.1) 0%, 
+                rgba(6, 182, 212, 0.05) 100%);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .app-card:hover::after {
+            opacity: 1;
+        }
+
+        /* EFEITO HOVER REFINADO */
         .app-card:hover {
-            transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--card-hover);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.2),
+                0 3px 8px rgba(139, 92, 246, 0.1);
         }
 
+        /* ÍCONES COM GRADIENTE */
         .card-icon {
-            font-size: 1.4rem; /* Reduz um pouco o tamanho do ícone */
-            margin-bottom: 6px; /* Reduz a margem */
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: var(--transition);
         }
 
+        .app-card:hover .card-icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.4));
+        }
+
+        /* TEXTOS COMPACTOS */
         .card-title {
-            font-size: 0.85rem; /* Reduz um pouco o tamanho da fonte do título */
-            font-weight: bold;
-            margin-bottom: 3px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
             line-height: 1.1;
-            /* Garante que o texto não quebre em várias linhas desnecessariamente, se possível */
-            white-space: nowrap; 
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%; /* Evita que o título seja maior que o card */
+            transition: var(--transition);
+        }
+
+        .app-card:hover .card-title {
+            color: var(--text-primary);
         }
 
         .card-subtitle {
-            font-size: 0.65rem; /* Reduz um pouco o tamanho da fonte do subtítulo */
-            opacity: 0.8;
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: var(--text-secondary);
             line-height: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%; /* Evita que o subtítulo seja maior que o card */
+            transition: var(--transition);
         }
 
-        /* ANIMAÇÃO SUAVE DOS EMOJIS */
-        .floating-decoration {
+        .app-card:hover .card-subtitle {
+            color: var(--text-secondary);
+        }
+
+        /* BADGE DE PARCELAMENTO */
+        .parcel-badge {
             position: absolute;
-            bottom: 6px; /* Ajusta a posição */
-            right: 6px; /* Ajusta a posição */
-            font-size: 0.8rem; /* Reduz o tamanho do emoji */
-            opacity: 0.5;
-            animation: floatRandom 8s infinite ease-in-out;
+            top: 6px;
+            left: 6px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
         }
 
-        @keyframes floatRandom {
-            0%   { transform: translate(0px, 0px) rotate(0deg); opacity: 0.5; }
-            20%  { transform: translate(2px, -2px) rotate(5deg); opacity: 0.7; }
-            40%  { transform: translate(-2px, 2px) rotate(-3deg); opacity: 0.9; }
-            60%  { transform: translate(2px, 0px) rotate(5deg); opacity: 0.5; }
-            80%  { transform: translate(-2px, -4px) rotate(-8deg); opacity: 0.8; }
-            100% { transform: translate(0px, 0px) rotate(0deg); opacity: 0.5; }
+        /* ÍCONES DECORATIVOS NO CANTO SUPERIOR DIREITO */
+        .card-decoration {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            font-size: 0.7rem;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
         }
 
-        /* Adiciona um media query para telas muito pequenas, caso ainda haja problemas */
-        @media (max-height: 600px) { /* Exemplo: para telas com menos de 600px de altura */
-            .module-grid {
-                gap: 8px; /* Reduz ainda mais o espaçamento */
-                grid-auto-rows: minmax(120px, auto); /* Altura mínima menor */
+        /* ANIMAÇÕES DIFERENTES PARA OS ÍCONES DECORATIVOS */
+        .decoration-float {
+            animation: floatDecoration 6s infinite ease-in-out;
+        }
+
+        .decoration-pulse {
+            animation: pulseDecoration 4s infinite ease-in-out;
+        }
+
+        .decoration-rotate {
+            animation: rotateDecoration 8s infinite linear;
+        }
+
+        .decoration-bounce {
+            animation: bounceDecoration 5s infinite ease-in-out;
+        }
+
+        .decoration-shake {
+            animation: shakeDecoration 7s infinite ease-in-out;
+        }
+
+        .decoration-fade {
+            animation: fadeDecoration 5s infinite ease-in-out;
+        }
+
+        @keyframes floatDecoration {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-2px) rotate(3deg); }
+            50% { transform: translateY(1px) rotate(-2deg); }
+            75% { transform: translateY(-1px) rotate(2deg); }
+        }
+
+        @keyframes pulseDecoration {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        @keyframes rotateDecoration {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounceDecoration {
+            0%, 100% { transform: translateY(0px); }
+            25% { transform: translateY(-2px); }
+            50% { transform: translateY(1px); }
+            75% { transform: translateY(-1px); }
+        }
+
+        @keyframes shakeDecoration {
+            0%, 100% { transform: translateX(0px) rotate(0deg); }
+            25% { transform: translateX(1px) rotate(2deg); }
+            50% { transform: translateX(-1px) rotate(-2deg); }
+            75% { transform: translateX(0.5px) rotate(1deg); }
+        }
+
+        @keyframes fadeDecoration {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        /* CARD PLACEHOLDER */
+        .placeholder-card {
+            background: none;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .placeholder-card:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            transform: none;
+        }
+
+        /* FOOTER MELHORADO */
+        .home-footer {
+            position: relative;
+            width: 100%;
+            background: var(--footer-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--card-border);
+            padding: 1rem;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .footer-button {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+            flex: 1;
+            max-width: 140px;
+            justify-content: center;
+        }
+
+        .footer-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-icon {
+            font-size: 1rem;
+        }
+
+        .footer-button:nth-child(1) .footer-icon {
+            color: #25D366;
+        }
+
+        .footer-button:nth-child(2) .footer-icon {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-button:nth-child(3) .footer-icon {
+            color: var(--primary);
+        }
+
+        /* ANIMAÇÕES DE ENTRADA REFINADAS */
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
             }
-            .card-icon { font-size: 1.2rem; margin-bottom: 4px; }
-            .card-title { font-size: 0.8rem; margin-bottom: 2px; }
-            .card-subtitle { font-size: 0.6rem; }
-            .floating-decoration { font-size: 0.7rem; bottom: 4px; right: 4px; }
-        }
-        @media (max-width: 350px) { /* Exemplo: para telas com menos de 350px de largura */
-            .module-grid {
-                gap: 8px; /* Reduz ainda mais o espaçamento */
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
-            .card-icon { font-size: 1.2rem; margin-bottom: 4px; }
-            .card-title { font-size: 0.8rem; margin-bottom: 2px; }
-            .card-subtitle { font-size: 0.6rem; }
-            .floating-decoration { font-size: 0.7rem; bottom: 4px; right: 4px; }
         }
 
+        .app-card {
+            animation: cardEntrance 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            opacity: 0;
+        }
+
+        /* DELAY PROGRESSIVO NAS ANIMAÇÕES */
+        .app-card:nth-child(1) { animation-delay: 0.05s; }
+        .app-card:nth-child(2) { animation-delay: 0.08s; }
+        .app-card:nth-child(3) { animation-delay: 0.11s; }
+        .app-card:nth-child(4) { animation-delay: 0.14s; }
+        .app-card:nth-child(5) { animation-delay: 0.17s; }
+        .app-card:nth-child(6) { animation-delay: 0.2s; }
+        .app-card:nth-child(7) { animation-delay: 0.23s; }
+        .app-card:nth-child(8) { animation-delay: 0.26s; }
+        .app-card:nth-child(9) { animation-delay: 0.29s; }
+        .app-card:nth-child(10) { animation-delay: 0.32s; }
+        .app-card:nth-child(11) { animation-delay: 0.35s; }
+        .app-card:nth-child(12) { animation-delay: 0.38s; }
+
+        /* INDICADOR DE CARREGAMENTO */
+        .loading-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            animation: loading 1.5s ease-in-out;
+            z-index: 1000;
+        }
+
+        @keyframes loading {
+            0% { transform: scaleX(0); }
+            50% { transform: scaleX(1); }
+            100% { transform: scaleX(0); opacity: 0; }
+        }
+
+        /* RESPONSIVIDADE MELHORADA */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.1rem;
+            }
+            
+            .header-subtitle {
+                font-size: 0.75rem;
+            }
+            
+            .card-decoration {
+                font-size: 0.65rem;
+                top: 4px;
+                right: 4px;
+            }
+            
+            .parcel-badge {
+                font-size: 0.55rem;
+                padding: 2px 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.8rem 0.6rem;
+            }
+            
+            .module-grid {
+                gap: 6px;
+            }
+            
+            .app-card {
+                padding: 6px 3px;
+            }
+            
+            .card-icon {
+                font-size: 1.2rem;
+                margin-bottom: 4px;
+            }
+            
+            .card-title {
+                font-size: 0.65rem;
+            }
+            
+            .card-subtitle {
+                font-size: 0.55rem;
+            }
+            
+            .card-decoration {
+                font-size: 0.6rem;
+                top: 3px;
+                right: 3px;
+            }
+            
+            .parcel-badge {
+                font-size: 0.5rem;
+                padding: 1px 4px;
+            }
+            
+            .header-title {
+                font-size: 1rem;
+            }
+            
+            .header-icon {
+                font-size: 1.4rem;
+            }
+            
+            .home-footer {
+                padding: 0.8rem;
+                gap: 8px;
+            }
+            
+            .footer-button {
+                padding: 8px 12px;
+                font-size: 0.7rem;
+                max-width: 120px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 0.6rem 0.5rem;
+            }
+            
+            .module-grid {
+                gap: 5px;
+            }
+            
+            .header-title {
+                font-size: 0.9rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 6px;
+            }
+            
+            .card-decoration {
+                font-size: 0.55rem;
+            }
+            
+            .parcel-badge {
+                font-size: 0.45rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- INDICADOR DE CARREGAMENTO -->
+    <div class="loading-indicator"></div>
 
-    <div id="global-header"></div>
+    <!-- IMAGEM DE FUNDO ESPECÍFICA PARA VEÍCULOS ELÉTRICOS -->
+    <div class="image-background"></div>
 
-    <main class="main-content">
+    <!-- OVERLAY PARA CONTRASTE -->
+    <div class="image-overlay"></div>
+
+    <!-- HEADER MELHORADO -->
+    <header id="global-header">
+        <div class="header-content">
+            <i class="fas fa-bolt header-icon"></i>
+            <div>
+                <h1 class="header-title">Veículos Elétricos</h1>
+                <div class="header-subtitle">Parcelamento em até 48x</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container">
         <div class="module-grid">
-            
-            <a href="calculadora-de-acessorios-de-veiculos-eletricos/index.html" class="app-card" style="color: #06b6d4">
-                <div class="card-icon"><i class="fas fa-tools"></i></div>
-                <div class="card-title">Acessórios EV</div>
-                <div class="card-subtitle">Cálculo de peças</div>
-                <div class="floating-decoration" style="animation-delay: 0s;">⚡</div>
-            </a>
-
-            <a href="calculadora-de-bicicletas-eletricas-nova/index.html" class="app-card" style="color: #8b5cf6">
+            <!-- 1 - BICICLETA NOVA -->
+            <a href="calculadora-de-bicicletas-eletricas-nova/index.html" class="app-card">
+                <div class="parcel-badge">48x</div>
                 <div class="card-icon"><i class="fas fa-bicycle"></i></div>
-                <div class="card-title">Bicicleta Elétrica (N)</div>
-                <div class="card-subtitle">Avaliação de novas</div>
-                <div class="floating-decoration" style="animation-delay: 0.5s;">🚴</div>
+                <div class="card-title">Bicicleta Elétrica</div>
+                <div class="card-subtitle">Produtos Novos</div>
+                <div class="card-decoration decoration-float" style="animation-delay: 0.2s;">🚴‍♂️</div>
             </a>
 
-            <a href="calculadora-de-bicicletas-eletricas-usada/index.html" class="app-card" style="color: #f59e0b">
+            <!-- 2 - BICICLETA USADA -->
+            <a href="calculadora-de-bicicletas-eletricas-usada/index.html" class="app-card">
+                <div class="parcel-badge">48x</div>
                 <div class="card-icon"><i class="fas fa-bicycle"></i></div>
-                <div class="card-title">Bicicleta Elétrica (U)</div>
-                <div class="card-subtitle">Avaliação de usadas</div>
-                <div class="floating-decoration" style="animation-delay: 1s;">♻️</div>
-            </a>
-            
-            <a href="calculadora-de-patinetes-eletricos-novo/index.html" class="app-card" style="color: #10b981">
-                <div class="card-icon"><i class="fas fa-scooter"></i></div>
-                <div class="card-title">Patinete Elétrico (N)</div>
-                <div class="card-subtitle">Avaliação de novos</div>
-                <div class="floating-decoration" style="animation-delay: 1.5s;">🛴</div>
+                <div class="card-title">Bicicleta Elétrica</div>
+                <div class="card-subtitle">Produtos Usados</div>
+                <div class="card-decoration decoration-pulse" style="animation-delay: 1.3s;">♻️</div>
             </a>
 
-            <a href="calculadora-de-patinetes-eletricos-usado/index.html" class="app-card" style="color: #ef4444">
-                <div class="card-icon"><i class="fas fa-scooter"></i></div>
-                <div class="card-title">Patinete Elétrico (U)</div>
-                <div class="card-subtitle">Avaliação de usados</div>
-                <div class="floating-decoration" style="animation-delay: 2s;">♻️</div>
+            <!-- 3 - PATINETE NOVO -->
+            <a href="calculadora-de-patinetes-eletricos-novo/index.html" class="app-card">
+                <div class="parcel-badge">48x</div>
+                <div class="card-icon"><i class="fas fa-person-walking"></i></div>
+                <div class="card-title">Patinete Elétrico</div>
+                <div class="card-subtitle">Produtos Novos</div>
+                <div class="card-decoration decoration-rotate" style="animation-delay: 0.8s;">🛴</div>
             </a>
-            
-            <a href="calculadora-de-scooter-eletrico/index.html" class="app-card" style="color: #8b5cf6">
+
+            <!-- 4 - PATINETE USADO -->
+            <a href="calculadora-de-patinetes-eletricos-usado/index.html" class="app-card">
+                <div class="parcel-badge">48x</div>
+                <div class="card-icon"><i class="fas fa-person-walking"></i></div>
+                <div class="card-title">Patinete Elétrico</div>
+                <div class="card-subtitle">Produtos Usados</div>
+                <div class="card-decoration decoration-bounce" style="animation-delay: 2.1s;">♻️</div>
+            </a>
+
+            <!-- 5 - SCOOTER -->
+            <a href="calculadora-de-scooter-eletrico/index.html" class="app-card">
+                <div class="parcel-badge">48x</div>
                 <div class="card-icon"><i class="fas fa-motorcycle"></i></div>
-                <div class="card-title">Scooter Elétrico</div>
-                <div class="card-subtitle">Cálculo específico</div>
-                <div class="floating-decoration" style="animation-delay: 2.5s;">🛵</div>
+                <div class="card-title">Scooter Elétrica</div>
+                <div class="card-subtitle">Veículos Elétricos</div>
+                <div class="card-decoration decoration-shake" style="animation-delay: 1.5s;">🏍️</div>
             </a>
 
+            <!-- 6 - ACESSÓRIOS -->
+            <a href="calculadora-de-acessorios-de-veiculos-eletricos/index.html" class="app-card">
+                <div class="parcel-badge">48x</div>
+                <div class="card-icon"><i class="fas fa-tools"></i></div>
+                <div class="card-title">Acessórios</div>
+                <div class="card-subtitle">Para Qualquer Produto</div>
+                <div class="card-decoration decoration-fade" style="animation-delay: 2.8s;">🔧</div>
+            </a>
+            
+            <!-- CARDS VAZIOS PARA COMPLETAR O GRID 3x4 -->
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novos Produtos</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novos Produtos</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novos Produtos</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novos Produtos</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novos Produtos</div>
+            </div>
+
+            <div class="app-card placeholder-card">
+                <div class="card-icon"><i class="fas fa-plus"></i></div>
+                <div class="card-title">Em Breve</div>
+                <div class="card-subtitle">Novos Produtos</div>
+            </div>
         </div>
     </main>
 
-    <div id="global-footer"></div>
+    <!-- FOOTER MELHORADO -->
+    <footer class="home-footer">
+        <a href="https://wa.me/5544998408460" class="footer-button" target="_blank">
+            <i class="fab fa-whatsapp footer-icon"></i>
+            WhatsApp
+        </a>
+        
+        <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank">
+            <i class="fab fa-instagram footer-icon"></i>
+            Instagram
+        </a>
+        
+        <a href="../../index.html" class="footer-button">
+            <i class="fas fa-home footer-icon"></i>
+            Voltar ao Início
+        </a>
+    </footer>
 
-    <script src="../../global/config-manager.js"></script>
-    <script src="../../global/header-footer.js"></script>
-    <script src="../../global/matrix-background.js"></script>
-    
     <script>
+        // INICIALIZAÇÃO MELHORADA
         document.addEventListener('DOMContentLoaded', function() {
-            if (window.ConfigManager) {
-                ConfigManager.loadConfig();
-                ConfigManager.applyTheme();
-            }
-            loadGlobalHeaderFooter("Veículos Elétricos", "fas fa-bolt");
-            if (window.MatrixBackground) MatrixBackground.init();
+            console.log('⚡ Veículos Elétricos - Iniciando...');
+            
+            // Adiciona classe de carregamento completo
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 800);
+            
+            console.log('✅ Veículos elétricos inicializados!');
         });
     </script>
 </body>
