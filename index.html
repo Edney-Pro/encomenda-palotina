@@ -28,37 +28,77 @@
             position: relative;
         }
 
-        /* IMAGEM DE FUNDO ORIGINAL - SEM ESCURECIMENTO */
+        /* IMAGEM DE FUNDO ORIGINAL */
         .image-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -2;
+            z-index: -3;
             background-image: url('assets/backgrounds/videos/INDEX-GERAL-bg.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            /* REMOVIDO: filter: brightness(0.4) contrast(1.2); */
         }
 
-        /* OVERLAY BEM SUAVE APENAS PARA CONTRASTE */
+        /* EFEITO DE FUMAÇA/ESFUMACIADO CORRIGIDO */
+        .smoke-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 100, 100, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(100, 100, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(100, 255, 100, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 60% 60%, rgba(255, 255, 100, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 30% 70%, rgba(255, 100, 255, 0.1) 0%, transparent 50%);
+            z-index: -2;
+            animation: smokeFloat 15s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes smokeFloat {
+            0%, 100% { 
+                opacity: 0.3;
+                transform: scale(1);
+                filter: blur(0px);
+            }
+            25% { 
+                opacity: 0.5;
+                transform: scale(1.1);
+                filter: blur(1px);
+            }
+            50% { 
+                opacity: 0.4;
+                transform: scale(1.05);
+                filter: blur(0.5px);
+            }
+            75% { 
+                opacity: 0.6;
+                transform: scale(1.15);
+                filter: blur(1.5px);
+            }
+        }
+
+        /* OVERLAY SUAVE */
         .image-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.2); /* APENAS 20% DE ESCUREÇIMENTO */
+            background: rgba(0, 0, 0, 0.15);
             z-index: -1;
         }
 
         /* HEADER TRANSPARENTE */
         #global-header {
-            background: rgba(10, 10, 10, 0.3); /* 30% TRANSPARÊNCIA */
+            background: rgba(10, 10, 10, 0.3);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 0, 0, 0.3);
             padding: 1.2rem 1rem;
             position: relative;
             z-index: 100;
@@ -88,7 +128,7 @@
 
         /* CONTAINER PRINCIPAL */
         .container {
-            padding: 1.5rem 1rem;
+            padding: 1.5rem 1rem 100px 1rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -109,11 +149,11 @@
             max-height: 700px;
         }
 
-        /* CARDS COM 30% DE TRANSPARÊNCIA E BORDAS */
+        /* CARDS COM 90% DE TRANSPARÊNCIA E BORDA VERMELHA */
         .home-card {
-            background: rgba(15, 15, 15, 0.3); /* 30% TRANSPARÊNCIA */
+            background: rgba(15, 15, 15, 0.1);
             backdrop-filter: blur(25px);
-            border: 2px solid rgba(255, 255, 255, 0.3); /* BORDA BRANCA VISÍVEL */
+            border: 2px solid rgba(255, 0, 0, 0.4); /* BORDA VERMELHA */
             border-radius: 16px;
             padding: 15px 8px;
             display: flex;
@@ -127,8 +167,51 @@
             position: relative;
             overflow: hidden;
             box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.2),
+                0 4px 20px rgba(255, 0, 0, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* ÍCONES FLUTUANTES DIFERENTES E COLORIDOS */
+        .floating-icon {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            font-size: 0.8rem;
+            animation: floatIcon 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 3px currentColor);
+        }
+
+        /* CORES DIFERENTES PARA CADA ÍCONE */
+        .home-card:nth-child(1) .floating-icon { color: #ff6b6b; animation-delay: 0s; }
+        .home-card:nth-child(2) .floating-icon { color: #4ecdc4; animation-delay: 0.3s; }
+        .home-card:nth-child(3) .floating-icon { color: #ffd166; animation-delay: 0.6s; }
+        .home-card:nth-child(4) .floating-icon { color: #06d6a0; animation-delay: 0.9s; }
+        .home-card:nth-child(5) .floating-icon { color: #118ab2; animation-delay: 1.2s; }
+        .home-card:nth-child(6) .floating-icon { color: #ef476f; animation-delay: 1.5s; }
+        .home-card:nth-child(7) .floating-icon { color: #7209b7; animation-delay: 1.8s; }
+        .home-card:nth-child(8) .floating-icon { color: #f72585; animation-delay: 2.1s; }
+        .home-card:nth-child(9) .floating-icon { color: #3a86ff; animation-delay: 2.4s; }
+        .home-card:nth-child(10) .floating-icon { color: #fb5607; animation-delay: 2.7s; }
+        .home-card:nth-child(11) .floating-icon { color: #8338ec; animation-delay: 3.0s; }
+        .home-card:nth-child(12) .floating-icon { color: #ff006e; animation-delay: 3.3s; }
+
+        @keyframes floatIcon {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.7;
+            }
+            25% { 
+                transform: translateY(-4px) rotate(90deg) scale(1.1);
+                opacity: 1;
+            }
+            50% { 
+                transform: translateY(-2px) rotate(180deg) scale(1.05);
+                opacity: 0.8;
+            }
+            75% { 
+                transform: translateY(-6px) rotate(270deg) scale(1.15);
+                opacity: 0.9;
+            }
         }
 
         /* EFEITO DE BRILHO AO PASSAR O MOUSE */
@@ -141,7 +224,7 @@
             height: 100%;
             background: linear-gradient(90deg, 
                 transparent, 
-                rgba(255, 255, 255, 0.2), 
+                rgba(255, 0, 0, 0.1), 
                 transparent
             );
             transition: left 0.6s ease;
@@ -151,14 +234,14 @@
             left: 100%;
         }
 
-        /* EFEITO HOVER - BORDA BRILHANTE */
+        /* EFEITO HOVER - BORDA VERMELHA BRILHANTE */
         .home-card:hover {
-            background: rgba(30, 30, 30, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.8);
+            background: rgba(30, 30, 30, 0.2);
+            border: 2px solid rgba(255, 0, 0, 0.8);
             transform: translateY(-8px) scale(1.05);
             box-shadow: 
-                0 12px 35px rgba(0, 0, 0, 0.3),
-                0 0 40px rgba(255, 255, 255, 0.3),
+                0 12px 35px rgba(255, 0, 0, 0.2),
+                0 0 40px rgba(255, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
@@ -208,6 +291,54 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
         }
 
+        /* FOOTER COM 3 BOTÕES */
+        .home-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.3);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 0, 0, 0.3);
+            padding: 1rem;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .footer-button {
+            background: rgba(15, 15, 15, 0.1);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 150px;
+            justify-content: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .footer-button:hover {
+            background: rgba(30, 30, 30, 0.2);
+            border: 2px solid rgba(255, 0, 0, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.2);
+        }
+
+        .footer-icon {
+            font-size: 1.1rem;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+
         /* ANIMAÇÕES DE ENTRADA */
         @keyframes cardEntrance {
             from {
@@ -242,8 +373,7 @@
         /* RESPONSIVIDADE MOBILE */
         @media (max-width: 480px) {
             .container {
-                padding: 1rem 0.8rem;
-                min-height: calc(100dvh - 70px);
+                padding: 1rem 0.8rem 90px 0.8rem;
             }
             
             .home-grid {
@@ -253,12 +383,10 @@
             
             .home-card {
                 padding: 12px 6px;
-                border-width: 2px;
             }
             
             .card-icon {
                 font-size: 1.6rem;
-                margin-bottom: 10px;
             }
             
             .card-title {
@@ -269,35 +397,27 @@
                 font-size: 0.65rem;
             }
             
-            .header-title {
-                font-size: 1.1rem;
+            .home-footer {
+                padding: 0.8rem;
+                gap: 8px;
             }
             
-            .header-icon {
-                font-size: 1.4rem;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .container {
-                padding: 0.8rem 0.6rem;
-            }
-            
-            .home-grid {
-                gap: 10px;
-            }
-            
-            .header-title {
-                font-size: 1rem;
+            .footer-button {
+                padding: 10px 12px;
+                font-size: 0.75rem;
+                max-width: 120px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- IMAGEM DE FUNDO ORIGINAL - SEM FILTROS -->
+    <!-- IMAGEM DE FUNDO ORIGINAL -->
     <div class="image-background"></div>
 
-    <!-- OVERLAY MÍNIMO PARA CONTRASTE -->
+    <!-- EFEITO DE FUMAÇA CORRIGIDO -->
+    <div class="smoke-effect"></div>
+
+    <!-- OVERLAY SUAVE -->
     <div class="image-overlay"></div>
 
     <!-- HEADER TRANSPARENTE -->
@@ -312,72 +432,84 @@
     <main class="container">
         <div class="home-grid">
             <a href="apps/CADASTRO/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-bolt"></i></div>
                 <div class="card-icon"><i class="fas fa-users"></i></div>
                 <div class="card-title">Cadastro</div>
                 <div class="card-subtitle">Clientes</div>
             </a>
 
             <a href="apps/CATALOGO/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-gem"></i></div>
                 <div class="card-icon"><i class="fas fa-box-open"></i></div>
                 <div class="card-title">Catálogo</div>
                 <div class="card-subtitle">Produtos</div>
             </a>
 
             <a href="apps/EMPRESTIMOS/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-coins"></i></div>
                 <div class="card-icon"><i class="fas fa-hand-holding-usd"></i></div>
                 <div class="card-title">Empréstimos</div>
                 <div class="card-subtitle">Cálculos</div>
             </a>
 
             <a href="apps/FERRAMENTAS/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-magic"></i></div>
                 <div class="card-icon"><i class="fas fa-tools"></i></div>
                 <div class="card-title">Ferramentas</div>
                 <div class="card-subtitle">Utilitários</div>
             </a>
 
             <a href="apps/FERRAMENTAS_AVANCADAS/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-rocket"></i></div>
                 <div class="card-icon"><i class="fas fa-chart-line"></i></div>
                 <div class="card-title">Ferramentas Av.</div>
                 <div class="card-subtitle">Avançadas</div>
             </a>
 
             <a href="apps/PRODUTOS/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-shopping-bag"></i></div>
                 <div class="card-icon"><i class="fas fa-shopping-cart"></i></div>
                 <div class="card-title">Produtos</div>
                 <div class="card-subtitle">Vendas</div>
             </a>
 
             <a href="apps/RENEGOCIACAO/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-exchange-alt"></i></div>
                 <div class="card-icon"><i class="fas fa-exchange-alt"></i></div>
                 <div class="card-title">Renegociação</div>
                 <div class="card-subtitle">Dívidas</div>
             </a>
 
             <a href="apps/VEICULOS AUTOMOTORES/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-car-side"></i></div>
                 <div class="card-icon"><i class="fas fa-car"></i></div>
                 <div class="card-title">Veículos</div>
                 <div class="card-subtitle">Automotores</div>
             </a>
 
             <a href="apps/VEICULOS ELETRICOS/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-battery-full"></i></div>
                 <div class="card-icon"><i class="fas fa-bolt"></i></div>
                 <div class="card-title">Veículos Elétricos</div>
                 <div class="card-subtitle">Elétricos</div>
             </a>
 
             <a href="apps/COMPRAMOS/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-store-alt"></i></div>
                 <div class="card-icon"><i class="fas fa-store"></i></div>
                 <div class="card-title">Compramos</div>
                 <div class="card-subtitle">Para Você</div>
             </a>
 
             <a href="apps/CONFIGURACAO/index.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-cog"></i></div>
                 <div class="card-icon"><i class="fas fa-cogs"></i></div>
                 <div class="card-title">Configurações</div>
                 <div class="card-subtitle">Sistema</div>
             </a>
 
             <a href="apps/AJUDA/ajuda.html" class="home-card">
+                <div class="floating-icon"><i class="fas fa-question"></i></div>
                 <div class="card-icon"><i class="fas fa-question-circle"></i></div>
                 <div class="card-title">Ajuda</div>
                 <div class="card-subtitle">Suporte</div>
@@ -385,18 +517,36 @@
         </div>
     </main>
 
+    <!-- FOOTER COM 3 BOTÕES -->
+    <div class="home-footer">
+        <a href="https://wa.me/5544998408460" class="footer-button" target="_blank">
+            <i class="fab fa-whatsapp footer-icon"></i>
+            WhatsApp
+        </a>
+        
+        <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank">
+            <i class="fab fa-instagram footer-icon"></i>
+            Instagram
+        </a>
+        
+        <a href="http://localhost/dolibarr/public/webportal/index.php" class="footer-button">
+            <i class="fas fa-user-circle footer-icon"></i>
+            Portal Cliente
+        </a>
+    </div>
+
     <script>
-        // INICIALIZAÇÃO SIMPLES
+        // INICIALIZAÇÃO
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🦇 Portal com Botões Transparentes - Iniciando...');
+            console.log('🦇 Portal com Correções Aplicadas - Iniciando...');
             
-            // Remove footer se existir
+            // Remove footer global se existir
             const footer = document.getElementById('global-footer');
             if (footer) {
                 footer.style.display = 'none';
             }
             
-            console.log('✅ Portal inicializado com botões 30% transparentes!');
+            console.log('✅ Portal com ícones coloridos e bordas vermelhas inicializado!');
         });
     </script>
 </body>
