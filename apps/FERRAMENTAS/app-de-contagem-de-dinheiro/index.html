@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Contagem de Dinheiro - Encomenda Palotina</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --magalu-blue: #007bff;
+            --magalu-dark-blue: #0056b3;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --orange: #fd7e14;
+            
+            /* Cores específicas para o resumo dark */
+            --dark-bills: #4CAF50;
+            --dark-coins: #FFC107;
+            --dark-checks: #F44336;
+            --dark-banks: #2196F3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            font-family: 'Segoe UI', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .calculator-container {
+            width: 100%;
+            height: 100vh;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .calculator-header {
+            background: linear-gradient(135deg, var(--magalu-blue), var(--magalu-dark-blue));
+            color: white;
+            padding: 1.5rem 1rem;
+            flex-shrink: 0;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #dee2e6;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            z-index: 2;
+        }
+        
+        .step.active {
+            background: var(--magalu-blue);
+            color: white;
+        }
+        
+        .step.completed {
+            background: var(--success);
+            color: white;
+        }
+        
+        .step-line {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            height: 2px;
+            background: #dee2e6;
+            z-index: 1;
+        }
+        
+        .step-content {
+            display: none;
+            padding: 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .step-content.active {
+            display: block;
+        }
+        
+        .money-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+            border-left: 4px solid var(--magalu-blue);
+        }
+        
+        .section-bills { 
+            border-left-color: var(--success);
+        }
+        
+        .section-coins { 
+            border-left-color: var(--warning);
+        }
+        
+        .section-checks { 
+            border-left-color: var(--danger);
+        }
+        
+        .section-banks { 
+            border-left-color: var(--info);
+        }
+        
+        .total-display {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .sub-total {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        /* Cores específicas para cada visor */
+        .bills-total { color: var(--success); }
+        .coins-total { color: var(--warning); }
+        .checks-total { color: var(--danger); }
+        .banks-total { color: var(--info); }
+        
+        .btn-home {
+            background: var(--orange);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .btn-reset {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            font-weight: 600;
+        }
+        
+        .btn-previous {
+            background: var(--magalu-blue);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .btn-next {
+            background: var(--success);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .footer-actions {
+            background: white;
+            padding: 1rem;
+            border-top: 2px solid #e9ecef;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        
+        .money-item {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .chart-container {
+            height: 200px;
+            margin: 1rem 0;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .summary-item {
+            background: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+        
+        /* ESTILOS ESPECÍFICOS PARA O RESUMO DARK */
+        .summary-dark-mode .summary-item {
+            background: #1a1a1a;
+            border: 2px solid #333;
+        }
+        
+        .summary-dark-mode .summary-item.bills {
+            border-left: 4px solid var(--dark-bills);
+        }
+        
+        .summary-dark-mode .summary-item.coins {
+            border-left: 4px solid var(--dark-coins);
+        }
+        
+        .summary-dark-mode .summary-item.checks {
+            border-left: 4px solid var(--dark-checks);
+        }
+        
+        .summary-dark-mode .summary-item.banks {
+            border-left: 4px solid var(--dark-banks);
+        }
+        
+        .summary-dark-mode .summary-item small {
+            color: #ccc;
+            font-weight: 600;
+        }
+        
+        .summary-dark-mode .summary-item.bills .sub-total {
+            color: var(--dark-bills);
+            font-weight: bold;
+        }
+        
+        .summary-dark-mode .summary-item.coins .sub-total {
+            color: var(--dark-coins);
+            font-weight: bold;
+        }
+        
+        .summary-dark-mode .summary-item.checks .sub-total {
+            color: var(--dark-checks);
+            font-weight: bold;
+        }
+        
+        .summary-dark-mode .summary-item.banks .sub-total {
+            color: var(--dark-banks);
+            font-weight: bold;
+        }
+        
+        .summary-item.total {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--success), #1e7e34);
+            color: white;
+            font-weight: bold;
+            border: none;
+        }
+        
+        .summary-dark-mode .summary-item.total {
+            background: linear-gradient(135deg, #2d7e34, #1a5c28);
+        }
+        
+        .summary-item.total .sub-total,
+        .summary-item.total .total-display {
+            color: white !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .whatsapp-button {
+            display: none;
+            width: 100%;
+            margin-top: 1rem;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem;
+            border-radius: 8px;
+        }
+        
+        .whatsapp-button.show {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-title i {
+            font-size: 1.5rem;
+        }
+        
+        .checks-grid, .banks-grid {
+            display: grid;
+            gap: 0.5rem;
+        }
+        
+        /* Estilos para ícones das etapas */
+        .step-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .step1-icon { color: var(--success); }
+        .step2-icon { color: var(--warning); }
+        .step3-icon { color: var(--danger); }
+        .step4-icon { color: var(--info); }
+        .step5-icon { color: var(--magalu-blue); }
+
+        /* Melhorias de responsividade */
+        @media (max-width: 576px) {
+            .calculator-header {
+                padding: 1rem 0.5rem;
+            }
+            
+            .calculator-header h1 {
+                font-size: 1.3rem;
+            }
+            
+            .step-indicator {
+                margin: 0.5rem;
+            }
+            
+            .step {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8rem;
+            }
+            
+            .step-line {
+                top: 12px;
+            }
+            
+            .step-content {
+                padding: 0.5rem;
+            }
+            
+            .total-display {
+                font-size: 1.5rem;
+            }
+            
+            .sub-total {
+                font-size: 1rem;
+            }
+            
+            .footer-actions {
+                padding: 0.5rem;
+            }
+            
+            .footer-actions .btn {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.2rem;
+            }
+        }
+
+        /* Melhorias de acessibilidade */
+        .btn:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        
+        input:focus, select:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <!-- Header -->
+        <div class="calculator-header text-center">
+            <h1 style="font-size: 1.5rem; margin: 0;"><i class="bi bi-cash-stack me-2"></i>Contagem de Dinheiro</h1>
+            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">Sistema por etapas - Complete cada etapa</p>
+        </div>
+
+        <!-- Indicador de Etapas -->
+        <div class="step-indicator">
+            <div class="step-line"></div>
+            <div class="step active" id="step1">1</div>
+            <div class="step" id="step2">2</div>
+            <div class="step" id="step3">3</div>
+            <div class="step" id="step4">4</div>
+            <div class="step" id="step5">5</div>
+        </div>
+
+        <!-- Conteúdo por Etapas -->
+        <div class="step-content active" id="step1-content">
+            <div class="money-section section-bills">
+                <h4 class="section-title">
+                    <i class="bi bi-cash-coin step-icon step1-icon"></i>
+                    Cédulas
+                </h4>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="sub-total">Total:</span>
+                    <span class="total-display bills-total" id="billsTotal">R$ 0,00</span>
+                </div>
+                <div id="billsContainer">
+                    <!-- Cédulas serão geradas aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Etapa 2: Moedas -->
+        <div class="step-content" id="step2-content">
+            <div class="money-section section-coins">
+                <h4 class="section-title">
+                    <i class="bi bi-coin step-icon step2-icon"></i>
+                    Moedas
+                </h4>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="sub-total">Total:</span>
+                    <span class="total-display coins-total" id="coinsTotal">R$ 0,00</span>
+                </div>
+                <div id="coinsContainer">
+                    <!-- Moedas serão geradas aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Etapa 3: Cheques -->
+        <div class="step-content" id="step3-content">
+            <div class="money-section section-checks">
+                <h4 class="section-title">
+                    <i class="bi bi-receipt step-icon step3-icon"></i>
+                    Cheques
+                </h4>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="sub-total">Total:</span>
+                    <span class="total-display checks-total" id="checksTotal">R$ 0,00</span>
+                </div>
+                <div id="checksContainer" class="checks-grid">
+                    <!-- Cheques serão gerados aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Etapa 4: Bancos -->
+        <div class="step-content" id="step4-content">
+            <div class="money-section section-banks">
+                <h4 class="section-title">
+                    <i class="bi bi-building step-icon step4-icon"></i>
+                    Bancos
+                </h4>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="sub-total">Total:</span>
+                    <span class="total-display banks-total" id="banksTotal">R$ 0,00</span>
+                </div>
+                <div id="banksContainer" class="banks-grid">
+                    <!-- Bancos serão gerados aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Etapa 5: Resumo e Gráfico -->
+        <div class="step-content" id="step5-content">
+            <!-- Resumo -->
+            <div class="money-section summary-dark-mode">
+                <h4 class="section-title text-center">
+                    <i class="bi bi-pie-chart-fill step-icon step5-icon"></i>
+                    Resumo Total
+                </h4>
+                <div class="summary-grid">
+                    <div class="summary-item bills">
+                        <small>Cédulas</small>
+                        <div class="sub-total" id="summaryBills">R$ 0,00</div>
+                    </div>
+                    <div class="summary-item coins">
+                        <small>Moedas</small>
+                        <div class="sub-total" id="summaryCoins">R$ 0,00</div>
+                    </div>
+                    <div class="summary-item checks">
+                        <small>Cheques</small>
+                        <div class="sub-total" id="summaryChecks">R$ 0,00</div>
+                    </div>
+                    <div class="summary-item banks">
+                        <small>Bancos</small>
+                        <div class="sub-total" id="summaryBanks">R$ 0,00</div>
+                    </div>
+                    <div class="summary-item total">
+                        <div>TOTAL GERAL</div>
+                        <div class="total-display" id="totalDisplay">R$ 0,00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico -->
+            <div class="money-section">
+                <h4 class="section-title text-center">
+                    <i class="bi bi-bar-chart-fill step-icon step5-icon"></i>
+                    Distribuição do Dinheiro
+                </h4>
+                <div class="chart-container">
+                    <canvas id="moneyChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Botão WhatsApp (só aparece na etapa 5) -->
+            <button class="btn btn-success whatsapp-button" id="whatsappButton" onclick="shareWhatsApp()">
+                <i class="bi bi-whatsapp me-2"></i>Compartilhar no WhatsApp
+            </button>
+        </div>
+
+        <!-- Rodapé Fixo -->
+        <div class="footer-actions">
+            <div class="row g-2">
+                <div class="col-3">
+                    <button class="btn btn-previous w-100" id="previousButton" onclick="handlePrevious()">
+                        <i class="bi bi-arrow-left me-1"></i>Anterior
+                    </button>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-home w-100" onclick="goBackToHome()">
+                        <i class="bi bi-house me-1"></i>Home
+                    </button>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-reset w-100" onclick="resetCalculator()">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Recalcular
+                    </button>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-next w-100" id="nextButton" onclick="handleNext()">
+                        Próxima<i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados iniciais
+        const bills = [
+            { value: 200, label: "R$ 200,00" },
+            { value: 100, label: "R$ 100,00" },
+            { value: 50, label: "R$ 50,00" },
+            { value: 20, label: "R$ 20,00" },
+            { value: 10, label: "R$ 10,00" },
+            { value: 5, label: "R$ 5,00" },
+            { value: 2, label: "R$ 2,00" }
+        ];
+
+        const coins = [
+            { value: 1.00, label: "R$ 1,00" },
+            { value: 0.50, label: "R$ 0,50" },
+            { value: 0.25, label: "R$ 0,25" },
+            { value: 0.10, label: "R$ 0,10" },
+            { value: 0.05, label: "R$ 0,05" }
+        ];
+
+        const banks = [
+            "Banco do Brasil", "Caixa Econômica", "Bradesco", "Itaú", "Santander",
+            "Banco Safra", "Banrisul", "BTG Pactual", "C6 Bank", "Daycoval",
+            "Mercantil do Brasil", "Pan", "Rabobank", "Renner", "Sicredi",
+            "Sicoob", "Bancoob", "Votorantim", "Original", "Inter",
+            "Nubank", "Next", "PicPay", "Mercado Pago", "PagSeguro",
+            "Banco Neon", "Banco BS2", "Banco Modal", "Banco Pine", "Banestes"
+        ];
+
+        // 7 maiores bancos para seleção padrão
+        const topBanks = [
+            "Banco do Brasil", "Caixa Econômica", "Bradesco", "Itaú", "Santander",
+            "Nubank", "Inter"
+        ];
+
+        let moneyChart = null;
+        let currentStep = 1;
+
+        // Funções de navegação
+        function nextStep(step) {
+            // Oculta etapa atual
+            document.getElementById(`step${currentStep}-content`).classList.remove('active');
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            // Atualiza etapa atual
+            currentStep = step;
+            
+            // Mostra nova etapa
+            document.getElementById(`step${currentStep}-content`).classList.add('active');
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            // Marca etapas anteriores como completas
+            for (let i = 1; i < step; i++) {
+                document.getElementById(`step${i}`).classList.add('completed');
+            }
+            
+            // Atualiza totais
+            updateTotals();
+            updateFooterButtons();
+        }
+
+        function previousStep(step) {
+            // Oculta etapa atual
+            document.getElementById(`step${currentStep}-content`).classList.remove('active');
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            // Atualiza etapa atual
+            currentStep = step;
+            
+            // Mostra nova etapa
+            document.getElementById(`step${currentStep}-content`).classList.add('active');
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            // Remove marcação de completas das etapas seguintes
+            for (let i = step + 1; i <= 5; i++) {
+                document.getElementById(`step${i}`).classList.remove('completed');
+            }
+            
+            updateFooterButtons();
+        }
+
+        function handleNext() {
+            if (currentStep < 5) {
+                nextStep(currentStep + 1);
+            }
+        }
+
+        function handlePrevious() {
+            if (currentStep > 1) {
+                previousStep(currentStep - 1);
+            }
+        }
+
+        function updateFooterButtons() {
+            const previousButton = document.getElementById('previousButton');
+            const nextButton = document.getElementById('nextButton');
+            const whatsappButton = document.getElementById('whatsappButton');
+            
+            // Atualiza botão Anterior
+            if (currentStep === 1) {
+                previousButton.disabled = true;
+                previousButton.style.opacity = '0.6';
+            } else {
+                previousButton.disabled = false;
+                previousButton.style.opacity = '1';
+            }
+            
+            // Atualiza botão Próxima
+            if (currentStep === 5) {
+                nextButton.disabled = true;
+                nextButton.innerHTML = 'Concluído';
+                nextButton.style.opacity = '0.6';
+            } else {
+                nextButton.disabled = false;
+                nextButton.innerHTML = 'Próxima<i class="bi bi-arrow-right ms-1"></i>';
+                nextButton.style.opacity = '1';
+            }
+            
+            // Mostra/oculta botão WhatsApp
+            if (currentStep === 5) {
+                whatsappButton.classList.add('show');
+            } else {
+                whatsappButton.classList.remove('show');
+            }
+        }
+
+        function goBackToHome() {
+            window.location.href = '../index.html';
+        }
+
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function updateTotals() {
+            let billsTotal = 0;
+            let coinsTotal = 0;
+            let checksTotal = 0;
+            let banksTotal = 0;
+            
+            // Soma cédulas
+            bills.forEach(bill => {
+                const quantity = parseInt(document.getElementById(`bill-${bill.value}`).value) || 0;
+                billsTotal += bill.value * quantity;
+            });
+            
+            // Soma moedas
+            coins.forEach(coin => {
+                const quantity = parseInt(document.getElementById(`coin-${coin.value}`).value) || 0;
+                coinsTotal += coin.value * quantity;
+            });
+            
+            // Soma cheques
+            const checkInputs = document.querySelectorAll('[id^="check-value-"]');
+            checkInputs.forEach(input => {
+                if (input.value && input.value !== 'R$ 0,00') {
+                    let valueStr = input.value.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+                    const value = parseFloat(valueStr) || 0;
+                    checksTotal += value;
+                }
+            });
+            
+            // Soma bancos
+            const bankInputs = document.querySelectorAll('[id^="bank-value-"]');
+            bankInputs.forEach(input => {
+                if (input.value && input.value !== 'R$ 0,00') {
+                    let valueStr = input.value.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+                    const value = parseFloat(valueStr) || 0;
+                    banksTotal += value;
+                }
+            });
+            
+            const total = billsTotal + coinsTotal + checksTotal + banksTotal;
+            
+            // Atualiza totais individuais
+            document.getElementById('billsTotal').textContent = formatCurrency(billsTotal);
+            document.getElementById('coinsTotal').textContent = formatCurrency(coinsTotal);
+            document.getElementById('checksTotal').textContent = formatCurrency(checksTotal);
+            document.getElementById('banksTotal').textContent = formatCurrency(banksTotal);
+            
+            // Atualiza resumo
+            document.getElementById('summaryBills').textContent = formatCurrency(billsTotal);
+            document.getElementById('summaryCoins').textContent = formatCurrency(coinsTotal);
+            document.getElementById('summaryChecks').textContent = formatCurrency(checksTotal);
+            document.getElementById('summaryBanks').textContent = formatCurrency(banksTotal);
+            document.getElementById('totalDisplay').textContent = formatCurrency(total);
+            
+            // Atualiza gráfico
+            updateChart(billsTotal, coinsTotal, checksTotal, banksTotal);
+        }
+
+        function updateChart(bills, coins, checks, banks) {
+            const ctx = document.getElementById('moneyChart').getContext('2d');
+            
+            if (moneyChart) {
+                moneyChart.destroy();
+            }
+            
+            const total = bills + coins + checks + banks;
+            
+            moneyChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Cédulas', 'Moedas', 'Cheques', 'Bancos'],
+                    datasets: [{
+                        data: [bills, coins, checks, banks],
+                        backgroundColor: [
+                            '#28a745', // Verde - Cédulas
+                            '#ffc107', // Amarelo - Moedas
+                            '#dc3545', // Vermelho - Cheques
+                            '#17a2b8'  // Azul - Bancos
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                    return `${context.label}: ${formatCurrency(value)} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createChecks() {
+            const checksContainer = document.getElementById('checksContainer');
+            checksContainer.innerHTML = '';
+            
+            for (let i = 1; i <= 7; i++) {
+                const bankOptions = banks.map(bank => 
+                    `<option value="${bank}" ${topBanks.includes(bank) ? 'selected' : ''}>${bank}</option>`
+                ).join('');
+                
+                const checkHTML = `
+                    <div class="money-item" id="check-${i}">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-4">
+                                <input type="text" class="form-control" placeholder="Nome do cheque" id="check-name-${i}">
+                            </div>
+                            <div class="col-4">
+                                <select class="form-select" id="check-bank-${i}">
+                                    <option value="">Selecione o banco</option>
+                                    ${bankOptions}
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control" placeholder="R$ 0,00" id="check-value-${i}" oninput="formatCheckCurrency(this); updateTotals()">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                checksContainer.insertAdjacentHTML('beforeend', checkHTML);
+            }
+        }
+
+        function createBanks() {
+            const banksContainer = document.getElementById('banksContainer');
+            banksContainer.innerHTML = '';
+            
+            for (let i = 1; i <= 7; i++) {
+                const bankOptions = banks.map(bank => 
+                    `<option value="${bank}" ${topBanks.includes(bank) ? 'selected' : ''}>${bank}</option>`
+                ).join('');
+                
+                const bankHTML = `
+                    <div class="money-item" id="bank-${i}">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-4">
+                                <input type="text" class="form-control" placeholder="Descrição" id="bank-desc-${i}">
+                            </div>
+                            <div class="col-4">
+                                <select class="form-select" id="bank-name-${i}">
+                                    <option value="">Selecione o banco</option>
+                                    ${bankOptions}
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control" placeholder="R$ 0,00" id="bank-value-${i}" oninput="formatBankCurrency(this); updateTotals()">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                banksContainer.insertAdjacentHTML('beforeend', bankHTML);
+            }
+        }
+
+        function formatCheckCurrency(input) {
+            let value = input.value.replace(/\D/g, '');
+            
+            if (value === '') {
+                input.value = '';
+                return;
+            }
+            
+            let number = parseInt(value) / 100;
+            input.value = formatCurrency(number);
+        }
+
+        function formatBankCurrency(input) {
+            let value = input.value.replace(/\D/g, '');
+            
+            if (value === '') {
+                input.value = '';
+                return;
+            }
+            
+            let number = parseInt(value) / 100;
+            input.value = formatCurrency(number);
+        }
+
+        function resetCalculator() {
+            if (confirm('Zerar toda a contagem e voltar para a primeira etapa?')) {
+                // Reseta cédulas
+                bills.forEach(bill => {
+                    document.getElementById(`bill-${bill.value}`).value = 0;
+                });
+                
+                // Reseta moedas
+                coins.forEach(coin => {
+                    document.getElementById(`coin-${coin.value}`).value = 0;
+                });
+                
+                // Reseta cheques
+                const checkInputs = document.querySelectorAll('[id^="check-value-"]');
+                checkInputs.forEach(input => {
+                    input.value = '';
+                });
+                
+                const checkNameInputs = document.querySelectorAll('[id^="check-name-"]');
+                checkNameInputs.forEach(input => {
+                    input.value = '';
+                });
+                
+                // Reseta bancos
+                const bankInputs = document.querySelectorAll('[id^="bank-value-"]');
+                bankInputs.forEach(input => {
+                    input.value = '';
+                });
+                
+                const bankDescInputs = document.querySelectorAll('[id^="bank-desc-"]');
+                bankDescInputs.forEach(input => {
+                    input.value = '';
+                });
+                
+                // Volta para a primeira etapa
+                document.getElementById(`step${currentStep}-content`).classList.remove('active');
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                
+                currentStep = 1;
+                
+                document.getElementById(`step${currentStep}-content`).classList.add('active');
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                
+                // Remove marcações de completas
+                for (let i = 2; i <= 5; i++) {
+                    document.getElementById(`step${i}`).classList.remove('completed');
+                }
+                
+                updateTotals();
+                updateFooterButtons();
+            }
+        }
+
+        function shareWhatsApp() {
+            let billsTotal = 0;
+            let coinsTotal = 0;
+            let checksTotal = 0;
+            let banksTotal = 0;
+            
+            // Calcula totais
+            bills.forEach(bill => {
+                const quantity = parseInt(document.getElementById(`bill-${bill.value}`).value) || 0;
+                billsTotal += bill.value * quantity;
+            });
+            
+            coins.forEach(coin => {
+                const quantity = parseInt(document.getElementById(`coin-${coin.value}`).value) || 0;
+                coinsTotal += coin.value * quantity;
+            });
+            
+            const checkInputs = document.querySelectorAll('[id^="check-value-"]');
+            checkInputs.forEach(input => {
+                if (input.value && input.value !== 'R$ 0,00') {
+                    let valueStr = input.value.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+                    const value = parseFloat(valueStr) || 0;
+                    checksTotal += value;
+                }
+            });
+            
+            const bankInputs = document.querySelectorAll('[id^="bank-value-"]');
+            bankInputs.forEach(input => {
+                if (input.value && input.value !== 'R$ 0,00') {
+                    let valueStr = input.value.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+                    const value = parseFloat(valueStr) || 0;
+                    banksTotal += value;
+                }
+            });
+            
+            const total = billsTotal + coinsTotal + checksTotal + banksTotal;
+            
+            // Cria mensagem para WhatsApp
+            let message = `💰 *CONTAGEM DE DINHEIRO - ENCOMENDA PALOTINA* 💰\n\n`;
+            message += `📊 *RESUMO DA CONTAGEM:*\n`;
+            message += `• Cédulas: ${formatCurrency(billsTotal)}\n`;
+            message += `• Moedas: ${formatCurrency(coinsTotal)}\n`;
+            message += `• Cheques: ${formatCurrency(checksTotal)}\n`;
+            message += `• Bancos: ${formatCurrency(banksTotal)}\n\n`;
+            message += `💵 *TOTAL GERAL: ${formatCurrency(total)}*\n\n`;
+            message += `_Contagem realizada em ${new Date().toLocaleDateString('pt-BR')}_`;
+            
+            // Codifica a mensagem para URL
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
+            
+            // Abre WhatsApp
+            window.open(whatsappURL, '_blank');
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gera cédulas
+            const billsContainer = document.getElementById('billsContainer');
+            bills.forEach(bill => {
+                const div = document.createElement('div');
+                div.className = 'money-item row align-items-center';
+                div.innerHTML = `
+                    <div class="col-6">${bill.label}</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" id="bill-${bill.value}" 
+                               value="0" min="0" max="1000" oninput="updateTotals()">
+                    </div>
+                `;
+                billsContainer.appendChild(div);
+            });
+
+            // Gera moedas
+            const coinsContainer = document.getElementById('coinsContainer');
+            coins.forEach(coin => {
+                const div = document.createElement('div');
+                div.className = 'money-item row align-items-center';
+                div.innerHTML = `
+                    <div class="col-6">${coin.label}</div>
+                    <div class="col-6">
+                        <input type="number" class="form-control" id="coin-${coin.value}" 
+                               value="0" min="0" max="1000" oninput="updateTotals()">
+                    </div>
+                `;
+                coinsContainer.appendChild(div);
+            });
+
+            // Cria cheques e bancos automaticamente
+            createChecks();
+            createBanks();
+            
+            // Inicializa totais e botões do rodapé
+            updateTotals();
+            updateFooterButtons();
+        });
+    </script>
+</body>
+</html>

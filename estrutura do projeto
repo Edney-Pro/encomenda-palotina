@@ -1,0 +1,331 @@
+D:\SISTEMA\MEU SISTEMA DE PARCELAS
+|   estrutura do projeto
+|   index.html
+|   manifest.json
+|   service-worker.js
+|   styles.css
+|   sw.js
+|
+\---apps
+    +---AJUDA
+    |       ajuda.html
+    |       cadastro.html
+    |       catalogo.html
+    |       compramos.html
+    |       configurações.html
+    |       emprestimo.html
+    |       ferramentas-avancadas.html
+    |       ferramentas.html
+    |       produtos.html
+    |       renegociacao.html
+    |       veiculos-automotores.html
+    |       veiculos-eletricos.html
+    |
+    +---CADASTRO
+    |   |   index.html
+    |   |
+    |   +---atualizar-cadastro
+    |   |       index.html
+    |   |       script.js
+    |   |       styles.css
+    |   |
+    |   +---criar-cadastro
+    |   |       index.html
+    |   |       script.js
+    |   |       styles.css
+    |   |
+    |   +---enviar-arquivos
+    |   |       index.html
+    |   |       script.js
+    |   |       styles.css
+    |   |
+    |   \---portal-do-cliente
+    |           index.html
+    |           script.js
+    |           styles.css
+    |
+    +---CATALOGO
+    |   |   index.html
+    |   |
+    |   +---catalogo-de-produtos-novos
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---catalogo-de-produtos-pronta-entrega
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   \---catalogo-de-produtos-usados
+    |           index.html
+    |           script.js
+    |           style.css
+    |
+    +---COMPRAMOS
+    |   |   index.html
+    |   |
+    |   +---compramos-para-voce-lojas-fisicas
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---compramos-para-voce-lojas-virtuais
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   \---lojas_parceiras
+    |           index.html
+    |           script.js
+    |           style.css
+    |
+    +---CONFIGURACAO
+    |       index.html
+    |
+    +---EMPRESTIMOS
+    |   |   index.html
+    |   |
+    |   +---calculadora-de-emprestimo-com-garantia
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---calculadora-de-emprestimo-diario
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   \---calculadora-de-emprestimo-sem-garantia
+    |           index.html
+    |           script.js
+    |           style.css
+    |
+    +---FERRAMENTAS
+    |   |   index.html
+    |   |
+    |   +---app-de-contagem-de-dinheiro
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---app-divisao-lucros-empresas
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---calculadora-normal
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   \---multa-atraso
+    |           index.html
+    |           script.js
+    |           style.css
+    |
+    +---FERRAMENTAS_AVANCADAS
+    |   |   index.html
+    |   |
+    |   +---antecipacao-parcelas
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---capacidade-pagamento
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---cet-custo-efetivo
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---controle-limites
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---desvalorizacao-garantia
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---proposta-pdf
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---sistema-de-bingo
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---sistema-de-consorcio
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---sistema-de-sorteio
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---troca-com-troco
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   \---upgrade-produto
+    |           index.html
+    |           script.js
+    |           style.css
+    |
+    +---PRODUTOS
+    |   |   index.html
+    |   |
+    |   +---moveis-com-montagem
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---produtos-novos-com-entrada
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---produtos-novos-sem-entrada
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---produtos-usados-com-entrada
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   \---produtos-usados-sem-entrada
+    |           index.html
+    |           script.js
+    |           style.css
+    |
+    +---RENEGOCIACAO
+    |   |   index.html
+    |   |
+    |   +---renegociacao-de-emprestimo-atrasado
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-emprestimo-avencer
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-emprestimo-combinado
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-produtos-atrasados
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-produtos-avencer
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-produtos-combinados
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-veiculos-atrasados
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-veiculos-avencer
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-veiculos-combinado
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-veiculos-eletricos-atrasados
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-veiculos-eletricos-avencer
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-de-veiculos-eletricos-combinado
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---renegociacao-especial
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   \---renegociaço-advogado
+    +---VEICULOS AUTOMOTORES
+    |   |   index.html
+    |   |
+    |   +---calculadora-de-acessorios-automotivo
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   +---calculadora-de-carros-usados
+    |   |       index.html
+    |   |       script.js
+    |   |       style.css
+    |   |
+    |   \---calculadora-de-motos-usadas
+    |           index.html
+    |           script.js
+    |           style.css
+    |
+    \---VEICULOS ELETRICOS
+        |   index.html
+        |
+        +---calculadora-de-acessorios-de-veiculos-eletricos
+        |       index.html
+        |       script.js
+        |       style.css
+        |
+        +---calculadora-de-bicicletas-eletricas-nova
+        |       index.html
+        |       script.js
+        |       style.css
+        |
+        +---calculadora-de-bicicletas-eletricas-usada
+        |       index.html
+        |       script.js
+        |       style.css
+        |
+        +---calculadora-de-patinetes-eletricos-novo
+        |       index.html
+        |       script.js
+        |       style.css
+        |
+        +---calculadora-de-patinetes-eletricos-usado
+        |       index.html
+        |       script.js
+        |       style.css
+        |
+        \---calculadora-de-scooter-eletrico
+                index.html
+                script.js
+                style.css

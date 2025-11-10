@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Configurações</title>
+    
+    <!-- GLOBAIS -->
+    <link rel="stylesheet" href="../../global/theme.css">
+    <link rel="stylesheet" href="../../global/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* LAYOUT PROFISSIONAL MOBILE */
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100dvh;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+        
+        #global-header {
+            flex-shrink: 0;
+        }
+        
+        .config-body-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* ABAS DE NAVEGAÇÃO */
+        .tabs-nav {
+            display: flex;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.5rem;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.75rem 0.5rem;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-md);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-btn i {
+            font-size: 1rem;
+        }
+
+        /* CONTEÚDO ROLÁVEL */
+        .tab-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            padding-bottom: 100px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CARDS DE CONFIGURAÇÃO */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card h2 i {
+            color: var(--primary);
+        }
+
+        /* GRUPOS DE CONFIGURAÇÃO */
+        .setting-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .setting-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .setting-group select,
+        .setting-group input[type="range"],
+        .setting-group input[type="color"],
+        .setting-group input[type="password"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .setting-group select:focus,
+        .setting-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* RANGE VALUES */
+        .range-value {
+            display: inline-block;
+            min-width: 40px;
+            text-align: right;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* CONFIGURAÇÕES AVANÇADAS */
+        .advanced-settings {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .advanced-settings h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* PREVIEW DE ÍCONES */
+        .icons-preview {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .icons-preview h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .icon-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .icon-preview i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .icon-preview span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ADMIN SECTION */
+        .admin-section {
+            background: linear-gradient(135deg, var(--bg-card), rgba(239, 68, 68, 0.1));
+        }
+
+        .password-input {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .btn-admin, .btn-danger, .btn-secondary {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-admin {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-admin:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .admin-actions .btn-secondary {
+            flex: 1;
+        }
+
+        /* BOTÃO SALVAR FIXO */
+        .save-fab {
+            position: fixed;
+            bottom: 90px;
+            right: 1rem;
+            z-index: 1000;
+        }
+
+        .fab-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .fab-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        /* DEMONSTRAÇÕES */
+        .font-demo, .weight-demo {
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 480px) {
+            .tabs-nav {
+                padding: 0.25rem;
+            }
+            
+            .tab-btn {
+                padding: 0.5rem 0.25rem;
+                font-size: 0.65rem;
+            }
+            
+            .tab-btn i {
+                font-size: 0.9rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+            
+            .icons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER GLOBAL -->
+    <div id="global-header"></div> 
+
+    <div class="config-body-wrapper">
+        <!-- ABAS DE NAVEGAÇÃO -->
+        <nav class="tabs-nav">
+            <button class="tab-btn active" data-tab="appearance">
+                <i class="fas fa-palette"></i>
+                <span>Aparência</span>
+            </button>
+            <button class="tab-btn" data-tab="matrix">
+                <i class="fas fa-matrix"></i>
+                <span>Matrix</span>
+            </button>
+            <button class="tab-btn" data-tab="icons">
+                <i class="fas fa-icons"></i>
+                <span>Ícones</span>
+            </button>
+            <button class="tab-btn" data-tab="admin">
+                <i class="fas fa-shield-alt"></i>
+                <span>Admin</span>
+            </button>
+        </nav>
+
+        <!-- CONTEÚDO DAS ABAS -->
+        <main class="tab-content">
+            <!-- ABA APARÊNCIA -->
+            <section id="appearance" class="tab-pane active">
+                <div class="card">
+                    <h2><i class="fas fa-palette"></i> Aparência do Sistema</h2>
+                    
+                    <div class="setting-group">
+                        <label for="theme">Tema do Sistema</label>
+                        <select id="theme">
+                            <option value="light">🌞 Claro</option>
+                            <option value="dark">🌙 Escuro</option>
+                            <option value="gold">⭐ Dourado</option>
+                            <option value="blue">🔵 Azul</option>
+                            <option value="purple">🟣 Lilás</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="font">Fonte do Sistema</label>
+                        <select id="font">
+                            <option value="Inter">Inter</option>
+                            <option value="Roboto">Roboto</option>
+                            <option value="Poppins">Poppins</option>
+                            <option value="Open Sans">Open Sans</option>
+                            <option value="Montserrat">Montserrat</option>
+                        </select>
+                        <div id="fontDemo" class="font-demo">Exemplo: Sistema de Parcelas</div>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="fontWeight">Peso da Fonte</label>
+                        <select id="fontWeight">
+                            <option value="300">Leve</option>
+                            <option value="400">Regular</option>
+                            <option value="500">Médio</option>
+                            <option value="600">Semi-negrito</option>
+                            <option value="700">Negrito</option>
+                        </select>
+                        <div id="weightDemo" class="weight-demo">Texto com peso Regular</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA MATRIX -->
+            <section id="matrix" class="tab-pane">
+                <div class="card">
+                    <h2><i class="fas fa-matrix"></i> Efeito Matrix</h2>
+                    
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                        <i class="fas fa-info-circle"></i> As alterações são aplicadas instantaneamente no plano de fundo
+                    </p>
+
+                    <div class="setting-group">
+    <label for="matrixMode">Modo do Efeito</label>
+    <select id="matrixMode">
+        <option value="rain">🌧️ Chuva (Padrão)</option>
+        <option value="rain-reverse">🔄 Chuva Reversa</option>
+        <option value="static">⏸️ Alterando</option>
+        <option value="zoom">🔍 Zoom</option>
+        <option value="zoom-reverse">↩️ Zoom Reverso</option>
+    </select>
+</div>
+
+<div class="setting-group">
+    <label for="matrixCodeColor">Cor do Código</label>
+    <input id="matrixCodeColor" type="color" value="#00ff66">
+</div>
+
+<div class="setting-group">
+    <label for="matrixBackgroundColor">Cor do Fundo</label>
+    <input id="matrixBackgroundColor" type="color" value="#000000">
+</div>
+
+<div class="setting-group">
+    <label for="matrixSpeed">
+        Velocidade: <span id="speedValue" class="range-value">9</span>
+    </label>
+    <input id="matrixSpeed" type="range" min="1" max="100" step="1" value="9">
+</div>
+
+<div class="setting-group">
+    <label for="matrixLettersPerMinute">
+        Letras por Minuto: <span id="lettersValue" class="range-value">6</span>
+    </label>
+    <input id="matrixLettersPerMinute" type="range" min="1" max="50" step="1" value="6">
+</div>
+
+<div class="setting-group">
+    <label for="matrixNumbersPerMinute">
+        Números por Minuto: <span id="numbersValue" class="range-value">12</span>
+    </label>
+    <input id="matrixNumbersPerMinute" type="range" min="1" max="50" step="1" value="12">
+</div>
+
+<div class="setting-group">
+    <label for="matrixLettersRotating">Letras Girando</label>
+    <select id="matrixLettersRotating">
+        <option value="true">✅ Sim</option>
+        <option value="false">❌ Não</option>
+    </select>
+</div>
+
+<div class="setting-group">
+    <label for="matrixNumbersRotating">Números Girando</label>
+    <select id="matrixNumbersRotating">
+        <option value="true">✅ Sim</option>
+        <option value="false">❌ Não</option>
+    </select>
+</div>
+
+                    <div class="setting-group">
+                        <label for="matrixOpacity">
+                            Opacidade: <span id="opacityValue" class="range-value">25%</span>
+                        </label>
+                        <input id="matrixOpacity" type="range" min="0.05" max="0.6" step="0.05" value="0.25">
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="matrixColor">Cor do Efeito</label>
+                        <input id="matrixColor" type="color" value="#00ff66">
+                    </div>
+
+                    <!-- CONFIGURAÇÕES AVANÇADAS -->
+                    <div class="advanced-settings">
+                        <h3><i class="fas fa-sliders-h"></i> Configurações Avançadas</h3>
+                        
+                        <div class="setting-group">
+                            <label for="matrixSpeed">
+                                Velocidade: <span id="speedValue" class="range-value">18</span>
+                            </label>
+                            <input id="matrixSpeed" type="range" min="1" max="100" step="1" value="18">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
+                                <span>1 (Lento)</span>
+                                <span>100 (Rápido)</span>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label for="matrixStreams">
+                                Quantidade de Listas: <span id="streamsValue" class="range-value">25</span>
+                            </label>
+                            <input id="matrixStreams" type="range" min="5" max="50" step="1" value="25">
+                        </div>
+
+                        <div class="setting-group">
+                            <label for="matrixDirection">Direção do Efeito</label>
+                            <select id="matrixDirection">
+                                <option value="down">⬇️ Descendo (Padrão)</option>
+                                <option value="up">⬆️ Subindo</option>
+                                <option value="random">🎲 Aleatória</option>
+                                <option value="still">⏸️ Parado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA ÍCONES -->
+            <section id="icons" class="tab-pane">
+                <div class="card">
+                    <h2><i class="fas fa-icons"></i> Ícones e Interface</h2>
+                    
+                    <div class="setting-group">
+                        <label for="iconStyle">Estilo dos Ícones</label>
+                        <select id="iconStyle">
+                            <option value="classic">🎨 Clássico</option>
+                            <option value="modern">⚡ Moderno</option>
+                            <option value="premium">💎 Premium</option>
+                            <option value="neon">🔮 Neon</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="animationSpeed">Velocidade das Animações</label>
+                        <select id="animationSpeed">
+                            <option value="slow">🐢 Lenta</option>
+                            <option value="normal">🚶 Normal</option>
+                            <option value="fast">⚡ Rápida</option>
+                        </select>
+                    </div>
+
+                    <!-- PREVIEW DE ÍCONES -->
+                    <div class="icons-preview">
+                        <h3>Preview dos Ícones</h3>
+                        <div class="icons-grid">
+                            <div class="icon-preview"><i class="fas fa-home"></i><span>Home</span></div>
+                            <div class="icon-preview"><i class="fas fa-calculator"></i><span>Calc</span></div>
+                            <div class="icon-preview"><i class="fas fa-chart-pie"></i><span>Gráficos</span></div>
+                            <div class="icon-preview"><i class="fas fa-cogs"></i><span>Config</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA ADMIN -->
+            <section id="admin" class="tab-pane">
+                <div class="card admin-section">
+                    <h2><i class="fas fa-shield-alt"></i> Acesso Administrativo</h2>
+                    
+                    <div class="setting-group">
+                        <label for="adminPassword">Senha de Administrador</label>
+                        <div class="password-input">
+                            <input type="password" id="adminPassword" placeholder="Digite a senha de administrador">
+                            <button class="toggle-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <button class="btn-admin" id="accessAdmin">
+                            <i class="fas fa-unlock"></i> Acessar Taxas
+                        </button>
+                    </div>
+
+                    <div class="admin-actions">
+                        <button class="btn-danger" id="resetSettings">
+                            <i class="fas fa-undo"></i> Restaurar Padrões
+                        </button>
+                        <button class="btn-secondary" id="exportSettings">
+                            <i class="fas fa-download"></i> Exportar
+                        </button>
+                        <button class="btn-secondary" id="importSettings">
+                            <i class="fas fa-upload"></i> Importar
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- BOTÃO SALVAR FIXO -->
+        <div class="save-fab">
+            <button class="fab-btn" id="saveSettings">
+                <i class="fas fa-save"></i>
+                <span>Salvar</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER GLOBAL -->
+    <div id="global-footer"></div>
+
+    <!-- CANVAS DO MATRIX BACKGROUND GLOBAL -->
+    <canvas id="matrixBackground" class="matrix-bg"></canvas>
+
+    <!-- SCRIPTS GLOBAIS -->
+    <script src="../../global/config-manager.js"></script>
+    <script src="../../global/header-footer.js"></script>
+    <script src="../../global/matrix-background.js"></script>
+    
+    <script>
+        // CONFIGURAÇÕES UNIFICADAS - CORRIGIDO
+        class SettingsManager {
+            static init() {
+                this.initTabs();
+                this.loadSavedSettings();
+                this.setupEventListeners();
+                this.updateDisplayValues();
+                
+                // Garante que o Matrix inicia descendo
+                this.applyMatrixSettings();
+            }
+
+            static initTabs() {
+                const tabBtns = document.querySelectorAll('.tab-btn');
+                const tabPanes = document.querySelectorAll('.tab-pane');
+
+                tabBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Remove active de todos
+                        tabBtns.forEach(b => b.classList.remove('active'));
+                        tabPanes.forEach(p => p.classList.remove('active'));
+
+                        // Adiciona active no clicado
+                        btn.classList.add('active');
+                        const tabId = btn.getAttribute('data-tab');
+                        document.getElementById(tabId).classList.add('active');
+                    });
+                });
+            }
+
+            static loadSavedSettings() {
+                // Carrega do ConfigManager global
+                if (!window.ConfigManager) {
+                    console.error('ConfigManager não encontrado');
+                    return;
+                }
+
+                const config = ConfigManager.getConfig();
+                console.log('Configurações carregadas:', config);
+                
+                // Preenche os campos
+                const fields = {
+                    'theme': config.theme,
+                    'font': config.font,
+                    'fontWeight': config.fontWeight,
+                    'matrixMode': config.matrixMode,
+                    'matrixOpacity': config.matrixOpacity,
+                    'matrixColor': config.matrixColor,
+                    'matrixSpeed': config.matrixSpeed,
+                    'matrixStreams': config.matrixStreams,
+                    'matrixDirection': config.matrixDirection,
+                    'iconStyle': config.iconStyle,
+                    'animationSpeed': config.animationSpeed
+                };
+
+                Object.keys(fields).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element && fields[key] !== undefined) {
+                        element.value = fields[key];
+                    }
+                });
+
+                // Atualiza demonstrações
+                this.updateFontDemo();
+                this.updateWeightDemo();
+            }
+
+            static setupEventListeners() {
+                // Aparência
+                document.getElementById('theme').addEventListener('change', (e) => {
+                    ConfigManager.setTheme(e.target.value);
+                    this.applyMatrixThemeColor();
+                });
+
+                document.getElementById('font').addEventListener('change', (e) => {
+                    ConfigManager.setFont(e.target.value);
+                    this.updateFontDemo();
+                });
+
+                document.getElementById('fontWeight').addEventListener('change', (e) => {
+                    ConfigManager.setFontWeight(e.target.value);
+                    this.updateWeightDemo();
+                });
+
+                // Matrix - CONFIGURAÇÕES QUE AGORA FUNCIONAM
+                document.getElementById('matrixMode').addEventListener('change', (e) => {
+                    ConfigManager.setMatrixMode(e.target.value);
+                    this.applyMatrixSettings();
+                });
+
+                document.getElementById('matrixOpacity').addEventListener('input', (e) => {
+                    ConfigManager.setMatrixOpacity(e.target.value);
+                    this.updateDisplayValues();
+                    this.applyMatrixSettings();
+                });
+
+                document.getElementById('matrixColor').addEventListener('change', (e) => {
+                    ConfigManager.setMatrixColor(e.target.value);
+                    this.applyMatrixSettings();
+                });
+
+                document.getElementById('matrixSpeed').addEventListener('input', (e) => {
+                    ConfigManager.setMatrixSpeed(e.target.value);
+                    this.updateDisplayValues();
+                    this.applyMatrixSettings();
+                });
+
+                document.getElementById('matrixStreams').addEventListener('input', (e) => {
+                    ConfigManager.setMatrixStreams(e.target.value);
+                    this.updateDisplayValues();
+                    this.applyMatrixSettings();
+                });
+
+                document.getElementById('matrixDirection').addEventListener('change', (e) => {
+                    ConfigManager.setMatrixDirection(e.target.value);
+                    this.applyMatrixSettings();
+                });
+
+                // Ícones
+                document.getElementById('iconStyle').addEventListener('change', (e) => {
+                    ConfigManager.setIconStyle(e.target.value);
+                });
+
+                document.getElementById('animationSpeed').addEventListener('change', (e) => {
+                    ConfigManager.setAnimationSpeed(e.target.value);
+                });
+
+                // Admin
+                document.querySelector('.toggle-password').addEventListener('click', this.togglePassword);
+                document.getElementById('accessAdmin').addEventListener('click', this.accessAdmin);
+                document.getElementById('resetSettings').addEventListener('click', this.resetSettings);
+                document.getElementById('exportSettings').addEventListener('click', this.exportSettings);
+                document.getElementById('importSettings').addEventListener('click', this.importSettings);
+                document.getElementById('saveSettings').addEventListener('click', this.saveSettings);
+            }
+
+            // Aplica as configurações do Matrix instantaneamente
+            static applyMatrixSettings() {
+                if (window.MatrixBackground) {
+                    const config = ConfigManager.getConfig();
+                    
+                    // Aplica todas as configurações do Matrix
+                    MatrixBackground.setMode(config.matrixMode);
+                    MatrixBackground.setOpacity(config.matrixOpacity);
+                    MatrixBackground.setColor(config.matrixColor);
+                    MatrixBackground.setSpeed(config.matrixSpeed);
+                    MatrixBackground.setStreamCount(config.matrixStreams);
+                    MatrixBackground.setDirection(config.matrixDirection);
+                    
+                    // Reinicia o Matrix para garantir que está funcionando
+                    if (config.matrixMode !== 'off') {
+                        MatrixBackground.stop();
+                        setTimeout(() => {
+                            MatrixBackground.start();
+                        }, 100);
+                    }
+                    
+                    console.log('Matrix configurado:', config);
+                }
+            }
+
+            // Aplica cor do tema no Matrix
+            static applyMatrixThemeColor() {
+                if (window.MatrixBackground && MatrixBackground.applyThemeColor) {
+                    MatrixBackground.applyThemeColor();
+                    this.applyMatrixSettings();
+                }
+            }
+
+            static updateDisplayValues() {
+                document.getElementById('opacityValue').textContent = 
+                    Math.round(parseFloat(document.getElementById('matrixOpacity').value) * 100) + '%';
+                document.getElementById('speedValue').textContent = 
+                    document.getElementById('matrixSpeed').value;
+                document.getElementById('streamsValue').textContent = 
+                    document.getElementById('matrixStreams').value;
+            }
+
+            static updateFontDemo() {
+                const font = document.getElementById('font').value;
+                const demo = document.getElementById('fontDemo');
+                if (demo) {
+                    demo.textContent = `Exemplo: Sistema de Parcelas (${font})`;
+                    demo.style.fontFamily = font;
+                }
+            }
+
+            static updateWeightDemo() {
+                const weight = document.getElementById('fontWeight').value;
+                const weightNames = {
+                    '300': 'Leve', '400': 'Regular', '500': 'Médio', 
+                    '600': 'Semi-negrito', '700': 'Negrito'
+                };
+                const demo = document.getElementById('weightDemo');
+                if (demo) {
+                    demo.textContent = `Texto com peso ${weightNames[weight] || weight}`;
+                    demo.style.fontWeight = weight;
+                }
+            }
+
+            static togglePassword() {
+                const input = document.getElementById('adminPassword');
+                const icon = document.querySelector('.toggle-password i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'fas fa-eye-slash';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'fas fa-eye';
+                }
+            }
+
+           static accessAdmin() {
+    const password = document.getElementById('adminPassword').value;
+    
+    if (password === '68366836') {
+        alert('✅ Acesso PIM liberado! Configurações de taxas disponíveis.');
+    } else {
+        alert('❌ Senha incorreta!');
+    }
+}
+
+            static resetSettings() {
+                if (confirm('⚠️ Restaurar todas as configurações para os valores padrão?')) {
+                    ConfigManager.resetToDefaults();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                }
+            }
+
+            static exportSettings() {
+                if (window.ConfigManager) {
+                    ConfigManager.exportConfig();
+                }
+            }
+
+            static importSettings() {
+                alert('📁 Funcionalidade de importação em desenvolvimento...');
+            }
+
+            static saveSettings() {
+                const btn = document.getElementById('saveSettings');
+                const originalHTML = btn.innerHTML;
+                
+                btn.innerHTML = '<i class="fas fa-check"></i><span>Salvo!</span>';
+                btn.style.background = '#10b981';
+                
+                // Salva todas as configurações
+                if (window.ConfigManager) {
+                    ConfigManager.saveConfig();
+                }
+                
+                // Aplica as configurações do Matrix
+                this.applyMatrixSettings();
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.style.background = '';
+                }, 2000);
+            }
+        }
+
+        // INICIALIZAÇÃO CORRIGIDA
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Iniciando sistema de configurações...');
+            
+            // 1. Header e Footer globais
+            if (typeof loadGlobalHeaderFooter === 'function') {
+                loadGlobalHeaderFooter("Configurações", "fas fa-cogs");
+            } else {
+                console.error('Função loadGlobalHeaderFooter não encontrada');
+            }
+            
+            // 2. Configurações globais
+            if (window.ConfigManager) {
+                ConfigManager.init();
+                console.log('ConfigManager inicializado');
+            }
+            
+            // 3. Gerenciador de configurações da página
+            setTimeout(() => {
+                SettingsManager.init();
+                console.log('SettingsManager inicializado');
+            }, 500);
+        });
+    </script>
+</body>
+</html>

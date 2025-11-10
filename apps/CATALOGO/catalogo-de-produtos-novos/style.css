@@ -1,0 +1,25 @@
+/* Estilos para o card de cálculo que não são cobertos pelo components.css */
+.result-box {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 12px;
+    border-left: 4px solid var(--accent); /* Usando accent para destaque no resultado */
+}
+
+.result-box h3 {
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.result-box p {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+}
+
+.result-box strong {
+    color: var(--accent);
+    font-weight: 700;
+}

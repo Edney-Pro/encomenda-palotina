@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compramos pra Você - Lojas Físicas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #007BFF;
+            --primary-light: #4DA3FF;
+            --success: #00C48C;
+            --success-light: #00E0B8;
+            --warning: #FF9F43;
+            --warning-light: #FFC46B;
+            --dark: #1E1E2F;
+            --light-bg: #F9FAFB;
+            --border: #E5E7EB;
+            --text-primary: #111827;
+            --text-secondary: #6B7280;
+            --white: #FFFFFF;
+            
+            /* Tema Dark */
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-text: #ffffff;
+            --dark-border: #333333;
+            --dark-shadow: rgba(0, 0, 0, 0.3);
+            
+            /* Cores específicas do Compramos pra Você */
+            --compramos-color: #E91E63;
+            --compramos-light: #F8BBD0;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-text);
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-weight: 400;
+        }
+
+        .calculator-container {
+            background: var(--dark-card);
+            height: 100vh;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px var(--dark-shadow);
+        }
+
+        /* HEADER - 10% */
+        .calculator-header {
+            background: linear-gradient(135deg, var(--compramos-color), #AD1457);
+            color: var(--white);
+            padding: 1.2rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 15px rgba(233,30,99,0.15);
+            flex: 0 0 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 80px;
+        }
+
+        .calculator-header h1 {
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .calculator-header p {
+            margin: 0.3rem 0 0 0;
+            font-size: 0.8rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        /* ÁREA DE CONTEÚDO - 80% */
+        .content-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-container {
+            padding: 0.8rem 1rem;
+            background: var(--dark-card);
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: var(--dark-bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FOOTER - 10% */
+        .footer-actions {
+            background: var(--dark-card);
+            padding: 0.8rem;
+            border-top: 1px solid var(--dark-border);
+            box-shadow: 0 -4px 15px var(--dark-shadow);
+            flex: 0 0 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 80px;
+        }
+
+        /* ESTILOS GERAIS */
+        .section-title {
+            color: var(--compramos-color);
+            border-left: 4px solid var(--compramos-color);
+            padding-left: 12px;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* BOTÕES */
+        .btn-home {
+            background: #2d3748;
+            color: var(--dark-text);
+            border: none;
+            font-weight: 500;
+            border-radius: 12px;
+            padding: 10px 8px;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 6px var(--dark-shadow);
+        }
+
+        .btn-voltar {
+            background: var(--warning);
+            color: var(--white);
+            border: none;
+            font-weight: 500;
+            border-radius: 12px;
+            padding: 10px 8px;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .btn-avancar {
+            background: var(--success);
+            color: var(--white);
+            border: none;
+            font-weight: 500;
+            border-radius: 12px;
+            padding: 10px 8px;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .btn-resumo {
+            background: var(--compramos-color);
+            color: var(--white);
+            border: none;
+            font-weight: 500;
+            border-radius: 12px;
+            padding: 10px 8px;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        /* BOTÃO WHATSAPP */
+        .btn-whatsapp-fixo {
+            background: var(--dark-card);
+            color: #25D366;
+            border: 2px solid #25D366;
+            font-weight: 500;
+            border-radius: 12px;
+            width: 100%;
+            padding: 10px;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-whatsapp-fixo.active {
+            background: #25D366;
+            color: var(--white);
+            border-color: #25D366;
+        }
+
+        /* VISORES FIXOS */
+        .visores-fixos {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-shrink: 0;
+        }
+
+        .visor-item {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--dark-shadow);
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .valor-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0.3rem 0;
+            color: var(--white);
+        }
+
+        /* VISOR ROSA - VALOR TOTAL */
+        .valor-total {
+            background: linear-gradient(135deg, var(--compramos-color), #AD1457);
+        }
+
+        /* VISOR LARANJA - PRAZO */
+        .valor-prazo {
+            background: linear-gradient(135deg, var(--warning), var(--warning-light));
+        }
+
+        /* VISOR AZUL - VALOR PARCELA */
+        .valor-parcela {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        }
+
+        .visor-item i {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+            opacity: 0.9;
+            color: var(--white);
+        }
+
+        .visor-item small {
+            color: var(--white);
+            font-weight: 500;
+            opacity: 0.9;
+            font-size: 0.8rem;
+        }
+
+        /* CONTEÚDO ROLÁVEL */
+        .conteudo-rolavel {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* SLIDERS */
+        .slider-container {
+            margin: 1rem 0;
+            background: var(--dark-card);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px var(--dark-shadow);
+        }
+
+        .custom-slider {
+            width: 100%;
+            height: 6px;
+            background: var(--dark-border);
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            margin: 20px 0;
+            -webkit-appearance: none;
+        }
+
+        .custom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--compramos-color);
+            border: 4px solid var(--dark-card);
+            cursor: pointer;
+        }
+
+        .slider-value-display {
+            text-align: center;
+            font-weight: 600;
+            color: var(--compramos-color);
+            margin-top: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* SEÇÕES DE CONTEÚDO */
+        .summary-section {
+            background: var(--dark-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border: 1px solid var(--dark-border);
+        }
+
+        .summary-block {
+            background: var(--dark-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--compramos-color);
+        }
+
+        /* FORMULÁRIOS */
+        .form-control {
+            border-radius: 12px;
+            padding: 12px;
+            border: 2px solid var(--dark-border);
+            background: var(--dark-card);
+            color: var(--dark-text);
+            font-size: 0.9rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--compramos-color);
+            background: var(--dark-card);
+            color: var(--dark-text);
+        }
+
+        /* BOTÕES DE SELEÇÃO */
+        .btn-selection {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 2px solid var(--dark-border);
+            border-radius: 12px;
+            background: var(--dark-card);
+            color: var(--dark-text);
+            font-weight: 500;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .btn-selection:hover {
+            border-color: var(--compramos-color);
+        }
+
+        .btn-selection.active {
+            background: var(--compramos-color);
+            color: var(--white);
+            border-color: var(--compramos-color);
+        }
+
+        .btn-selection i {
+            margin-right: 8px;
+        }
+
+        /* LOJAS */
+        .lojas-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .loja-card {
+            background: var(--dark-bg);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .loja-card:hover {
+            border-color: var(--compramos-color);
+        }
+
+        .loja-card.selected {
+            border-color: var(--compramos-color);
+            background: rgba(233, 30, 99, 0.1);
+        }
+
+        /* DIA PAGAMENTO */
+        .dia-pagamento-container {
+            background: var(--dark-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border: 1px solid var(--dark-border);
+        }
+
+        /* VALIDAÇÕES */
+        .validation-error {
+            border-color: #dc3545 !important;
+        }
+
+        .validation-message {
+            color: #dc3545;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            font-weight: 500;
+        }
+
+        /* ETAPAS E PROGRESSO */
+        .etapa {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        .etapa.active {
+            display: flex;
+        }
+
+        .progress {
+            height: 8px;
+            margin: 1rem 0;
+            border-radius: 10px;
+            background: var(--dark-border);
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, var(--compramos-color), #AD1457);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .valor-display {
+                font-size: 1.1rem;
+            }
+            
+            .visores-fixos {
+                flex-direction: row;
+                gap: 0.8rem;
+            }
+            
+            .calculator-header h1 {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1rem;
+            }
+            
+            .visor-item {
+                min-height: 100px;
+                padding: 0.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .calculator-header h1 {
+                font-size: 1.1rem;
+            }
+            
+            .valor-display {
+                font-size: 1rem;
+            }
+            
+            .visores-fixos {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <!-- Header - 10% -->
+        <div class="calculator-header">
+            <h1>
+                <i class="bi bi-bag-check-fill me-2"></i>Compramos pra Você
+            </h1>
+            <p>
+                Solicitação de Compra em Lojas Físicas - Palotina/PR
+            </p>
+        </div>
+
+        <!-- Área de Conteúdo - 80% -->
+        <div class="content-wrapper">
+            <!-- Barra de Progresso -->
+            <div class="progress-container">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 20%;" id="progressBar"></div>
+                </div>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <div class="content-area">
+                <!-- TELA 1: Dados Pessoais -->
+                <div class="etapa active" id="tela1">
+                    <div class="conteudo-rolavel">
+                        <div class="mb-4">
+                            <h4 class="section-title"><i class="bi bi-person-badge me-2"></i>Dados Pessoais</h4>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Nome completo:</label>
+                                <input type="text" class="form-control" id="clientName" placeholder="Ex: João Silva Santos">
+                                <div class="validation-message hidden" id="nameError">Informe o nome completo</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">CPF:</label>
+                                <input type="text" class="form-control" id="clientCPF" placeholder="Ex: 000.000.000-00">
+                                <div class="validation-message hidden" id="cpfError">Informe um CPF válido</div>
+                            </div>
+
+                            <!-- Campo para vendedor -->
+                            <div class="mb-3">
+                                <label class="form-label">Já falou com algum vendedor?</label>
+                                <div class="d-grid gap-2 mb-3">
+                                    <button type="button" class="btn btn-selection" id="btnVendedorSim" onclick="selecionarVendedor('sim')">
+                                        <i class="bi bi-person-check"></i> Sim, já falei com vendedor
+                                    </button>
+                                    <button type="button" class="btn btn-selection active" id="btnVendedorNao" onclick="selecionarVendedor('nao')">
+                                        <i class="bi bi-person-x"></i> Não, ainda não falei
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Campo para nome do vendedor -->
+                            <div class="mb-3 hidden" id="vendedorNomeField">
+                                <label class="form-label">Nome do vendedor:</label>
+                                <input type="text" class="form-control" id="vendedorNome" placeholder="Nome do vendedor que te atendeu">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TELA 2: Seleção da Loja -->
+                <div class="etapa" id="tela2">
+                    <div class="conteudo-rolavel">
+                        <div class="mb-4">
+                            <h4 class="section-title"><i class="bi bi-shop me-2"></i>Seleção da Loja</h4>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Buscar loja em Palotina:</label>
+                                <input type="text" class="form-control" id="buscaLoja" placeholder="Digite o nome da loja...">
+                            </div>
+
+                            <div class="lojas-container">
+                                <div id="listaLojas"></div>
+                            </div>
+
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-selection" onclick="selecionarOutraLoja()">
+                                    <i class="bi bi-plus-circle"></i> Outra loja não listada
+                                </button>
+                            </div>
+
+                            <!-- Campo para outra loja -->
+                            <div class="mt-3 hidden" id="outraLojaField">
+                                <div class="mb-3">
+                                    <label class="form-label">Nome da loja:</label>
+                                    <input type="text" class="form-control" id="outraLojaNome" placeholder="Digite o nome da loja">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Endereço (opcional):</label>
+                                    <input type="text" class="form-control" id="outraLojaEndereco" placeholder="Endereço da loja">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TELA 3: Cadastro do Produto -->
+                <div class="etapa" id="tela3">
+                    <div class="conteudo-rolavel">
+                        <div class="mb-4">
+                            <h4 class="section-title"><i class="bi bi-cart-plus me-2"></i>Cadastro do Produto</h4>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Nome do Produto:</label>
+                                <input type="text" class="form-control" id="produtoNome" placeholder="Ex: Smartphone Samsung Galaxy S23">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Preço à Vista (R$):</label>
+                                <input type="number" class="form-control" id="produtoValor" placeholder="0,00" min="0" step="0.01" oninput="updateRealTimeDisplay()">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Observações (Cor, Tamanho, etc.):</label>
+                                <textarea class="form-control" id="produtoObservacoes" rows="3" placeholder="Detalhes importantes sobre o produto..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TELA 4: Condições de Pagamento -->
+                <div class="etapa" id="tela4">
+                    <div class="conteudo-rolavel">
+                        <div class="slider-container">
+                            <h4 class="section-title"><i class="bi bi-calendar-range me-2"></i>Condições de Pagamento</h4>
+                            
+                            <!-- Meses para Pagamento -->
+                            <div class="mb-4">
+                                <h6>Meses para Pagamento</h6>
+                                <input type="range" class="custom-slider" id="mesesPagamento" min="1" max="36" value="12" oninput="updateRealTimeDisplay()">
+                                <div class="slider-value-display" id="mesesPagamentoDisplay">12 meses</div>
+                            </div>
+                        </div>
+
+                        <!-- VISORES FIXOS -->
+                        <div class="visores-fixos">
+                            <div class="visor-item valor-total">
+                                <i class="bi bi-cart-check"></i>
+                                <small>Valor Total</small>
+                                <div class="valor-display" id="valorFinalDisplay">R$ 0,00</div>
+                                <small>Valor financiado</small>
+                            </div>
+                            
+                            <div class="visor-item valor-prazo">
+                                <i class="bi bi-calendar-week"></i>
+                                <small>Prazo</small>
+                                <div class="valor-display" id="mesesDisplay">12 meses</div>
+                                <small>Meses para pagamento</small>
+                            </div>
+                            
+                            <div class="visor-item valor-parcela">
+                                <i class="bi bi-credit-card"></i>
+                                <small>Parcela Mensal</small>
+                                <div class="valor-display" id="valorParcelaFinalDisplay">R$ 0,00</div>
+                                <small>Valor fixo mensal</small>
+                            </div>
+                        </div>
+
+                        <!-- Dia de Pagamento -->
+                        <div class="dia-pagamento-container">
+                            <h6 class="mb-3"><i class="bi bi-calendar-heart me-2"></i>Melhor dia para pagamento</h6>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-selection" onclick="selectDiaPagamento(5)">Dia 5</button>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-selection" onclick="selectDiaPagamento(10)">Dia 10</button>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-selection active" onclick="selectDiaPagamento(15)">Dia 15</button>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-selection" onclick="selectDiaPagamento(20)">Dia 20</button>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-selection" onclick="selectDiaPagamento(25)">Dia 25</button>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-selection" onclick="selectDiaPagamento(30)">Dia 30</button>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <small class="text-muted">Dia selecionado: <span id="diaSelecionadoDisplay">15</span></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TELA 5: Resumo Completo -->
+                <div class="etapa" id="tela5">
+                    <div class="conteudo-rolavel">
+                        <div class="summary-section">
+                            <h5 class="text-center mb-4"><i class="bi bi-file-text me-2"></i>Resumo da Solicitação</h5>
+                            
+                            <!-- Bloco 1: Dados Pessoais -->
+                            <div class="summary-block">
+                                <h6><i class="bi bi-person me-2"></i>Dados Pessoais</h6>
+                                <div id="dadosPessoaisContent"></div>
+                            </div>
+
+                            <!-- Bloco 2: Loja Selecionada -->
+                            <div class="summary-block">
+                                <h6><i class="bi bi-shop me-2"></i>Loja Selecionada</h6>
+                                <div id="lojaSelecionadaContent"></div>
+                            </div>
+
+                            <!-- Bloco 3: Produto -->
+                            <div class="summary-block">
+                                <h6><i class="bi bi-cart me-2"></i>Produto</h6>
+                                <div id="produtoContent"></div>
+                            </div>
+
+                            <!-- Bloco 4: Condições de Pagamento -->
+                            <div class="summary-block">
+                                <h6><i class="bi bi-credit-card me-2"></i>Condições de Pagamento</h6>
+                                <div id="condicoesPagamentoContent"></div>
+                            </div>
+
+                            <!-- Instruções para Foto -->
+                            <div class="summary-block">
+                                <h6><i class="bi bi-camera me-2"></i>Instruções Importantes</h6>
+                                <div class="alert alert-info">
+                                    <strong><i class="bi bi-info-circle"></i> ATENÇÃO:</strong><br>
+                                    Após enviar esta solicitação, você será direcionado para o WhatsApp.<br>
+                                    <strong>ENVIE UMA FOTO REAL DO PRODUTO</strong> para prosseguir com a compra.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RODAPÉ FIXO - 10% -->
+        <div class="footer-actions">
+            <div class="row g-2">
+                <div class="col-3">
+                    <button class="btn btn-home w-100" onclick="window.location.href='../index.html'">
+                        <i class="bi bi-house"></i> Home
+                    </button>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-voltar w-100" onclick="voltarTela()">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </button>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-avancar w-100" onclick="avancarTela()">
+                        <i class="bi bi-arrow-right"></i> Avançar
+                    </button>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-resumo w-100" onclick="irParaResumo()">
+                        <i class="bi bi-eye"></i> Resumo
+                    </button>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-whatsapp-fixo" id="whatsappBtnFixo" onclick="acaoWhatsApp()">
+                        <i class="bi bi-whatsapp"></i> Enviar Solicitação
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // PARÂMETROS DO SISTEMA
+        const TAXA_FIXA = 0.13; // 15% a.m. FIXA (OCULTA)
+
+        // Variáveis globais para controle de estado
+        let telaAtual = 1;
+        let lojaSelecionada = null;
+        let usandoOutraLoja = false;
+        let diaPagamento = 15;
+        let falouComVendedor = 'nao';
+        let nomeVendedor = '';
+
+        // Lista completa de 130 lojas de Palotina/PR (sem categorias)
+        const lojasPalotina = [
+            "Valdar Móveis", "Móveis Planalto", "Móveis Palotina", "Madeireira Móveis", "Móveis São Lucas",
+            "Móveis Triângulo", "Móveis Cidade Alta", "Móveis Real", "Móveis Estilo", "Móveis Central",
+            "Móveis Dom Bosco", "Móveis Nobre", "Móveis Executivo", "Móveis Master", "Móveis Premium",
+            "Casa do Eletro Palotina", "Eletro Silva", "Magazine Luiza", "Casas Bahia", "Eletro Mix",
+            "Eletro Center", "Eletro Popular", "Eletro Master", "Eletro Bom Preço", "Eletro Show",
+            "Eletro Max", "Eletro Fácil", "Eletro Total", "Eletro Plus", "Eletro Super",
+            "Madeireira Palotina", "Leroy Merlin", "Cimento Nacional", "Telhas Norte", "Ferragens São João",
+            "Casa & Construção", "Tintas Real", "Madeireira Central", "Materiais São José", "ConstruFácil",
+            "Casa Forte Materiais", "Telhas Planalto", "Ferragens Norte", "Tintas & Cia", "Materiais Construção Triângulo",
+            "Cimento & Cia", "Areia e Pedra Palotina", "Tubo e Conexões", "Pisos e Revestimentos", "Portas e Janelas",
+            "Auto Peças Palotina", "Muffatron", "Pneus Planalto", "Oficina Mecânica Central", "Auto Elétrica São José",
+            "Auto Peças Master", "Pneus & Rodas", "Suspensão Total", "Freios & Pastilhas", "Motor Center",
+            "Injeção Eletrônica", "Escapamentos Norte", "Baterias Palotina", "Radiadores Planalto", "Auto Vidros",
+            "Alarme Sonoro", "Som Automotivo", "Pintura Automotiva", "Funilaria São João", "Auto Center Total",
+            "Tintas Renner", "Tintas Coral", "Tintas Suvinil", "Tintas Eucatex", "Cores & Tintas",
+            "Tintas Sul", "Tintas Norte", "Tintas Central", "Tintas Triângulo", "Tintas Planalto",
+            "Supermercado Palotina", "Supermercado Triângulo", "Supermercado Planalto", "Supermercado Cidade Alta", "Supermercado São José",
+            "Supermercado Nacional", "Atacadão São João", "Mercado Preço Bom", "Supermercado Real", "Supermercado Econômico",
+            "Farmácia São Lucas", "Drogaria Popular", "Farmácia Central", "Drogaria Palotina", "Farmácia Bem Estar",
+            "Farmácia Pague Menos", "Drogaria Econômica", "Farmácia Saúde", "Drogaria Bela Vista", "Farmácia Preço Baixo",
+            "Lojas Renner", "Marisa", "C&A", "Riachuelo", "Lojas Americanas",
+            "Hering Store", "Zoomp", "Lojas Colombo", "Lojas MM", "Lojas São Roque",
+            "Kalunga", "Fast Shop", "Polishop", "Multilaser Shop", "Magazine Você",
+            "Samsung Store", "Apple Authorized", "LG Store", "Sony Center", "Philips Store",
+            "Centauro", "Nike Store", "Adidas Originals", "Decathlon", "Loja do Esporte",
+            "Olympikus Store", "Under Armour", "Mizuno Sports", "Puma Store", "Reebok Shop"
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateRealTimeDisplay();
+            setupCPFFormatting();
+            carregarLojas();
+            setupBuscaLojas();
+        });
+
+        // Funções de cálculo
+        function calcularValorParcela(valor, meses) {
+            const i = TAXA_FIXA;
+            const fator = (i * Math.pow(1 + i, meses)) / (Math.pow(1 + i, meses) - 1);
+            const parcela = valor * fator;
+            return Math.round(parcela * 100) / 100;
+        }
+
+        function formatBRL(valor) {
+            return 'R$ ' + (valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function formatarData(data) {
+            return data.toLocaleDateString('pt-BR');
+        }
+
+        function calcularDataFutura(meses, dia) {
+            const data = new Date();
+            data.setMonth(data.getMonth() + meses);
+            const ultimoDiaMes = new Date(data.getFullYear(), data.getMonth() + 1, 0).getDate();
+            const diaPagamento = Math.min(dia, ultimoDiaMes);
+            data.setDate(diaPagamento);
+            return data;
+        }
+
+        // Função para selecionar vendedor
+        function selecionarVendedor(opcao) {
+            falouComVendedor = opcao;
+            
+            document.querySelectorAll('#tela1 .btn-selection').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(`btnVendedor${opcao === 'sim' ? 'Sim' : 'Nao'}`).classList.add('active');
+            
+            if (opcao === 'sim') {
+                document.getElementById('vendedorNomeField').classList.remove('hidden');
+            } else {
+                document.getElementById('vendedorNomeField').classList.add('hidden');
+                nomeVendedor = '';
+            }
+        }
+
+        // Funções de interface
+        function updateRealTimeDisplay() {
+            const meses = parseInt(document.getElementById('mesesPagamento').value);
+            const valorProduto = parseFloat(document.getElementById('produtoValor').value) || 0;
+            const valorParcela = calcularValorParcela(valorProduto, meses);
+            
+            // Atualizar displays da tela 4
+            document.getElementById('valorFinalDisplay').textContent = formatBRL(valorProduto);
+            document.getElementById('mesesPagamentoDisplay').textContent = `${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+            document.getElementById('mesesDisplay').textContent = `${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+            document.getElementById('valorParcelaFinalDisplay').textContent = formatBRL(valorParcela);
+        }
+
+        function carregarLojas() {
+            const container = document.getElementById('listaLojas');
+            container.innerHTML = '';
+            
+            // Criar cards sem categorias
+            lojasPalotina.forEach((nomeLoja, index) => {
+                const lojaCard = document.createElement('div');
+                lojaCard.className = 'loja-card';
+                lojaCard.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>${nomeLoja}</strong>
+                            <div class="small text-muted">Palotina/PR</div>
+                        </div>
+                        <i class="bi bi-check-lg text-success hidden"></i>
+                    </div>
+                `;
+                lojaCard.addEventListener('click', () => selecionarLoja(nomeLoja));
+                container.appendChild(lojaCard);
+            });
+        }
+
+        function setupBuscaLojas() {
+            const buscaInput = document.getElementById('buscaLoja');
+            buscaInput.addEventListener('input', function() {
+                const termo = this.value.toLowerCase();
+                const todasLojas = document.querySelectorAll('.loja-card');
+                
+                todasLojas.forEach(card => {
+                    const nomeLoja = card.querySelector('strong').textContent.toLowerCase();
+                    if (nomeLoja.includes(termo)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function selecionarLoja(nomeLoja) {
+            lojaSelecionada = { nome: nomeLoja, endereco: 'Palotina/PR' };
+            usandoOutraLoja = false;
+            
+            // Remover seleção anterior
+            document.querySelectorAll('.loja-card').forEach(card => {
+                card.classList.remove('selected');
+                card.querySelector('.bi-check-lg').classList.add('hidden');
+            });
+            
+            // Adicionar seleção atual
+            event.currentTarget.classList.add('selected');
+            event.currentTarget.querySelector('.bi-check-lg').classList.remove('hidden');
+            
+            // Ocultar campo de outra loja
+            document.getElementById('outraLojaField').classList.add('hidden');
+        }
+
+        function selecionarOutraLoja() {
+            usandoOutraLoja = true;
+            lojaSelecionada = null;
+            
+            // Remover seleção de lojas
+            document.querySelectorAll('.loja-card').forEach(card => {
+                card.classList.remove('selected');
+                card.querySelector('.bi-check-lg').classList.add('hidden');
+            });
+            
+            // Mostrar campo de outra loja
+            document.getElementById('outraLojaField').classList.remove('hidden');
+        }
+
+        function selectDiaPagamento(dia) {
+            diaPagamento = dia;
+            document.querySelectorAll('.dia-pagamento-container .btn-selection').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            document.getElementById('diaSelecionadoDisplay').textContent = dia;
+        }
+
+        // Navegação
+        function avancarTela() {
+            let proximaTela = telaAtual + 1;
+            
+            if (telaAtual === 1 && !validarTela1()) {
+                mostrarErro('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            if (telaAtual === 2 && !validarTela2()) {
+                mostrarErro('Por favor, selecione uma loja.');
+                return;
+            }
+            
+            if (telaAtual === 3 && !validarTela3()) {
+                mostrarErro('Por favor, preencha os dados do produto.');
+                return;
+            }
+            
+            if (proximaTela > 5) {
+                mostrarErro('Você já está na última tela.');
+                return;
+            }
+            
+            telaAtual = proximaTela;
+            atualizarTela();
+        }
+
+        function voltarTela() {
+            if (telaAtual > 1) {
+                telaAtual--;
+                atualizarTela();
+            }
+        }
+
+        function irParaResumo() {
+            if (telaAtual === 1 && !validarTela1()) {
+                mostrarErro('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            if (telaAtual === 2 && !validarTela2()) {
+                mostrarErro('Por favor, selecione uma loja.');
+                return;
+            }
+            
+            if (telaAtual === 3 && !validarTela3()) {
+                mostrarErro('Por favor, preencha os dados do produto.');
+                return;
+            }
+            
+            telaAtual = 5;
+            atualizarTela();
+            atualizarResumo();
+        }
+
+        function acaoWhatsApp() {
+            const whatsappBtn = document.getElementById('whatsappBtnFixo');
+            
+            if (telaAtual === 5 && whatsappBtn.classList.contains('active')) {
+                sendWhatsApp();
+            } else {
+                avancarTela();
+            }
+        }
+
+        function atualizarTela() {
+            document.querySelectorAll('.etapa').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            document.getElementById(`tela${telaAtual}`).classList.add('active');
+            
+            const progresso = (telaAtual / 5) * 100;
+            document.getElementById('progressBar').style.width = `${progresso}%`;
+            
+            if (telaAtual === 5) {
+                document.getElementById('whatsappBtnFixo').classList.add('active');
+            } else {
+                document.getElementById('whatsappBtnFixo').classList.remove('active');
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        function setupCPFFormatting() {
+            const cpfEl = document.getElementById('clientCPF');
+            cpfEl.addEventListener('input', function(e){
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.substring(0,11);
+                if (value.length > 3) value = value.replace(/^(\d{3})(\d)/, '$1.$2');
+                if (value.length > 7) value = value.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+                if (value.length > 11) value = value.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
+                e.target.value = value;
+            });
+        }
+
+        function validateField(fieldId) {
+            const field = document.getElementById(fieldId);
+            const errorElement = document.getElementById(fieldId + 'Error');
+            
+            if (!field || !errorElement) return true;
+            
+            let isValid = true;
+            
+            switch(fieldId) {
+                case 'clientName':
+                    isValid = field.value.trim().length > 0;
+                    break;
+                case 'clientCPF':
+                    const cpfDigits = field.value.replace(/\D/g, '');
+                    isValid = cpfDigits.length === 11;
+                    break;
+            }
+            
+            if (!isValid) {
+                field.classList.add('validation-error');
+                errorElement.classList.remove('hidden');
+            } else {
+                field.classList.remove('validation-error');
+                errorElement.classList.add('hidden');
+            }
+            
+            return isValid;
+        }
+
+        function mostrarErro(mensagem) {
+            const alerta = document.createElement('div');
+            alerta.className = 'alert alert-warning position-fixed top-0 start-50 translate-middle-x mt-3';
+            alerta.style.zIndex = '9999';
+            alerta.style.maxWidth = '90%';
+            alerta.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <span>${mensagem}</span>
+                </div>
+            `;
+            document.body.appendChild(alerta);
+            
+            setTimeout(() => {
+                alerta.remove();
+            }, 3000);
+        }
+
+        function validarTela1() {
+            const nomeValido = validateField('clientName');
+            const cpfValido = validateField('clientCPF');
+            
+            return nomeValido && cpfValido;
+        }
+
+        function validarTela2() {
+            if (usandoOutraLoja) {
+                const nomeLoja = document.getElementById('outraLojaNome').value.trim();
+                return nomeLoja.length > 0;
+            }
+            return lojaSelecionada !== null;
+        }
+
+        function validarTela3() {
+            const nomeProduto = document.getElementById('produtoNome').value.trim();
+            const valorProduto = parseFloat(document.getElementById('produtoValor').value);
+            
+            return nomeProduto.length > 0 && valorProduto > 0;
+        }
+
+        function atualizarResumo() {
+            const nome = document.getElementById('clientName').value.trim();
+            const cpf = document.getElementById('clientCPF').value.trim();
+            const meses = parseInt(document.getElementById('mesesPagamento').value);
+            const valorProduto = parseFloat(document.getElementById('produtoValor').value);
+            const nomeProduto = document.getElementById('produtoNome').value.trim();
+            const observacoes = document.getElementById('produtoObservacoes').value.trim();
+            const valorParcela = calcularValorParcela(valorProduto, meses);
+            const dataPrimeiraParcela = calcularDataFutura(1, diaPagamento);
+
+            // Atualizar nome do vendedor se necessário
+            if (falouComVendedor === 'sim') {
+                nomeVendedor = document.getElementById('vendedorNome').value.trim();
+            }
+
+            // Dados Pessoais
+            let dadosVendedor = '';
+            if (falouComVendedor === 'sim' && nomeVendedor) {
+                dadosVendedor = `<div class="mb-2"><strong>Vendedor:</strong> ${nomeVendedor}</div>`;
+            }
+
+            document.getElementById('dadosPessoaisContent').innerHTML = `
+                <div class="mb-2"><strong>Data da solicitação:</strong> ${new Date().toLocaleDateString('pt-BR')}</div>
+                <div class="mb-2"><strong>Cliente:</strong> ${nome}</div>
+                <div class="mb-2"><strong>CPF:</strong> ${cpf}</div>
+                <div class="mb-2"><strong>Falou com vendedor:</strong> ${falouComVendedor === 'sim' ? 'Sim' : 'Não'}</div>
+                ${dadosVendedor}
+            `;
+
+            // Loja Selecionada
+            let lojaInfo = '';
+            if (usandoOutraLoja) {
+                const nomeLoja = document.getElementById('outraLojaNome').value.trim();
+                const enderecoLoja = document.getElementById('outraLojaEndereco').value.trim();
+                lojaInfo = `
+                    <div class="mb-2"><strong>Loja:</strong> ${nomeLoja}</div>
+                    <div class="mb-2"><strong>Endereço:</strong> ${enderecoLoja || 'Não informado'}</div>
+                `;
+            } else {
+                lojaInfo = `
+                    <div class="mb-2"><strong>Loja:</strong> ${lojaSelecionada.nome}</div>
+                    <div class="mb-2"><strong>Localização:</strong> Palotina/PR</div>
+                `;
+            }
+            document.getElementById('lojaSelecionadaContent').innerHTML = lojaInfo;
+
+            // Produto
+            document.getElementById('produtoContent').innerHTML = `
+                <div class="mb-2"><strong>Produto:</strong> ${nomeProduto}</div>
+                <div class="mb-2"><strong>Preço à vista:</strong> ${formatBRL(valorProduto)}</div>
+                <div class="mb-2"><strong>Observações:</strong> ${observacoes || 'Nenhuma'}</div>
+            `;
+
+            // Condições de Pagamento (SEM TAXA VISÍVEL)
+            document.getElementById('condicoesPagamentoContent').innerHTML = `
+                <div class="mb-2"><strong>Valor financiado:</strong> ${formatBRL(valorProduto)}</div>
+                <div class="mb-2"><strong>Parcelamento:</strong> ${meses} ${meses === 1 ? 'mês' : 'meses'}</div>
+                <div class="mb-2"><strong>Dia de pagamento:</strong> ${diaPagamento} de cada mês</div>
+                <div class="mb-2"><strong>Quantidade de parcelas:</strong> ${meses}x</div>
+                <div class="mb-2 fw-bold fs-6"><strong>Valor da parcela:</strong> ${formatBRL(valorParcela)}</div>
+            `;
+        }
+
+        function sendWhatsApp() {
+            const nome = document.getElementById('clientName').value.trim();
+            const cpf = document.getElementById('clientCPF').value.trim();
+            const meses = parseInt(document.getElementById('mesesPagamento').value);
+            const valorProduto = parseFloat(document.getElementById('produtoValor').value);
+            const nomeProduto = document.getElementById('produtoNome').value.trim();
+            const observacoes = document.getElementById('produtoObservacoes').value.trim();
+            const valorParcela = calcularValorParcela(valorProduto, meses);
+            const dataPrimeiraParcela = calcularDataFutura(1, diaPagamento);
+
+            // Atualizar nome do vendedor se necessário
+            if (falouComVendedor === 'sim') {
+                nomeVendedor = document.getElementById('vendedorNome').value.trim();
+            }
+
+            // Informações da loja
+            let lojaInfo = '';
+            if (usandoOutraLoja) {
+                const nomeLoja = document.getElementById('outraLojaNome').value.trim();
+                const enderecoLoja = document.getElementById('outraLojaEndereco').value.trim();
+                lojaInfo = `Loja: ${nomeLoja}\nEndereço: ${enderecoLoja || 'Não informado'}`;
+            } else {
+                lojaInfo = `Loja: ${lojaSelecionada.nome}\nLocalização: Palotina/PR`;
+            }
+
+            // Informações do vendedor
+            let vendedorInfo = '';
+            if (falouComVendedor === 'sim' && nomeVendedor) {
+                vendedorInfo = `Vendedor: ${nomeVendedor}\n`;
+            }
+
+            const message = `🛍️ *COMPRAMOS PRA VOCÊ - SOLICITAÇÃO*\n\n` +
+                          `*👤 Dados do Cliente:*\n` +
+                          `Nome: ${nome}\n` +
+                          `CPF: ${cpf}\n` +
+                          `Falou com vendedor: ${falouComVendedor === 'sim' ? 'Sim' : 'Não'}\n` +
+                          `${vendedorInfo}\n` +
+                          `*🏪 Loja Selecionada:*\n` +
+                          `${lojaInfo}\n\n` +
+                          `*📦 Produto Solicitado:*\n` +
+                          `Produto: ${nomeProduto}\n` +
+                          `Preço à Vista: ${formatBRL(valorProduto)}\n` +
+                          `Observações: ${observacoes || 'Nenhuma'}\n\n` +
+                          `*💳 Condições de Pagamento:*\n` +
+                          `Parcelas: ${meses}x de ${formatBRL(valorParcela)}\n` +
+                          `Dia de Pagamento: ${diaPagamento} de cada mês\n` +
+                          `Primeira Parcela: ${formatarData(dataPrimeiraParcela)}\n\n` +
+                          `📸 *IMPORTANTE:*\n` +
+                          `Por favor, ENVIE UMA FOTO REAL DO PRODUTO para prosseguir com a compra.\n\n` +
+                          `_*Condições sujeitas à análise de crédito*_`;
+
+            const phone = '5544999999999'; // Substitua pelo número real
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

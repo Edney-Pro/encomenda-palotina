@@ -1,0 +1,521 @@
+/* APP DIVISÃO DE LUCROS - ESTILOS COMPLETOS */
+.app-divisao-lucros {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+/* ===== BARRA DE PROGRESSO ===== */
+.progress-container {
+    margin-bottom: 3rem;
+}
+
+.progress-bar {
+    background: var(--bg-tertiary);
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-fill {
+    background: var(--gradient-primary);
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.step {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.step.active {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* ===== FORMULÁRIOS ===== */
+.form-section {
+    background: var(--bg-card);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.input-group .form-control {
+    border-radius: 8px 0 0 8px;
+    flex: 1;
+}
+
+.input-group-text {
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    padding: 0 1rem;
+    color: var(--text-muted);
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+/* ===== CARDS ===== */
+.socio-card {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.socio-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.empresa-card {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: 1px solid var(--primary);
+}
+
+.socio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.socio-header .form-control {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+}
+
+.empresa-card .socio-header .form-control {
+    color: white;
+}
+
+.porcentagem-badge {
+    background: var(--primary);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.empresa-card .porcentagem-badge {
+    background: rgba(255,255,255,0.2);
+}
+
+.total-porcentagem {
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* ===== GRID DE VALORES ===== */
+.valores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.valor-card {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 2px solid var(--border-color);
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.valor-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-hover);
+}
+
+.valor-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.valor-card h4 {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.valor-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.money-input {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.money-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+/* ===== RESULTADOS ===== */
+.result-section {
+    background: var(--bg-card);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+.result-card {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--primary);
+}
+
+.lucro-card {
+    background: var(--gradient-success);
+    color: white;
+    border-left-color: transparent;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.resumo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.resumo-item:last-child {
+    border-bottom: none;
+}
+
+.resumo-item.total {
+    font-weight: 600;
+    border-top: 2px solid var(--border-color);
+    border-bottom: none;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+}
+
+.resumo-item .valor {
+    font-weight: 600;
+    color: var(--success);
+}
+
+.resumo-item .valor.negativo {
+    color: var(--danger);
+}
+
+.lucro-total {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.lucro-valor {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.lucro-valor.positivo {
+    color: rgba(255,255,255,0.9);
+}
+
+.lucro-valor.negativo {
+    color: rgba(255,255,255,0.9);
+}
+
+.lucro-label {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* ===== DIVISÃO FINAL ===== */
+.divisao-final {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.divisao-final .result-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid;
+}
+
+.divisao-final .result-card.empresa {
+    border-left-color: var(--primary);
+}
+
+.divisao-final .result-card.socio {
+    border-left-color: var(--success);
+}
+
+.divisao-final .result-card h4 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.valor-final {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 1rem 0;
+    color: var(--success);
+}
+
+.porcentagem-final {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* ===== BOTÕES ===== */
+.navigation-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    min-height: 48px;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.btn-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+}
+
+.btn-whatsapp {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    border: none;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* ===== ESTADOS DAS ETAPAS ===== */
+.etapa {
+    display: none;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.etapa.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+    .app-divisao-lucros {
+        margin: 0 1rem;
+        padding: 1rem 0;
+    }
+    
+    .form-section {
+        padding: 1.5rem;
+    }
+    
+    .valores-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .divisao-final {
+        grid-template-columns: 1fr;
+    }
+    
+    .navigation-buttons {
+        flex-direction: column;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .progress-steps {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    
+    .socio-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .result-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lucro-valor {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-section {
+        padding: 1rem;
+    }
+    
+    .valor-card {
+        padding: 1rem;
+    }
+    
+    .result-section {
+        padding: 1rem;
+    }
+    
+    .valor-final {
+        font-size: 1.5rem;
+    }
+}
+
+/* ===== UTILITÁRIOS ===== */
+.text-center {
+    text-align: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Estilos para inputs específicos */
+.form-control {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+.form-control:read-only {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+/* Ajustes para o tema light */
+[data-theme="light"] .socio-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+[data-theme="light"] .valor-card:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}

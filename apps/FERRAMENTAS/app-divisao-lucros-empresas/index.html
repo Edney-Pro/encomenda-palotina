@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisão de Lucros - Sistema Financeiro</title>
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="../../../manifest.json">
+</head>
+<body data-theme="dark">
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <div class="toggle-track">
+            <div class="toggle-thumb"></div>
+            <span class="toggle-icon sun">☀️</span>
+            <span class="toggle-icon moon">🌙</span>
+        </div>
+    </button>
+
+    <header class="simple-header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                <h1>Divisão de Lucros</h1>
+            </div>
+            <p class="tagline">Calcule e distribua lucros entre sócios e colaboradores</p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <div class="app-divisao-lucros">
+                <!-- Barra de Progresso -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 25%"></div>
+                    </div>
+                    <div class="progress-steps">
+                        <span class="step active">1. Dados</span>
+                        <span class="step">2. Valores</span>
+                        <span class="step">3. Resultado</span>
+                        <span class="step">4. Resumo</span>
+                    </div>
+                </div>
+
+                <!-- ETAPA 1: Dados da Empresa -->
+                <div class="etapa active" id="etapa1">
+                    <div class="form-section">
+                        <h3 class="section-title">📊 Dados da Empresa</h3>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="empresa" placeholder="Nome da Empresa" value="Minha Empresa LTDA">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">👥 Sócios</h3>
+                        
+                        <!-- Sócio 1 -->
+                        <div class="socio-card">
+                            <div class="socio-header">
+                                <input type="text" class="form-control" id="socio1" value="Sócio 01">
+                                <span class="porcentagem-badge" id="badge1">15%</span>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="porcent1" value="15" min="0" max="100">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+
+                        <!-- Sócio 2 -->
+                        <div class="socio-card">
+                            <div class="socio-header">
+                                <input type="text" class="form-control" id="socio2" value="Sócio 02">
+                                <span class="porcentagem-badge" id="badge2">15%</span>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="porcent2" value="15" min="0" max="100">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+
+                        <!-- Empresa -->
+                        <div class="empresa-card">
+                            <div class="socio-header">
+                                <strong>Caixa da Empresa</strong>
+                                <span class="porcentagem-badge" id="badgeEmpresa">70%</span>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="porcentEmpresa" value="70" readonly>
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+
+                        <div class="total-porcentagem">
+                            <span id="totalPorcentagem">Total: 100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ETAPA 2: Valores Financeiros -->
+                <div class="etapa" id="etapa2">
+                    <div class="form-section">
+                        <h3 class="section-title">💰 Valores Financeiros</h3>
+                        
+                        <div class="valores-grid">
+                            <div class="valor-card entrada">
+                                <div class="valor-icon">💵</div>
+                                <h4>Entradas Recebidas</h4>
+                                <p>Valor já recebido pela empresa</p>
+                                <input type="text" class="form-control money-input" id="entradas" placeholder="R$ 0,00">
+                            </div>
+
+                            <div class="valor-card pendente">
+                                <div class="valor-icon">⏳</div>
+                                <h4>Valores Pendentes</h4>
+                                <p>Valor que ainda vai receber</p>
+                                <input type="text" class="form-control money-input" id="pendente" placeholder="R$ 0,00">
+                            </div>
+
+                            <div class="valor-card investimento">
+                                <div class="valor-icon">📈</div>
+                                <h4>Investimento</h4>
+                                <p>Mercadoria com valor de retorno</p>
+                                <input type="text" class="form-control money-input" id="investimento" placeholder="R$ 0,00">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ETAPA 3: Resultado -->
+                <div class="etapa" id="etapa3">
+                    <div class="result-section">
+                        <h3 class="section-title">📊 Resultado do Pró-Labore</h3>
+                        
+                        <div class="result-card">
+                            <h4>Resumo Financeiro</h4>
+                            <div class="result-grid" id="resumoFinanceiro">
+                                <!-- Resultados serão inseridos aqui pelo JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="result-card lucro-card">
+                            <h4>Lucro Líquido</h4>
+                            <div class="lucro-total" id="lucroTotal">
+                                <!-- Lucro total será inserido aqui -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ETAPA 4: Resumo Final -->
+                <div class="etapa" id="etapa4">
+                    <div class="result-section">
+                        <h3 class="section-title">🎯 Divisão Final do Lucro</h3>
+                        
+                        <div class="divisao-final">
+                            <div class="result-card empresa">
+                                <h4>🏢 Caixa da Empresa</h4>
+                                <div class="valor-final" id="valorEmpresa">R$ 0,00</div>
+                                <div class="porcentagem-final" id="porcentEmpresaFinal">70%</div>
+                            </div>
+
+                            <div class="result-card socio">
+                                <h4>👤 Sócio 01</h4>
+                                <div class="valor-final" id="valorSocio1">R$ 0,00</div>
+                                <div class="porcentagem-final" id="porcentSocio1Final">15%</div>
+                            </div>
+
+                            <div class="result-card socio">
+                                <h4>👤 Sócio 02</h4>
+                                <div class="valor-final" id="valorSocio2">R$ 0,00</div>
+                                <div class="porcentagem-final" id="porcentSocio2Final">15%</div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" onclick="avancarEtapa(3)">
+                                ← Voltar
+                            </button>
+                            <button class="btn btn-whatsapp" onclick="compartilharWhatsApp()">
+                                📱 Compartilhar no WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botões de Navegação -->
+                <div class="navigation-buttons">
+                    <button class="btn btn-outline" onclick="voltarEtapa()" id="btnVoltar">
+                        ← Voltar
+                    </button>
+                    <button class="btn btn-primary" onclick="avancarEtapa()" id="btnAvancar">
+                        Avançar →
+                    </button>
+                    <button class="btn btn-secondary" onclick="zerarCalculadora()">
+                        🔄 Zerar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="universal-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Navegação</h3>
+                    <ul>
+                        <li><a href="../../../index.html">Voltar para Home</a></li>
+                        <li><a href="../../ferramentas.html">Ferramentas Simples</a></li>
+                        <li><a href="../../EMPRESTIMOS/emprestimos.html">Empréstimos</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Ferramentas</h3>
+                    <ul>
+                        <li><a href="../calculadora-normal/index.html">Calculadora Normal</a></li>
+                        <li><a href="../app-de-contagem-de-dinheiro/index.html">Contagem de Dinheiro</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Sistema Financeiro. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../script.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

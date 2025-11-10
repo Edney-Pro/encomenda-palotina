@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorias de Produtos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="standard-header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <i class="fas fa-boxes logo-icon"></i>
+                <h1>Categorias</h1>
+                <p class="tagline">Produtos</p>
+            </div>
+            <button class="theme-toggle" aria-label="Alternar tema">
+                <div class="toggle-track">
+                    <i class="fas fa-sun toggle-icon sun"></i>
+                    <i class="fas fa-moon toggle-icon moon"></i>
+                    <div class="toggle-thumb"></div>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <!-- GRID 3x7 (21 categorias) -->
+    <main class="grid-container">
+        <div class="grid">
+            <!-- Categorias de produtos -->
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#3b82f6"><i class="fas fa-video"></i></div><div class="app-label">Vídeo</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#ef4444"><i class="fas fa-utensils"></i></div><div class="app-label">Utensílios Domésticos</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#10b981"><i class="fas fa-bolt"></i></div><div class="app-label">Transportes Elétricos</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#8b5cf6"><i class="fas fa-mobile-alt"></i></div><div class="app-label">Smartphones</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#ec4899"><i class="fas fa-tshirt"></i></div><div class="app-label">Moda e Acessórios</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#f59e0b"><i class="fas fa-guitar"></i></div><div class="app-label">Instrumentos Musicais</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#06b6d4"><i class="fas fa-laptop"></i></div><div class="app-label">Informática</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#f97316"><i class="fas fa-gamepad"></i></div><div class="app-label">Games</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#6366f1"><i class="fas fa-camera"></i></div><div class="app-label">Fotografia</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#dc2626"><i class="fas fa-tools"></i></div><div class="app-label">Ferramentas</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#14b8a6"><i class="fas fa-running"></i></div><div class="app-label">Esporte e Lazer</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#a855f7"><i class="fas fa-plug"></i></div><div class="app-label">Eletro Portáteis</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#84cc16"><i class="fas fa-blender"></i></div><div class="app-label">Eletrodomésticos</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#f43f5e"><i class="fas fa-spa"></i></div><div class="app-label">Cuidados Pessoais</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#0ea5e9"><i class="fas fa-briefcase"></i></div><div class="app-label">Comércio e Escritório</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#d946ef"><i class="fas fa-couch"></i></div><div class="app-label">Casa e Móveis</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#eab308"><i class="fas fa-puzzle-piece"></i></div><div class="app-label">Brinquedos e Hobbies</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#64748b"><i class="fas fa-car"></i></div><div class="app-label">Automotivo</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#22c55e"><i class="fas fa-fan"></i></div><div class="app-label">Ar e Ventilação</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#f97316"><i class="fas fa-robot"></i></div><div class="app-label">Automação</div></a>
+            <a href="#" class="app-btn"><div class="app-icon" style="color:#8b5cf6"><i class="fas fa-volume-up"></i></div><div class="app-label">Áudio</div></a>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <nav class="standard-footer" id="footer">
+        <div class="container">
+            <a href="http://127.0.0.1:5500/index.html" class="footer-btn"><i class="fas fa-home footer-icon"></i></a>
+            <a href="http://127.0.0.1:5500/apps/CATALOGO/catalogo.html" class="footer-btn"><i class="fas fa-arrow-left footer-icon"></i></a>
+            <a href="https://wa.me/5544998408460" target="_blank" class="footer-btn"><i class="fab fa-whatsapp footer-icon"></i></a>
+            <a href="https://www.instagram.com/encomendapalotina" target="_blank" class="footer-btn"><i class="fab fa-instagram footer-icon"></i></a>
+            <a href="#" class="footer-btn" onclick="showHelp(); return false;"><i class="fas fa-question-circle footer-icon"></i></a>
+        </div>
+    </nav>
+
+    <!-- MODAL DE AJUDA -->
+    <div id="helpModal" class="help-modal">
+        <div class="help-content">
+            <button class="close-help" onclick="document.getElementById('helpModal').style.display='none'">&times;</button>
+            <h2>💡 Ajuda do Sistema</h2>
+            <p>Bem-vindo! Aqui está um resumo rápido para te orientar:</p>
+
+            <div class="help-section">
+                <h3>1️⃣ Cadastro de Cliente</h3>
+                <p>Preencha os campos obrigatórios. Apenas uma rede social é obrigatória — pode ser <strong>Instagram</strong> ou <strong>Facebook</strong>.</p>
+            </div>
+
+            <div class="help-section">
+                <h3>2️⃣ Documentos</h3>
+                <p>Envie fotos legíveis do <strong>RG e CPF</strong> (ou apenas CNH válida). Use a câmera do celular se possível.</p>
+            </div>
+
+            <div class="help-section">
+                <h3>3️⃣ Envio no WhatsApp</h3>
+                <p>Ao finalizar, clique em <strong>"Enviar no WhatsApp"</strong> para validar seu cadastro.</p>
+            </div>
+
+            <div class="help-section">
+                <h3>4️⃣ Dicas Rápidas</h3>
+                <ul>
+                    <li>🌗 Clique no botão de tema para alternar entre claro e escuro.</li>
+                    <li>💬 Dúvidas? Fale com o suporte diretamente pelo WhatsApp.</li>
+                    <li>🧭 Use o botão "Voltar" para retornar à tela inicial.</li>
+                </ul>
+            </div>
+
+            <footer class="help-footer">
+                <button class="help-ok" onclick="document.getElementById('helpModal').style.display='none'">
+                    Entendi
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
