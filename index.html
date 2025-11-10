@@ -4,882 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Portal profissional para clientes da Encomenda Palotina">
+    <meta name="theme-color" content="#8B5CF6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Portal Cliente">
+    
     <title>Portal de Cliente | Encomenda Palotina</title>
     
-    <!-- FAVICON BATMAN -->
+    <!-- FAVICON -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦇</text></svg>">
+    
+    <!-- PWA MANIFEST -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- APPLE TOUCH ICON -->
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     
     <!-- FONTES E ÍCONES -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>
-        /* RESET E CONFIGURAÇÕES GERAIS */
-        :root {
-            --primary: #8B5CF6;
-            --primary-dark: #7C3AED;
-            --secondary: #06B6D4;
-            --accent: #10B981;
-            --text-primary: #F9FAFB;
-            --text-secondary: #D1D5DB;
-            --bg-overlay: rgba(0, 0, 0, 0.4);
-            --card-bg: rgba(255, 255, 255, 0.08);
-            --card-border: rgba(255, 255, 255, 0.15);
-            --card-hover: rgba(255, 255, 255, 0.12);
-            --header-bg: rgba(15, 15, 15, 0.7);
-            --footer-bg: rgba(20, 20, 20, 0.8);
-            --border-radius: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            
-            /* Novas variáveis para grid responsiva */
-            --grid-gap: 16px;
-            --icon-size: 70px;
-            --font-size-title: 0.85rem;
-            --font-size-subtitle: 0.7rem;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #000000;
-            height: 100dvh;
-            overflow: hidden;
-            position: relative;
-            color: var(--text-primary);
-        }
-
-        /* IMAGEM DE FUNDO */
-        .image-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            background-image: url('assets/backgrounds/videos/INDEX-GERAL-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        /* OVERLAY PARA CONTRASTE */
-        .image-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: var(--bg-overlay);
-            z-index: -1;
-        }
-
-        /* HEADER REFINADO */
-        #global-header {
-            background: var(--header-bg);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--card-border);
-            padding: 1.2rem 1rem;
-            position: relative;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header-icon {
-            font-size: 1.8rem;
-            color: var(--primary);
-            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
-        }
-
-        .header-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0;
-            letter-spacing: 0.5px;
-            background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header-subtitle {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: var(--text-secondary);
-            margin-top: 2px;
-            text-align: center;
-        }
-
-        /* CONTAINER PRINCIPAL MELHORADO */
-        .container {
-            padding: 2rem 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: calc(100dvh - 140px);
-            position: relative;
-            z-index: 10;
-        }
-
-        /* SISTEMA DE GRID ADAPTÁVEL DINÂMICO */
-        .home-grid {
-            display: grid;
-            gap: var(--grid-gap);
-            width: 100%;
-            max-width: 550px;
-            height: 100%;
-            max-height: 700px;
-            
-            /* Grid padrão para 12 apps */
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-        }
-
-        /* Classes de grid dinâmica baseadas no número de apps */
-        .grid-12 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); }
-        .grid-15 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(5, 1fr); }
-        .grid-9 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
-        .grid-6 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
-        .grid-4 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
-
-        /* CARDS PROFISSIONAIS MELHORADOS */
-        .home-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: var(--border-radius);
-            padding: 18px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            aspect-ratio: 1/1;
-            text-decoration: none;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Estados de foco para acessibilidade */
-        .home-card:focus {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        /* EFEITO DE GRADIENTE NO HOVER */
-        .home-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, 
-                rgba(139, 92, 246, 0.1) 0%, 
-                rgba(6, 182, 212, 0.05) 100%);
-            opacity: 0;
-            transition: var(--transition);
-            z-index: -1;
-        }
-
-        .home-card:hover::after,
-        .home-card:active::after {
-            opacity: 1;
-        }
-
-        /* FEEDBACK VISUAL AO TOCAR - MELHORADO */
-        .home-card:active {
-            transform: scale(0.95);
-            transition: transform 0.1s ease;
-        }
-
-        .home-card:hover {
-            background: var(--card-hover);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            transform: translateY(-5px);
-            box-shadow: 
-                0 10px 25px rgba(0, 0, 0, 0.2),
-                0 5px 10px rgba(139, 92, 246, 0.1);
-        }
-
-        /* ÍCONES TRANSPARENTES COM GRADIENTE - TAMANHO DINÂMICO */
-        .card-icon {
-            font-size: 1.9rem;
-            margin-bottom: 14px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: var(--transition);
-            width: var(--icon-size);
-            height: var(--icon-size);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            /* Ícone transparente */
-            background-color: transparent !important;
-        }
-
-        .home-card:hover .card-icon {
-            transform: scale(1.15);
-            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.4));
-        }
-
-        /* TEXTOS MELHORADOS COM TAMANHO DINÂMICO */
-        .card-title {
-            font-size: var(--font-size-title);
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            line-height: 1.2;
-            transition: var(--transition);
-        }
-
-        .card-subtitle {
-            font-size: var(--font-size-subtitle);
-            font-weight: 500;
-            color: var(--text-secondary);
-            line-height: 1.1;
-            transition: var(--transition);
-        }
-
-        /* ÍCONES DECORATIVOS NO CANTO SUPERIOR DIREITO */
-        .card-decoration {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            font-size: 0.9rem;
-            opacity: 0.6;
-            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
-            /* Ícone decorativo transparente */
-            background-color: transparent !important;
-        }
-
-        /* ANIMAÇÕES DIFERENTES PARA OS ÍCONES DECORATIVOS */
-        .decoration-float { animation: floatDecoration 6s infinite ease-in-out; }
-        .decoration-pulse { animation: pulseDecoration 4s infinite ease-in-out; }
-        .decoration-rotate { animation: rotateDecoration 8s infinite linear; }
-        .decoration-bounce { animation: bounceDecoration 5s infinite ease-in-out; }
-        .decoration-shake { animation: shakeDecoration 7s infinite ease-in-out; }
-        .decoration-fade { animation: fadeDecoration 5s infinite ease-in-out; }
-
-        @keyframes floatDecoration {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-3px) rotate(5deg); }
-            50% { transform: translateY(2px) rotate(-3deg); }
-            75% { transform: translateY(-2px) rotate(2deg); }
-        }
-
-        @keyframes pulseDecoration {
-            0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        @keyframes rotateDecoration {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes bounceDecoration {
-            0%, 100% { transform: translateY(0px); }
-            25% { transform: translateY(-4px); }
-            50% { transform: translateY(2px); }
-            75% { transform: translateY(-2px); }
-        }
-
-        @keyframes shakeDecoration {
-            0%, 100% { transform: translateX(0px) rotate(0deg); }
-            25% { transform: translateX(2px) rotate(3deg); }
-            50% { transform: translateX(-2px) rotate(-3deg); }
-            75% { transform: translateX(1px) rotate(2deg); }
-        }
-
-        @keyframes fadeDecoration {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
-        }
-
-        /* FOOTER MELHORADO */
-        .home-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: var(--footer-bg);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--card-border);
-            padding: 1.2rem 1rem;
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .footer-button {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 12px 18px;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 0.82rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-            flex: 1;
-            max-width: 160px;
-            justify-content: center;
-        }
-
-        .footer-button:hover,
-        .footer-button:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            outline: none;
-        }
-
-        .footer-icon {
-            font-size: 1.1rem;
-            /* Ícones do footer transparentes */
-            background-color: transparent !important;
-        }
-
-        .footer-button:nth-child(1) .footer-icon { color: #25D366; }
-        .footer-button:nth-child(2) .footer-icon { 
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .footer-button:nth-child(3) .footer-icon { color: var(--primary); }
-
-        /* ANIMAÇÕES DE ENTRADA REFINADAS */
-        @keyframes cardEntrance {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .home-card {
-            animation: cardEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            opacity: 0;
-        }
-
-        /* DELAY PROGRESSIVO NAS ANIMAÇÕES */
-        .home-card { animation-delay: calc(var(--card-index, 0) * 0.05s); }
-
-        /* INDICADOR DE CARREGAMENTO */
-        .loading-indicator {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transform-origin: left;
-            animation: loading 1.5s ease-in-out;
-            z-index: 1000;
-        }
-
-        @keyframes loading {
-            0% { transform: scaleX(0); }
-            50% { transform: scaleX(1); }
-            100% { transform: scaleX(0); opacity: 0; }
-        }
-
-        /* MENSAGEM DE STATUS PARA ACESSIBILIDADE */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* SISTEMA DE TEMA PARA TEXTO MAIOR */
-        body.large-text {
-            --font-size-title: 1rem;
-            --font-size-subtitle: 0.8rem;
-        }
-
-        /* RESPONSIVIDADE MELHORADA E ADAPTATIVA */
-        @media (max-width: 768px) {
-            :root {
-                --grid-gap: 14px;
-                --icon-size: 65px;
-                --font-size-title: 0.8rem;
-                --font-size-subtitle: 0.68rem;
-            }
-
-            .header-title { font-size: 1.2rem; }
-            .header-subtitle { font-size: 0.8rem; }
-            .card-decoration { font-size: 0.8rem; top: 6px; right: 6px; }
-            
-            /* Ajustes de grid para tablets */
-            .grid-12 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); }
-            .grid-15 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(5, 1fr); }
-            .grid-9 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
-            .grid-6 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
-            .grid-4 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 480px) {
-            :root {
-                --grid-gap: 12px;
-                --icon-size: 60px;
-                --font-size-title: 0.75rem;
-                --font-size-subtitle: 0.65rem;
-            }
-
-            .container {
-                padding: 1.5rem 0.8rem 100px 0.8rem;
-                min-height: calc(100dvh - 120px);
-            }
-            
-            .home-grid { max-height: 620px; }
-            .home-card { padding: 15px 8px; }
-            
-            .header-title { font-size: 1.1rem; }
-            .header-icon { font-size: 1.5rem; }
-            
-            .home-footer {
-                padding: 1rem;
-                gap: 10px;
-            }
-            
-            .footer-button {
-                padding: 10px 14px;
-                font-size: 0.78rem;
-                max-width: 130px;
-            }
-
-            /* Grid para mobile - mais compacta */
-            .grid-12 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); }
-            .grid-15 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(5, 1fr); }
-            .grid-9 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
-            .grid-6 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
-            .grid-4 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 360px) {
-            :root {
-                --grid-gap: 10px;
-                --icon-size: 55px;
-                --font-size-title: 0.7rem;
-                --font-size-subtitle: 0.6rem;
-            }
-
-            .container { padding: 1rem 0.6rem 90px 0.6rem; }
-            .header-title { font-size: 1rem; }
-            .header-content { flex-direction: column; gap: 8px; }
-            .card-decoration { font-size: 0.7rem; }
-
-            /* Grid para telas muito pequenas */
-            .grid-12 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(6, 1fr); }
-            .grid-15 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(8, 1fr); }
-            .grid-9 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(5, 1fr); }
-            .grid-6 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
-            .grid-4 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
-        }
-
-        /* PARA TABLETS MAIORES E DESKTOP */
-        @media (min-width: 1024px) {
-            :root {
-                --grid-gap: 20px;
-                --icon-size: 80px;
-                --font-size-title: 0.9rem;
-                --font-size-subtitle: 0.75rem;
-            }
-
-            .home-grid { max-width: 800px; max-height: 800px; }
-            
-            /* Grid para desktop com mais colunas quando necessário */
-            .grid-12 { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr); }
-            .grid-15 { grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(3, 1fr); }
-            .grid-9 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
-            .grid-6 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); }
-            .grid-4 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
-        }
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- SPLASH SCREEN -->
+    <div id="splash-screen">
+        <div class="splash-container">
+            <div class="splash-logo">🦇</div>
+            <h1 class="splash-title">Portal de Cliente</h1>
+            <p class="splash-subtitle">Encomenda Palotina</p>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- INDICADOR DE CARREGAMENTO -->
     <div class="loading-indicator"></div>
 
     <!-- MENSAGEM DE STATUS PARA ACESSIBILIDADE -->
     <div id="status-message" class="sr-only" aria-live="polite"></div>
 
-    <!-- IMAGEM DE FUNDO -->
-    <div class="image-background"></div>
-
-    <!-- OVERLAY PARA CONTRASTE -->
-    <div class="image-overlay"></div>
-
-    <!-- HEADER MELHORADO -->
-    <header id="global-header">
-        <div class="header-content">
-            <i class="fas fa-user-secret header-icon" aria-hidden="true"></i>
-            <div>
-                <h1 class="header-title">Portal de Cliente</h1>
-                <div class="header-subtitle">Encomenda Palotina</div>
+    <!-- CONTAINER PRINCIPAL FIXO -->
+    <div class="app-container">
+        <!-- HEADER DESTACADO -->
+        <header id="global-header">
+            <div class="header-content">
+                <div class="header-brand">
+                    <i class="fas fa-user-secret header-icon" aria-hidden="true"></i>
+                    <div class="header-titles">
+                        <h1 class="header-title">Portal de Cliente</h1>
+                        <div class="header-subtitle">Encomenda Palotina</div>
+                    </div>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="container">
-        <div class="home-grid" id="apps-grid">
-            <!-- Os apps serão carregados dinamicamente via JavaScript -->
-        </div>
-    </main>
+        <!-- CONTEÚDO PRINCIPAL PERFEITAMENTE ALINHADO -->
+        <main class="container">
+            <div class="home-grid" id="apps-grid">
+                <!-- Apps carregados dinamicamente -->
+            </div>
 
-    <!-- FOOTER MELHORADO -->
-    <footer class="home-footer">
-        <a href="https://wa.me/5544998408460" class="footer-button" target="_blank" aria-label="Contato via WhatsApp">
-            <i class="fab fa-whatsapp footer-icon" aria-hidden="true"></i>
-            WhatsApp
-        </a>
-        
-        <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank" aria-label="Siga-nos no Instagram">
-            <i class="fab fa-instagram footer-icon" aria-hidden="true"></i>
-            Instagram
-        </a>
-        
-        <a href="http://localhost/dolibarr/public/webportal/index.php" class="footer-button" aria-label="Acesse seu Portal">
-            <i class="fas fa-user-circle footer-icon" aria-hidden="true"></i>
-            Seu Portal
-        </a>
-    </footer>
+            <!-- ESTADO VAZIO -->
+            <div class="empty-state" id="emptyState">
+                <i class="fas fa-inbox empty-icon"></i>
+                <h3 class="empty-title">Nenhum app disponível</h3>
+                <p class="empty-subtitle">Todos os aplicativos estão ocultos ou em manutenção</p>
+            </div>
+        </main>
 
-    <script>
-        // CONFIGURAÇÃO DOS APPS - SIMULA BACKEND
-        const appsConfig = [
-            {
-                id: 'cadastro',
-                title: 'Cadastro',
-                subtitle: 'Clientes',
-                icon: 'fas fa-users',
-                url: 'apps/CADASTRO/index.html',
-                decoration: '✨',
-                animation: 'decoration-float',
-                delay: '0.2s'
-            },
-            {
-                id: 'catalogo',
-                title: 'Catálogo',
-                subtitle: 'Produtos',
-                icon: 'fas fa-box-open',
-                url: 'apps/CATALOGO/index.html',
-                decoration: '📦',
-                animation: 'decoration-pulse',
-                delay: '1.3s'
-            },
-            {
-                id: 'emprestimos',
-                title: 'Empréstimos',
-                subtitle: 'Cálculos',
-                icon: 'fas fa-hand-holding-usd',
-                url: 'apps/EMPRESTIMOS/index.html',
-                decoration: '💎',
-                animation: 'decoration-rotate',
-                delay: '0.8s'
-            },
-            {
-                id: 'ferramentas',
-                title: 'Ferramentas',
-                subtitle: 'Utilitários',
-                icon: 'fas fa-tools',
-                url: 'apps/FERRAMENTAS/index.html',
-                decoration: '🛠️',
-                animation: 'decoration-bounce',
-                delay: '2.1s'
-            },
-            {
-                id: 'ferramentas-avancadas',
-                title: 'Ferramentas Av.',
-                subtitle: 'Avançadas',
-                icon: 'fas fa-chart-line',
-                url: 'apps/FERRAMENTAS_AVANCADAS/index.html',
-                decoration: '📊',
-                animation: 'decoration-shake',
-                delay: '1.7s'
-            },
-            {
-                id: 'produtos',
-                title: 'Produtos',
-                subtitle: 'Vendas',
-                icon: 'fas fa-shopping-cart',
-                url: 'apps/PRODUTOS/index.html',
-                decoration: '🛒',
-                animation: 'decoration-fade',
-                delay: '0.5s'
-            },
-            {
-                id: 'renegociacao',
-                title: 'Renegociação',
-                subtitle: 'Dívidas',
-                icon: 'fas fa-exchange-alt',
-                url: 'apps/RENEGOCIACAO/index.html',
-                decoration: '🔄',
-                animation: 'decoration-float',
-                delay: '2.5s'
-            },
-            {
-                id: 'veiculos-automotores',
-                title: 'Veículos',
-                subtitle: 'Automotores',
-                icon: 'fas fa-car',
-                url: 'apps/VEICULOS AUTOMOTORES/index.html',
-                decoration: '🚗',
-                animation: 'decoration-pulse',
-                delay: '1.9s'
-            },
-            {
-                id: 'veiculos-eletricos',
-                title: 'Veículos Elétricos',
-                subtitle: 'Elétricos',
-                icon: 'fas fa-bolt',
-                url: 'apps/VEICULOS ELETRICOS/index.html',
-                decoration: '⚡',
-                animation: 'decoration-rotate',
-                delay: '0.9s'
-            },
-            {
-                id: 'compramos',
-                title: 'Compramos',
-                subtitle: 'Para Você',
-                icon: 'fas fa-store',
-                url: 'apps/COMPRAMOS/index.html',
-                decoration: '🏪',
-                animation: 'decoration-bounce',
-                delay: '2.8s'
-            },
-            {
-                id: 'configuracao',
-                title: 'Configurações',
-                subtitle: 'Sistema',
-                icon: 'fas fa-cogs',
-                url: 'apps/CONFIGURACAO/index.html',
-                decoration: '⚙️',
-                animation: 'decoration-shake',
-                delay: '1.2s'
-            },
-            {
-                id: 'ajuda',
-                title: 'Ajuda',
-                subtitle: 'Suporte',
-                icon: 'fas fa-question-circle',
-                url: 'apps/AJUDA/ajuda.html',
-                decoration: '❓',
-                animation: 'decoration-fade',
-                delay: '2.2s'
-            }
-        ];
+        <!-- FOOTER ALINHADO E DESTACADO COM 4 BOTÕES PADRONIZADOS -->
+        <footer class="home-footer">
+            <a href="https://wa.me/5544998408460" class="footer-button" target="_blank" aria-label="Contato via WhatsApp">
+                <i class="fab fa-whatsapp footer-icon" aria-hidden="true"></i>
+                WhatsApp
+            </a>
+            
+            <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank" aria-label="Siga-nos no Instagram">
+                <i class="fab fa-instagram footer-icon" aria-hidden="true"></i>
+                Instagram
+            </a>
+            
+            <a href="http://localhost/dolibarr/public/webportal/index.php" class="footer-button" aria-label="Acesse seu Portal">
+                <i class="fas fa-user-circle footer-icon" aria-hidden="true"></i>
+                Seu Portal
+            </a>
+            
+            <button class="footer-button" id="closeApp" aria-label="Fechar aplicativo">
+                <i class="fas fa-power-off footer-icon" aria-hidden="true"></i>
+                Sair
+            </button>
+        </footer>
+    </div>
 
-        // SISTEMA DE INICIALIZAÇÃO MELHORADO
-        class HomePageManager {
-            constructor() {
-                this.appsGrid = document.getElementById('apps-grid');
-                this.statusMessage = document.getElementById('status-message');
-                this.currentApps = [];
-                
-                this.init();
-            }
-
-            init() {
-                console.log('🎯 Portal Profissional - Iniciando...');
-                
-                this.removeGlobalFooter();
-                this.loadApps();
-                this.setupAccessibility();
-                this.setupResponsiveGrid();
-                this.setupThemeListener();
-                
-                setTimeout(() => {
-                    document.body.classList.add('loaded');
-                    this.announceStatus('Portal carregado com sucesso');
-                }, 800);
-                
-                console.log('✅ Portal profissional inicializado!');
-            }
-
-            removeGlobalFooter() {
-                const footer = document.getElementById('global-footer');
-                if (footer) {
-                    footer.style.display = 'none';
-                }
-            }
-
-            loadApps() {
-                // Simula carregamento de apps do backend
-                this.currentApps = [...appsConfig];
-                this.renderApps();
-                this.updateGridLayout();
-            }
-
-            renderApps() {
-                this.appsGrid.innerHTML = '';
-                
-                this.currentApps.forEach((app, index) => {
-                    const card = this.createAppCard(app, index);
-                    this.appsGrid.appendChild(card);
-                });
-            }
-
-            createAppCard(app, index) {
-                const card = document.createElement('a');
-                card.href = app.url;
-                card.className = 'home-card';
-                card.setAttribute('aria-label', `${app.title} - ${app.subtitle}`);
-                card.style.setProperty('--card-index', index);
-                
-                card.innerHTML = `
-                    <div class="card-icon"><i class="${app.icon}"></i></div>
-                    <div class="card-title">${app.title}</div>
-                    <div class="card-subtitle">${app.subtitle}</div>
-                    <div class="card-decoration ${app.animation}" style="animation-delay: ${app.delay};">${app.decoration}</div>
-                `;
-
-                // Feedback visual ao clicar
-                card.addEventListener('click', (e) => {
-                    this.handleAppClick(e, app);
-                });
-
-                return card;
-            }
-
-            handleAppClick(e, app) {
-                // Feedback visual imediato
-                e.currentTarget.style.transform = 'scale(0.95)';
-                
-                // Anuncia para leitores de tela
-                this.announceStatus(`Abrindo ${app.title}`);
-                
-                // Remove o feedback após animação
-                setTimeout(() => {
-                    e.currentTarget.style.transform = '';
-                }, 150);
-            }
-
-            updateGridLayout() {
-                const appCount = this.currentApps.length;
-                let gridClass = 'grid-12'; // padrão
-                
-                if (appCount <= 4) gridClass = 'grid-4';
-                else if (appCount <= 6) gridClass = 'grid-6';
-                else if (appCount <= 9) gridClass = 'grid-9';
-                else if (appCount <= 12) gridClass = 'grid-12';
-                else if (appCount <= 15) gridClass = 'grid-15';
-                
-                // Remove classes anteriores de grid
-                this.appsGrid.className = 'home-grid ' + gridClass;
-            }
-
-            setupAccessibility() {
-                // Suporte para navegação por teclado
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        this.announceStatus('Navegação cancelada');
-                    }
-                });
-
-                // Detecta preferências de acessibilidade
-                this.detectAccessibilityPreferences();
-            }
-
-            detectAccessibilityPreferences() {
-                // Verifica se o usuário prefere texto maior
-                const mediaQuery = window.matchMedia('(prefers-contrast: high)');
-                if (mediaQuery.matches) {
-                    document.body.classList.add('large-text');
-                }
-
-                // Verifica redução de movimento
-                const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-                if (reducedMotion.matches) {
-                    document.documentElement.style.setProperty('--transition', 'none');
-                }
-            }
-
-            setupResponsiveGrid() {
-                // Atualiza grid quando a janela é redimensionada
-                let resizeTimeout;
-                window.addEventListener('resize', () => {
-                    clearTimeout(resizeTimeout);
-                    resizeTimeout = setTimeout(() => {
-                        this.updateGridLayout();
-                    }, 250);
-                });
-            }
-
-            setupThemeListener() {
-                // Observa mudanças no tema do sistema
-                const themeMedia = window.matchMedia('(prefers-color-scheme: light)');
-                themeMedia.addEventListener('change', (e) => {
-                    const newTheme = e.matches ? 'light' : 'dark';
-                    document.documentElement.setAttribute('data-theme', newTheme);
-                });
-            }
-
-            announceStatus(message) {
-                if (this.statusMessage) {
-                    this.statusMessage.textContent = message;
-                    
-                    // Limpa a mensagem após um tempo
-                    setTimeout(() => {
-                        this.statusMessage.textContent = '';
-                    }, 3000);
-                }
-            }
-
-            // Método para adicionar/remover apps dinamicamente (simulando backend)
-            updateApps(newApps) {
-                this.currentApps = newApps;
-                this.renderApps();
-                this.updateGridLayout();
-                this.announceStatus(`Interface atualizada com ${newApps.length} aplicativos`);
-            }
-        }
-
-        // INICIALIZAÇÃO QUANDO O DOM ESTIVER PRONTO
-        document.addEventListener('DOMContentLoaded', () => {
-            window.homePageManager = new HomePageManager();
-        });
-
-        // TRATAMENTO DE ERROS GLOBAL
-        window.addEventListener('error', (e) => {
-            console.error('Erro no portal:', e.error);
-        });
-    </script>
+    <!-- SCRIPTS -->
+    <script src="script.js"></script>
 </body>
 </html>

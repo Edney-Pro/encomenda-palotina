@@ -1,0 +1,267 @@
+/* ===== ANIMAÇÕES AVANÇADAS ===== */
+
+/* Skeleton Loading */
+@keyframes skeletonPulse {
+  0% { background-color: rgba(255, 255, 255, 0.1); }
+  50% { background-color: rgba(255, 255, 255, 0.05); }
+  100% { background-color: rgba(255, 255, 255, 0.1); }
+}
+
+.skeleton-card {
+  animation: skeletonPulse 2s infinite ease-in-out;
+  border-radius: var(--border-radius);
+  aspect-ratio: 1/1;
+}
+
+/* Microinterações refinadas */
+@keyframes gentleBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes subtleGlow {
+  0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); }
+  50% { box-shadow: 0 8px 30px rgba(139, 92, 246, 0.2); }
+}
+
+@keyframes rippleEffect {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+/* Animações de entrada contextuais */
+@keyframes slideInFromLeft {
+  from { transform: translateX(-50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInFromRight {
+  from { transform: translateX(50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Animações para modo alto contraste */
+.high-contrast .home-card {
+  border-width: 2px;
+  border-style: solid;
+}
+
+.high-contrast .home-card:focus {
+  outline: 3px solid #FFFF00;
+  outline-offset: 2px;
+}
+
+/* Transições contextuais */
+.contextual-fade-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.contextual-fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.contextual-fade-exit {
+  opacity: 1;
+}
+
+.contextual-fade-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Feedback háptico (simulado) */
+.haptic-feedback {
+  animation: hapticPulse 0.3s ease;
+}
+
+@keyframes hapticPulse {
+  0% { transform: scale(1); }
+  25% { transform: scale(0.97); }
+  50% { transform: scale(0.98); }
+  75% { transform: scale(0.99); }
+  100% { transform: scale(1); }
+}
+
+/* Loading states individuais */
+.card-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Estados vazios personalizados */
+.empty-state-animation {
+  animation: gentleFloat 3s ease-in-out infinite;
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(2deg); }
+  66% { transform: translateY(-5px) rotate(-1deg); }
+}
+
+/* Error boundaries elegantes */
+.error-boundary {
+  background: linear-gradient(135deg, var(--error), transparent);
+  border: 1px solid var(--error);
+}
+
+.error-boundary::before {
+  content: '⚠️';
+  font-size: 2rem;
+  display: block;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Pull-to-refresh */
+.pull-indicator {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+
+.pull-indicator.refreshing {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Infinite scroll loader */
+.infinite-scroll-loader {
+  text-align: center;
+  padding: 2rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.infinite-scroll-loader.visible {
+  opacity: 1;
+}
+
+/* Drag and drop */
+.dragging {
+  opacity: 0.7;
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+}
+
+.drop-zone {
+  border: 2px dashed var(--primary);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+/* Modo kiosk/apresentação */
+.kiosk-mode {
+  cursor: none;
+}
+
+.kiosk-mode .home-card {
+  border-width: 3px;
+}
+
+/* Modo offline */
+.offline-indicator {
+  background: var(--warning);
+  color: black;
+  text-align: center;
+  padding: 0.5rem;
+  font-weight: 600;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+/* Splash screen animations */
+.splash-logo {
+  animation: logoEntrance 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+}
+
+@keyframes logoEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Safe areas para notch */
+@supports (padding: max(0px)) {
+  .safe-area-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  
+  .safe-area-left {
+    padding-left: max(1rem, env(safe-area-inset-left));
+  }
+  
+  .safe-area-right {
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Vibration feedback simulation */
+.vibration-feedback {
+  animation: vibrate 0.3s linear;
+}
+
+@keyframes vibrate {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-1px); }
+}
+
+/* Touch gestures feedback */
+.gesture-hint {
+  animation: gesturePulse 2s infinite;
+}
+
+@keyframes gesturePulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}

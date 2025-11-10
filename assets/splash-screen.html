@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Cliente</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100dvh;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+        
+        .splash-container {
+            text-align: center;
+            color: white;
+        }
+        
+        .splash-logo {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            animation: logoEntrance 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+        }
+        
+        .splash-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #8B5CF6, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .splash-subtitle {
+            font-size: 1rem;
+            color: #D1D5DB;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 0.5s forwards;
+        }
+        
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 2rem auto 0;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #8B5CF6, #06B6D4);
+            border-radius: 2px;
+            animation: loadingProgress 2s ease-in-out;
+            transform-origin: left;
+        }
+        
+        @keyframes logoEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(-180deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        @keyframes loadingProgress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="splash-container">
+        <div class="splash-logo">🦇</div>
+        <h1 class="splash-title">Portal de Cliente</h1>
+        <p class="splash-subtitle">Encomenda Palotina</p>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Redireciona após a animação
+        setTimeout(() => {
+            window.location.href = '/index.html';
+        }, 2500);
+    </script>
+</body>
+</html>
