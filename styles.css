@@ -66,7 +66,7 @@
   --secondary: #4682B4;
 }
 
-/* ===== RESET E BASE ===== */
+/* ===== RESET E BASE ATUALIZADO ===== */
 * {
   margin: 0;
   padding: 0;
@@ -94,6 +94,33 @@ body {
   flex-direction: column;
 }
 
+/* Estados do body */
+body.loading {
+  cursor: wait;
+}
+
+body.loading * {
+  pointer-events: none;
+}
+
+body.dom-ready .app-container {
+  opacity: 1;
+}
+
+body.offline::before {
+  content: '🔴 Offline';
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: var(--error);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  z-index: 10000;
+  animation: pulse 2s infinite;
+}
+
 /* ===== LAYOUT FIXO - TELA COMPLETA DO APP ===== */
 .app-container {
   display: flex;
@@ -104,6 +131,12 @@ body {
   top: 0;
   left: 0;
   background: var(--bg-primary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.app-container.loaded {
+  opacity: 1;
 }
 
 /* ===== LOADING INDICATOR CORRIGIDO ===== */
@@ -121,10 +154,19 @@ body {
   pointer-events: none;
 }
 
+.loading-indicator.quick {
+  animation-duration: 0.8s;
+}
+
 @keyframes loading {
   0% { transform: scaleX(0); opacity: 1; }
   50% { transform: scaleX(1); opacity: 1; }
   100% { transform: scaleX(0); opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
 }
 
 /* ===== SPLASH SCREEN COM SAPO ===== */
@@ -301,6 +343,27 @@ body {
   100% { transform: scaleX(1); }
 }
 
+/* ===== INDICADOR OFFLINE ===== */
+.offline-indicator {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: var(--error);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  animation: pulse 2s infinite;
+}
+
+body.offline .offline-indicator {
+  display: flex;
+}
+
 /* ===== HEADER PADRONIZADO ===== */
 #global-header {
   background: var(--header-bg);
@@ -438,6 +501,8 @@ body {
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
+  border: none;
+  outline: none;
 }
 
 .theme-toggle:hover {
@@ -447,6 +512,11 @@ body {
 
 .theme-toggle:active {
   transform: scale(0.95);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .theme-toggle .fa-sun {
@@ -466,6 +536,32 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scroll personalizado */
+.container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* ===== SEÇÃO DE APPS ===== */
+.apps-section {
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
@@ -491,6 +587,22 @@ body {
 .grid-6 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
 
+/* Grid para paisagem */
+.grid-8-landscape {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.grid-12-landscape {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.grid-15-landscape {
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
 /* ===== CARDS DE APP COM SELEÇÃO ===== */
 .home-card {
   background: var(--card-bg);
@@ -512,6 +624,7 @@ body {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  outline: none;
 }
 
 .home-card:focus {
@@ -554,6 +667,19 @@ body {
 .home-card:active {
   transform: scale(0.95);
   transition: transform 0.1s ease;
+}
+
+/* Estados de toque para dispositivos móveis */
+@media (hover: none) and (pointer: coarse) {
+  .home-card:hover {
+    transform: none;
+    background: var(--card-bg);
+  }
+  
+  .home-card:active {
+    transform: scale(0.95);
+    background: var(--card-hover);
+  }
 }
 
 /* Ícones dos Cards com Zoom Rotacional */
@@ -725,6 +851,7 @@ body {
   text-align: center;
   cursor: pointer;
   min-height: 48px;
+  outline: none;
 }
 
 .footer-button:hover {
@@ -736,6 +863,11 @@ body {
 
 .footer-button:active {
   transform: translateY(0);
+}
+
+.footer-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .footer-icon {
@@ -800,7 +932,22 @@ body {
   font-size: 0.9rem;
 }
 
-/* ===== ANIMAÇÕES ===== */
+/* ===== SEÇÃO DE ESTATÍSTICAS ===== */
+.quick-stats {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-top: 1rem;
+  border: 1px solid var(--card-border);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+/* ===== ANIMAÇÕES ADICIONAIS ===== */
 @keyframes cardEntrance {
   from {
     opacity: 0;
@@ -823,6 +970,12 @@ body {
   66% { transform: translateY(-5px) rotate(-1deg); }
 }
 
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
 /* ===== ACESSIBILIDADE ===== */
 .sr-only {
   position: absolute;
@@ -834,6 +987,18 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Melhor contraste para acessibilidade */
+@media (prefers-contrast: high) {
+  :root {
+    --card-border: rgba(255, 255, 255, 0.4);
+    --text-secondary: #E5E7EB;
+  }
+  
+  .home-card {
+    border-width: 2px;
+  }
 }
 
 /* ===== RESPONSIVIDADE PERFEITA ===== */
@@ -962,6 +1127,27 @@ body {
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Suporte para orientação paisagem */
+@media (max-height: 500px) and (orientation: landscape) {
+  .home-grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    max-height: 200px;
+  }
+  
+  .header-content {
+    padding: 0.5rem 0;
+  }
+  
+  .container {
+    padding: 0.5rem;
+  }
+  
+  .splash-container {
+    transform: scale(0.8);
+  }
+}
+
 @media (min-width: 1024px) {
   :root {
     --grid-gap: 20px;
@@ -998,6 +1184,11 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  
+  .home-card {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 /* Texto maior para acessibilidade */
@@ -1014,5 +1205,13 @@ body.large-text {
   
   #global-header {
     padding-top: calc(1rem + var(--safe-area-top));
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .home-card {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }

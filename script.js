@@ -1,3 +1,19 @@
+// === CONFIGURAÇÃO AVANÇADA DO SISTEMA ===
+const APP_CONFIG = {
+    version: '2.0.0',
+    debug: false,
+    cache: {
+        enabled: true,
+        duration: 24 * 60 * 60 * 1000 // 24 horas
+    },
+    features: {
+        hapticFeedback: true,
+        analytics: false,
+        offlineSupport: true,
+        appValidation: true
+    }
+};
+
 // CONFIGURAÇÃO DOS APPS
 const appsConfig = [
     {
@@ -146,7 +162,7 @@ const appsConfig = [
     }
 ];
 
-// GERENCIADOR PRINCIPAL ATUALIZADO
+// === GERENCIADOR PRINCIPAL ATUALIZADO ===
 class HomePageManager {
     constructor() {
         this.appsGrid = document.getElementById('apps-grid');
@@ -155,36 +171,124 @@ class HomePageManager {
         this.statusMessage = document.getElementById('status-message');
         this.splashScreen = document.getElementById('splash-screen');
         this.loadingIndicator = document.querySelector('.loading-indicator');
+        this.offlineIndicator = document.getElementById('offline-indicator');
+        this.mainContent = document.getElementById('main-content');
         
         this.currentApps = [];
         this.filteredApps = [];
         this.currentTheme = this.getStoredTheme();
         this.selectedApp = null;
+        this.lastClickTime = 0;
+        this.clickDelay = 300; // Prevenir clique duplo
         
         this.init();
     }
 
     async init() {
-        console.log('🚀 Portal Profissional - Inicializando...');
+        console.log(`🚀 Portal Profissional v${APP_CONFIG.version} - Inicializando...`);
         
-        // Mostra loading indicator
-        this.showLoading();
+        try {
+            // Mostra loading indicator
+            this.showLoading();
+            
+            await this.showSplashScreen();
+            this.setupTheme();
+            await this.setupServiceWorker();
+            this.setupOfflineDetection();
+            this.loadApps();
+            this.setupEventListeners();
+            this.setupAccessibility();
+            this.setupResponsiveGrid();
+            this.setupPerformanceMonitoring();
+            
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+                this.hideLoading();
+                this.announceStatus('Portal carregado com sucesso');
+                this.trackEvent('portal_loaded');
+                
+                // Foco no conteúdo principal para acessibilidade
+                if (this.mainContent) {
+                    this.mainContent.focus();
+                }
+            }, 800);
+            
+            console.log('✅ Portal profissional inicializado!');
+        } catch (error) {
+            console.error('❌ Erro na inicialização:', error);
+            this.handleInitError(error);
+        }
+    }
+
+    // === TRATAMENTO DE ERROS DE INICIALIZAÇÃO ===
+    handleInitError(error) {
+        this.hideLoading();
         
-        await this.showSplashScreen();
-        this.setupTheme();
-        this.setupServiceWorker();
-        this.loadApps();
-        this.setupEventListeners();
-        this.setupAccessibility();
-        this.setupResponsiveGrid();
+        // Fallback básico
+        const errorHTML = `
+            <div style="text-align: center; padding: 2rem; color: var(--text-primary);">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem; color: var(--warning);"></i>
+                <h2 style="margin-bottom: 1rem;">Erro no Carregamento</h2>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                    O portal encontrou um problema. Tente recarregar a página.
+                </p>
+                <button onclick="window.location.reload()" style="
+                    background: var(--primary);
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                ">
+                    Recarregar Página
+                </button>
+            </div>
+        `;
         
-        setTimeout(() => {
-            document.body.classList.add('loaded');
-            this.hideLoading();
-            this.announceStatus('Portal carregado com sucesso');
-        }, 800);
+        if (this.appsGrid) {
+            this.appsGrid.innerHTML = errorHTML;
+        }
         
-        console.log('✅ Portal profissional inicializado!');
+        this.trackEvent('init_error', { error: error.message });
+    }
+
+    // === MONITORAMENTO DE PERFORMANCE ===
+    setupPerformanceMonitoring() {
+        // Monitora erros não capturados
+        window.addEventListener('error', (e) => {
+            console.error('Erro não capturado:', e.error);
+            this.trackEvent('error', { 
+                message: e.error?.message,
+                filename: e.filename,
+                lineno: e.lineno,
+                colno: e.colno
+            });
+        });
+
+        // Monitora promessas rejeitadas
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Promessa rejeitada:', e.reason);
+            this.trackEvent('promise_rejection', { reason: e.reason?.message });
+        });
+
+        // Monitora visibilidade da página
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.trackEvent('page_hidden');
+            } else {
+                this.trackEvent('page_visible');
+            }
+        });
+
+        // Monitora performance de carregamento
+        if ('performance' in window) {
+            window.addEventListener('load', () => {
+                const perfData = performance.timing;
+                const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+                this.trackEvent('performance_load', { loadTime });
+            });
+        }
     }
 
     // === LOADING INDICATOR CORRIGIDO ===
@@ -195,10 +299,19 @@ class HomePageManager {
         }
     }
 
+    showQuickLoading() {
+        if (this.loadingIndicator) {
+            this.loadingIndicator.style.display = 'block';
+            this.loadingIndicator.classList.add('quick');
+            this.loadingIndicator.style.animation = 'loading 0.8s ease-in-out';
+        }
+    }
+
     hideLoading() {
         if (this.loadingIndicator) {
             setTimeout(() => {
                 this.loadingIndicator.style.display = 'none';
+                this.loadingIndicator.classList.remove('quick');
             }, 2000);
         }
     }
@@ -210,7 +323,9 @@ class HomePageManager {
                 setTimeout(() => {
                     this.splashScreen.classList.add('splash-hidden');
                     setTimeout(() => {
-                        this.splashScreen.remove();
+                        if (this.splashScreen.parentNode) {
+                            this.splashScreen.remove();
+                        }
                         resolve();
                     }, 500);
                 }, 2000);
@@ -220,15 +335,50 @@ class HomePageManager {
         });
     }
 
-    // === SERVICE WORKER ===
+    // === SERVICE WORKER ATUALIZADO ===
     async setupServiceWorker() {
         if ('serviceWorker' in navigator) {
             try {
-                const registration = await navigator.serviceWorker.register('/service-worker.js');
-                console.log('✅ Service Worker registrado:', registration);
+                // Verifica se estamos em localhost ou HTTPS
+                if (location.hostname === 'localhost' || location.protocol === 'https:') {
+                    const registration = await navigator.serviceWorker.register('./service-worker.js');
+                    console.log('✅ Service Worker registrado:', registration.scope);
+                    
+                    // Verifica atualizações
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        console.log('🔄 Nova versão do Service Worker encontrada');
+                        this.trackEvent('sw_update_found');
+                    });
+                } else {
+                    console.warn('⚠️ Service Worker não suportado em HTTP');
+                }
             } catch (error) {
                 console.error('❌ Falha no Service Worker:', error);
+                this.trackEvent('sw_error', { error: error.message });
             }
+        }
+    }
+
+    // === DETECÇÃO DE OFFLINE ===
+    setupOfflineDetection() {
+        if (!APP_CONFIG.features.offlineSupport) return;
+
+        window.addEventListener('online', () => {
+            this.announceStatus('Conexão restaurada');
+            document.body.classList.remove('offline');
+            this.trackEvent('online');
+        });
+
+        window.addEventListener('offline', () => {
+            this.announceStatus('Você está offline');
+            document.body.classList.add('offline');
+            this.trackEvent('offline');
+        });
+
+        // Verifica status inicial
+        if (!navigator.onLine) {
+            document.body.classList.add('offline');
         }
     }
 
@@ -250,34 +400,66 @@ class HomePageManager {
         this.setupTheme();
         this.announceStatus(`Tema ${this.currentTheme === 'dark' ? 'escuro' : 'claro'} ativado`);
         this.provideHapticFeedback();
+        this.trackEvent('theme_toggle', { theme: this.currentTheme });
     }
 
     updateThemeIcon() {
+        if (!this.themeToggle) return;
+        
         const icon = this.themeToggle.querySelector('i');
         if (this.currentTheme === 'dark') {
             icon.className = 'fas fa-sun';
-            icon.style.color = '#FFD700'; // Amarelo para sol
+            icon.style.color = '#FFD700';
         } else {
             icon.className = 'fas fa-moon';
-            icon.style.color = '#87CEEB'; // Azul céu para lua
+            icon.style.color = '#87CEEB';
         }
     }
 
-    // === APPS COM SELEÇÃO ===
+    // === APPS COM CACHE INTELIGENTE ===
     loadApps() {
-        const savedApps = localStorage.getItem('portalAppsOrder');
-        if (savedApps) {
-            this.currentApps = JSON.parse(savedApps);
-        } else {
+        try {
+            const savedApps = localStorage.getItem('portalAppsOrder');
+            const cacheTimestamp = localStorage.getItem('portalAppsCacheTime');
+            const now = Date.now();
+            
+            // Verifica se o cache é válido
+            if (savedApps && cacheTimestamp && 
+                (now - parseInt(cacheTimestamp)) < APP_CONFIG.cache.duration) {
+                this.currentApps = JSON.parse(savedApps);
+                console.log('📦 Apps carregados do cache');
+            } else {
+                this.currentApps = [...appsConfig];
+                this.saveAppsToCache();
+                console.log('🔄 Apps carregados da configuração');
+            }
+            
+            this.filteredApps = [...this.currentApps];
+            this.renderApps();
+            this.updateGridLayout();
+            
+        } catch (error) {
+            console.error('❌ Erro ao carregar apps:', error);
+            // Fallback para configuração padrão
             this.currentApps = [...appsConfig];
+            this.filteredApps = [...this.currentApps];
+            this.renderApps();
+            this.updateGridLayout();
         }
-        
-        this.filteredApps = [...this.currentApps];
-        this.renderApps();
-        this.updateGridLayout();
+    }
+
+    saveAppsToCache() {
+        try {
+            localStorage.setItem('portalAppsOrder', JSON.stringify(this.currentApps));
+            localStorage.setItem('portalAppsCacheTime', Date.now().toString());
+        } catch (error) {
+            console.warn('⚠️ Não foi possível salvar cache dos apps:', error);
+        }
     }
 
     renderApps() {
+        if (!this.appsGrid) return;
+        
         this.appsGrid.innerHTML = '';
         
         if (this.filteredApps.length === 0) {
@@ -299,13 +481,15 @@ class HomePageManager {
         card.className = 'home-card';
         card.setAttribute('aria-label', `${app.title} - ${app.subtitle}`);
         card.setAttribute('data-app-id', app.id);
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
         card.style.setProperty('--card-index', index);
         
         card.innerHTML = `
-            <div class="card-icon"><i class="${app.icon}"></i></div>
+            <div class="card-icon"><i class="${app.icon}" aria-hidden="true"></i></div>
             <div class="card-title">${app.title}</div>
             <div class="card-subtitle">${app.subtitle}</div>
-            <div class="card-decoration ${app.animation}">${app.decoration}</div>
+            <div class="card-decoration ${app.animation}" aria-hidden="true">${app.decoration}</div>
         `;
 
         card.addEventListener('click', (e) => this.handleAppClick(e, app, card));
@@ -337,26 +521,86 @@ class HomePageManager {
         }
     }
 
+    // === CLIQUE PREVENÇÃO DE DUPLO CLIQUE ===
     handleAppClick(e, app, card) {
+        const now = Date.now();
+        
+        // Prevenir clique duplo
+        if (now - this.lastClickTime < this.clickDelay) {
+            e.preventDefault();
+            return;
+        }
+        this.lastClickTime = now;
+        
         e.preventDefault();
         
-        // Mostra loading antes de navegar
-        this.showLoading();
+        // Mostra loading rápido
+        this.showQuickLoading();
         
         // Feedback visual e háptico
         this.provideHapticFeedback();
-        card.classList.add('haptic-feedback');
+        card.style.transform = 'scale(0.95)';
+        
         setTimeout(() => {
-            card.classList.remove('haptic-feedback');
-        }, 300);
+            card.style.transform = '';
+        }, 150);
         
         this.selectApp(app.id, card);
         this.announceStatus(`Abrindo ${app.title}`);
+        this.trackEvent('app_click', { app: app.id });
         
         // Navega após animação
         setTimeout(() => {
-            window.location.href = app.url;
+            if (APP_CONFIG.features.appValidation) {
+                // Verifica se o app existe antes de navegar
+                this.checkAppAvailability(app.url)
+                    .then((available) => {
+                        if (available) {
+                            window.location.href = app.url;
+                        } else {
+                            this.showAppError(app);
+                        }
+                    })
+                    .catch(() => {
+                        this.showAppError(app);
+                    });
+            } else {
+                // Navegação direta sem verificação
+                window.location.href = app.url;
+            }
         }, 300);
+    }
+
+    // === VERIFICA DISPONIBILIDADE DO APP ===
+    async checkAppAvailability(url) {
+        if (!APP_CONFIG.features.appValidation) return true;
+        
+        try {
+            const response = await fetch(url, { 
+                method: 'HEAD',
+                cache: 'no-cache'
+            });
+            return response.ok;
+        } catch (error) {
+            console.warn(`❌ App não disponível: ${url}`, error);
+            return false;
+        }
+    }
+
+    showAppError(app) {
+        this.hideLoading();
+        this.announceStatus(`Erro: ${app.title} não disponível`);
+        
+        // Feedback visual
+        const card = document.querySelector(`[data-app-id="${app.id}"]`);
+        if (card) {
+            card.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                card.style.animation = '';
+            }, 500);
+        }
+        
+        this.trackEvent('app_error', { app: app.id });
     }
 
     handleCardKeydown(e, app, card) {
@@ -364,54 +608,128 @@ class HomePageManager {
             e.preventDefault();
             this.handleAppClick(e, app, card);
         }
+        
+        // Navegação por teclado
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft' || 
+            e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            this.handleKeyboardNavigation(e.key, card);
+        }
     }
 
-    // === LAYOUT RESPONSIVO ===
+    // === NAVEGAÇÃO POR TECLADO ===
+    handleKeyboardNavigation(key, currentCard) {
+        const cards = Array.from(document.querySelectorAll('.home-card'));
+        const currentIndex = cards.indexOf(currentCard);
+        let nextIndex = currentIndex;
+
+        switch (key) {
+            case 'ArrowRight':
+                nextIndex = (currentIndex + 1) % cards.length;
+                break;
+            case 'ArrowLeft':
+                nextIndex = (currentIndex - 1 + cards.length) % cards.length;
+                break;
+            case 'ArrowDown':
+                nextIndex = Math.min(currentIndex + 3, cards.length - 1);
+                break;
+            case 'ArrowUp':
+                nextIndex = Math.max(currentIndex - 3, 0);
+                break;
+        }
+
+        if (nextIndex !== currentIndex) {
+            cards[nextIndex].focus();
+            this.selectApp(cards[nextIndex].dataset.appId, cards[nextIndex]);
+        }
+    }
+
+    // === LAYOUT RESPONSIVO MELHORADO ===
     updateGridLayout() {
         const appCount = this.filteredApps.length;
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const isLandscape = width > height;
+        
         let gridClass = 'grid-12'; // padrão
         
-        if (appCount <= 4) gridClass = 'grid-4';
-        else if (appCount <= 6) gridClass = 'grid-6';
-        else if (appCount <= 9) gridClass = 'grid-9';
-        else if (appCount <= 12) gridClass = 'grid-12';
-        else if (appCount <= 15) gridClass = 'grid-15';
+        if (isLandscape && height < 500) {
+            // Modo paisagem com altura limitada
+            if (appCount <= 8) gridClass = 'grid-8-landscape';
+            else if (appCount <= 12) gridClass = 'grid-12-landscape';
+            else gridClass = 'grid-15-landscape';
+        } else {
+            // Modo retrato ou paisagem normal
+            if (appCount <= 4) gridClass = 'grid-4';
+            else if (appCount <= 6) gridClass = 'grid-6';
+            else if (appCount <= 9) gridClass = 'grid-9';
+            else if (appCount <= 12) gridClass = 'grid-12';
+            else if (appCount <= 15) gridClass = 'grid-15';
+        }
         
-        this.appsGrid.className = `home-grid ${gridClass}`;
+        if (this.appsGrid) {
+            this.appsGrid.className = `home-grid ${gridClass}`;
+        }
     }
 
     setupResponsiveGrid() {
         let resizeTimeout;
+        const updateGrid = () => {
+            this.updateGridLayout();
+            this.trackEvent('window_resize', { 
+                width: window.innerWidth, 
+                height: window.innerHeight 
+            });
+        };
+
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                this.updateGridLayout();
-            }, 250);
+            resizeTimeout = setTimeout(updateGrid, 250);
+        });
+
+        // Atualiza também na mudança de orientação
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateGrid, 100);
         });
     }
 
     // === FEEDBACK HÁPTICO ===
     provideHapticFeedback() {
-        if (navigator.vibrate) {
-            navigator.vibrate(50);
+        if (APP_CONFIG.features.hapticFeedback && navigator.vibrate) {
+            try {
+                navigator.vibrate(50);
+            } catch (error) {
+                console.warn('Vibration API não suportada');
+            }
         }
     }
 
     // === ESTADOS VISUAIS ===
     showEmptyState() {
-        this.emptyState.classList.add('visible');
-        this.appsGrid.style.display = 'none';
+        if (this.emptyState) {
+            this.emptyState.hidden = false;
+            this.emptyState.classList.add('visible');
+        }
+        if (this.appsGrid) {
+            this.appsGrid.style.display = 'none';
+        }
     }
 
     hideEmptyState() {
-        this.emptyState.classList.remove('visible');
-        this.appsGrid.style.display = 'grid';
+        if (this.emptyState) {
+            this.emptyState.hidden = true;
+            this.emptyState.classList.remove('visible');
+        }
+        if (this.appsGrid) {
+            this.appsGrid.style.display = 'grid';
+        }
     }
 
     // === ACESSIBILIDADE ===
     setupAccessibility() {
         this.detectAccessibilityPreferences();
         this.setupKeyboardNavigation();
+        this.setupFocusManagement();
     }
 
     detectAccessibilityPreferences() {
@@ -430,14 +748,42 @@ class HomePageManager {
 
     setupKeyboardNavigation() {
         document.addEventListener('keydown', (e) => {
+            // Atalho para tema (Alt + T)
+            if (e.altKey && e.key === 't') {
+                e.preventDefault();
+                this.toggleTheme();
+            }
+            
+            // Anuncia navegação
             if (e.key === 'Tab' && document.activeElement.classList.contains('home-card')) {
                 this.announceStatus('Navegando entre aplicativos');
             }
         });
     }
 
+    setupFocusManagement() {
+        // Gerencia foco para acessibilidade
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                // Volta o foco para o conteúdo principal
+                if (this.mainContent) {
+                    this.mainContent.focus();
+                }
+            }
+        });
+    }
+
     setupEventListeners() {
-        this.themeToggle.addEventListener('click', () => this.toggleTheme());
+        // Tema toggle
+        if (this.themeToggle) {
+            this.themeToggle.addEventListener('click', () => this.toggleTheme());
+            this.themeToggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.toggleTheme();
+                }
+            });
+        }
         
         // Observador de tema do sistema
         const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
@@ -445,46 +791,145 @@ class HomePageManager {
             if (!localStorage.getItem('theme')) {
                 this.currentTheme = e.matches ? 'dark' : 'light';
                 this.setupTheme();
+                this.trackEvent('system_theme_change', { theme: this.currentTheme });
+            }
+        });
+
+        // Previne comportamento padrão de arrastar
+        document.addEventListener('dragstart', (e) => {
+            if (e.target.classList.contains('home-card')) {
+                e.preventDefault();
             }
         });
     }
 
-    // === FEEDBACK ===
+    // === FEEDBACK E ANÁLITICAS ===
     announceStatus(message) {
         if (this.statusMessage) {
             this.statusMessage.textContent = message;
             
             setTimeout(() => {
-                this.statusMessage.textContent = '';
+                if (this.statusMessage) {
+                    this.statusMessage.textContent = '';
+                }
             }, 3000);
+        }
+    }
+
+    trackEvent(eventName, data = {}) {
+        if (!APP_CONFIG.features.analytics) return;
+        
+        const eventData = {
+            timestamp: new Date().toISOString(),
+            event: eventName,
+            theme: this.currentTheme,
+            version: APP_CONFIG.version,
+            userAgent: navigator.userAgent,
+            ...data
+        };
+        
+        console.log('📊 Evento:', eventData);
+        
+        try {
+            // Salva no localStorage para análise posterior
+            const analytics = JSON.parse(localStorage.getItem('portalAnalytics') || '[]');
+            analytics.push(eventData);
+            
+            // Mantém apenas os últimos 100 eventos
+            if (analytics.length > 100) {
+                analytics.splice(0, analytics.length - 100);
+            }
+            
+            localStorage.setItem('portalAnalytics', JSON.stringify(analytics));
+        } catch (error) {
+            console.warn('⚠️ Não foi possível salvar analytics:', error);
         }
     }
 }
 
-// === INICIALIZAÇÃO ===
+// === POLYFILLS PARA COMPATIBILIDADE ===
+// Suporte para vibrate em todos os dispositivos
+if (!navigator.vibrate) {
+    navigator.vibrate = function() { return false; };
+}
+
+// Suporte para safe-area-inset
+if (!CSS.supports('padding-top: env(safe-area-inset-top)')) {
+    const style = document.createElement('style');
+    style.textContent = `
+        :root {
+            --safe-area-top: 0px;
+            --safe-area-bottom: 0px;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// === INICIALIZAÇÃO SEGURA ===
 document.addEventListener('DOMContentLoaded', () => {
-    // Adiciona splash screen se não existir
-    if (!document.getElementById('splash-screen')) {
-        const splashScreen = document.createElement('div');
-        splashScreen.id = 'splash-screen';
-        splashScreen.innerHTML = `
-            <div class="splash-container">
-                <div class="sapo-mascote">🐸</div>
-                <div class="sapo-shadow"></div>
-                <h1 class="splash-title">Portal de Cliente</h1>
-                <p class="splash-subtitle">Encomenda Palotina</p>
-                <div class="loading-bar">
-                    <div class="loading-progress"></div>
-                </div>
+    try {
+        // Adiciona classe de loading no body
+        document.body.classList.add('loading');
+        
+        // Verifica se todos os elementos necessários existem
+        const requiredElements = ['apps-grid', 'emptyState', 'themeToggle'];
+        const missingElements = requiredElements.filter(id => !document.getElementById(id));
+        
+        if (missingElements.length > 0) {
+            throw new Error(`Elementos não encontrados: ${missingElements.join(', ')}`);
+        }
+        
+        // Inicializa o gerenciador
+        window.homePageManager = new HomePageManager();
+        
+    } catch (error) {
+        console.error('❌ Erro na inicialização:', error);
+        
+        // Fallback básico
+        const fallbackHTML = `
+            <div style="padding: 2rem; text-align: center; color: var(--text-primary);">
+                <h1 style="margin-bottom: 1rem;">🐸 Portal de Cliente</h1>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Encomenda Palotina</p>
+                <p style="color: var(--error); margin-top: 1rem;">
+                    Erro: ${error.message}. Recarregue a página.
+                </p>
+                <button onclick="window.location.reload()" style="
+                    background: var(--primary);
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    margin-top: 1rem;
+                ">
+                    Recarregar Página
+                </button>
             </div>
         `;
-        document.body.appendChild(splashScreen);
+        
+        const container = document.querySelector('.container');
+        if (container) {
+            container.innerHTML = fallbackHTML;
+        }
     }
-
-    window.homePageManager = new HomePageManager();
 });
 
-// === TRATAMENTO DE ERROS ===
+// === TRATAMENTO DE ERROS GLOBAIS ===
 window.addEventListener('error', (e) => {
-    console.error('Erro no portal:', e.error);
+    console.error('Erro global no portal:', e.error);
+    
+    if (window.homePageManager) {
+        window.homePageManager.trackEvent('global_error', { 
+            message: e.error?.message,
+            filename: e.filename,
+            lineno: e.lineno,
+            colno: e.colno
+        });
+    }
 });
+
+// === EXPORTAÇÃO PARA USO EXTERNO ===
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { HomePageManager, appsConfig, APP_CONFIG };
+}
