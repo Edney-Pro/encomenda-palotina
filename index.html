@@ -2,79 +2,34 @@
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="description" content="Portal profissional para clientes da Encomenda Palotina - Sistema de parcelas, empréstimos e gestão financeira">
-    <meta name="keywords" content="parcelas, empréstimos, financiamento, veículos, produtos, encomenda palotina">
-    <meta name="author" content="Encomenda Palotina">
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#8B5CF6" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Portal profissional para clientes da Encomenda Palotina">
+    <meta name="theme-color" content="#8B5CF6">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Portal Cliente">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="msapplication-TileColor" content="#8B5CF6">
-    <meta name="msapplication-tap-highlight" content="no">
     
-    <title>Portal de Cliente | Encomenda Palotina - Sistema Completo</title>
+    <title>Portal de Cliente | Encomenda Palotina</title>
     
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="styles.css" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" crossorigin>
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin>
-    
-    <!-- FAVICON Modernizado -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐸</text></svg>">
-    <link rel="shortcut icon" href="icons/icon-192x192.png">
+    <!-- FAVICON -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐸</text></svg>">
     
     <!-- PWA MANIFEST -->
-    <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+    <link rel="manifest" href="manifest.json">
     
-    <!-- APPLE TOUCH ICONS -->
+    <!-- APPLE TOUCH ICON -->
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192x192.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-192x192.png">
     
-    <!-- FONTES OTIMIZADAS -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- FONTES E ÍCONES -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- CSS COM FALLBACK -->
+    <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- CSS de animações críticas inline para performance -->
-    <style>
-        /* Critical CSS - Carrega instantaneamente */
-        .splash-screen-critical {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-        
-        /* Garante que o conteúdo não seja mostrado antes do CSS carregar */
-        .app-container {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .app-container.loaded {
-            opacity: 1;
-        }
-    </style>
 </head>
 <body>
-    <!-- SPLASH SCREEN CRÍTICA - Remove dependência do JS inicial -->
-    <div id="splash-screen" class="splash-screen-critical">
+    <!-- SPLASH SCREEN COM SAPO -->
+    <div id="splash-screen">
         <div class="splash-container">
             <div class="sapo-mascote">🐸</div>
             <div class="sapo-shadow"></div>
@@ -86,131 +41,64 @@
         </div>
     </div>
 
-    <!-- INDICADOR DE CARREGAMENTO GLOBAL -->
-    <div class="loading-indicator" aria-hidden="true"></div>
+    <!-- INDICADOR DE CARREGAMENTO -->
+    <div class="loading-indicator"></div>
 
     <!-- MENSAGEM DE STATUS PARA ACESSIBILIDADE -->
-    <div id="status-message" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-
-    <!-- INDICADOR DE OFFLINE -->
-    <div id="offline-indicator" class="offline-indicator" aria-hidden="true">
-        <i class="fas fa-wifi-slash"></i>
-        <span>Você está offline</span>
-    </div>
+    <div id="status-message" class="sr-only" aria-live="polite"></div>
 
     <!-- CONTAINER PRINCIPAL FIXO -->
     <div class="app-container">
-        <!-- HEADER PADRONIZADO COM NAVEGAÇÃO POR TECLADO -->
-        <header id="global-header" role="banner">
+        <!-- HEADER PADRONIZADO -->
+        <header id="global-header">
             <div class="header-content">
-                <div class="header-brand" role="img" aria-label="Portal de Cliente - Encomenda Palotina">
+                <div class="header-brand">
                     <i class="fas fa-user-secret header-icon" aria-hidden="true"></i>
                     <div class="header-titles">
-                        <h1 class="header-title" tabindex="0">Portal de Cliente</h1>
-                        <div class="header-subtitle" tabindex="0">Encomenda Palotina</div>
+                        <h1 class="header-title">Portal de Cliente</h1>
+                        <div class="header-subtitle">Encomenda Palotina</div>
                     </div>
                 </div>
-                <button class="theme-toggle" id="themeToggle" aria-label="Alternar entre tema claro e escuro" title="Mudar tema (T)">
-                    <i class="fas fa-moon" aria-hidden="true"></i>
+                <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
                 </button>
             </div>
         </header>
 
-        <!-- CONTEÚDO PRINCIPAL COM FOCUS MANAGEMENT -->
-        <main class="container" id="main-content" role="main" tabindex="-1">
-            <!-- GRID DE APPS COM SEMÂNTICA MELHORADA -->
-            <section class="apps-section" aria-labelledby="apps-section-title">
-                <h2 id="apps-section-title" class="sr-only">Aplicativos Disponíveis</h2>
-                <div class="home-grid" id="apps-grid" role="grid" aria-label="Lista de aplicativos">
-                    <!-- Apps carregados dinamicamente via JavaScript -->
-                </div>
-            </section>
+        <!-- CONTEÚDO PRINCIPAL PERFEITAMENTE ALINHADO -->
+        <main class="container">
+            <div class="home-grid" id="apps-grid">
+                <!-- Apps carregados dinamicamente -->
+            </div>
 
-            <!-- ESTADO VAZIO COM MENSAGEM ACESSÍVEL -->
-            <section class="empty-state" id="emptyState" aria-labelledby="empty-state-title" aria-describedby="empty-state-desc" hidden>
-                <i class="fas fa-inbox empty-icon" aria-hidden="true"></i>
-                <h3 id="empty-state-title" class="empty-title">Nenhum app disponível</h3>
-                <p id="empty-state-desc" class="empty-subtitle">Todos os aplicativos estão ocultos ou em manutenção</p>
-            </section>
-
-            <!-- SEÇÃO DE ESTATÍSTICAS (OPCIONAL) -->
-            <section class="quick-stats" aria-labelledby="stats-title" hidden>
-                <h3 id="stats-title" class="sr-only">Estatísticas Rápidas</h3>
-                <div class="stats-grid">
-                    <!-- Estatísticas podem ser adicionadas posteriormente -->
-                </div>
-            </section>
+            <!-- ESTADO VAZIO -->
+            <div class="empty-state" id="emptyState">
+                <i class="fas fa-inbox empty-icon"></i>
+                <h3 class="empty-title">Nenhum app disponível</h3>
+                <p class="empty-subtitle">Todos os aplicativos estão ocultos ou em manutenção</p>
+            </div>
         </main>
 
-        <!-- FOOTER COM LINKS ACESSÍVEIS -->
-        <footer class="home-footer" role="contentinfo">
-            <a href="https://wa.me/5544998408460" class="footer-button" target="_blank" rel="noopener noreferrer" aria-label="Contato via WhatsApp (abre em nova janela)">
+        <!-- FOOTER ALINHADO E DESTACADO COM 3 BOTÕES PADRONIZADOS -->
+        <footer class="home-footer">
+            <a href="https://wa.me/5544998408460" class="footer-button" target="_blank" aria-label="Contato via WhatsApp">
                 <i class="fab fa-whatsapp footer-icon" aria-hidden="true"></i>
                 <span class="footer-text">WhatsApp</span>
             </a>
             
-            <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank" rel="noopener noreferrer" aria-label="Siga-nos no Instagram (abre em nova janela)">
+            <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank" aria-label="Siga-nos no Instagram">
                 <i class="fab fa-instagram footer-icon" aria-hidden="true"></i>
                 <span class="footer-text">Instagram</span>
             </a>
             
-            <a href="http://localhost/dolibarr/public/webportal/index.php" class="footer-button" aria-label="Acesse seu Portal do Cliente">
+            <a href="http://localhost/dolibarr/public/webportal/index.php" class="footer-button" aria-label="Acesse seu Portal">
                 <i class="fas fa-user-circle footer-icon" aria-hidden="true"></i>
                 <span class="footer-text">Seu Portal</span>
             </a>
         </footer>
     </div>
 
-    <!-- SCRIPTS OTIMIZADOS -->
-    <script>
-        // Script de fallback para caso o JS principal falhe
-        window.appConfig = {
-            version: '2.0.0',
-            debug: false,
-            features: {
-                offlineSupport: true,
-                hapticFeedback: true,
-                analytics: false
-            }
-        };
-        
-        // Previne FOUC (Flash of Unstyled Content)
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                document.body.classList.add('dom-ready');
-            }, 10);
-        });
-        
-        // Fallback para caso o JS principal não carregue
-        window.addEventListener('error', function(e) {
-            console.warn('Erro detectado:', e.error);
-            // Aqui pode-se mostrar um fallback básico se necessário
-        });
-    </script>
-    
-    <!-- SCRIPT PRINCIPAL COM FALLBACK -->
-    <script src="script.js" type="module"></script>
-    
-    <!-- FALLBACK PARA NAVEGADORES SEM SUPORTE A MODULES -->
-    <script nomodule>
-        console.warn('Seu navegador não suporta módulos ES6. Carregando versão alternativa...');
-        // Poderia carregar uma versão compilada aqui
-    </script>
-    
-    <!-- SERVICE WORKER REGISTRATION -->
-    <script>
-        // Registro otimizado do Service Worker
-        if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(function(registration) {
-                        console.log('✅ Service Worker registrado:', registration.scope);
-                    })
-                    .catch(function(error) {
-                        console.warn('❌ Service Worker falhou:', error);
-                    });
-            });
-        }
-    </script>
+    <!-- SCRIPTS -->
+    <script src="script.js"></script>
 </body>
 </html>

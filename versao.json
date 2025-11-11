@@ -1,7 +1,106 @@
 {
-  "versao": "2.5.0",
-  "atualizado_em": "2025-11-10 18:30",
-  "mudancas": ["12 categorias perfeitas", "Notificação animada", "Tema claro/escuro", "PWA + Offline"
+  "sistema": "Encomenda Palotina - Sistema de Parcelas",
+  "versao": "2.1.0",
+  "data_lancamento": "2024-01-01",
+  "ultima_atualizacao": "2024-01-15",
+  "desenvolvedor": "Encomenda Palotina",
+  
+  "atualizacoes_disponiveis": [
+    {
+      "id": "update_001",
+      "titulo": "Taxas de Calculadoras 2024",
+      "descricao": "Atualização das taxas de juros e parcelamento para 2024",
+      "categoria": "taxas",
+      "obrigatoria": true,
+      "prioridade": "alta",
+      "arquivos_afetados": [
+        "apps/EMPRESTIMOS/calculadora-de-emprestimo-com-garantia/script.js",
+        "apps/EMPRESTIMOS/calculadora-de-emprestimo-sem-garantia/script.js",
+        "apps/PRODUTOS/produtos-novos-com-entrada/script.js"
+      ],
+      "versao": "1.2",
+      "data_liberacao": "2024-01-15",
+      "tamanho": "15KB"
+    },
+    {
+      "id": "update_002",
+      "titulo": "Novo Layout do Sistema",
+      "descricao": "Melhorias visuais e nova paleta de cores",
+      "categoria": "layout",
+      "obrigatoria": false,
+      "prioridade": "media",
+      "arquivos_afetados": [
+        "styles.css",
+        "index.html",
+        "apps/CONFIGURACAO/styles.css"
+      ],
+      "versao": "2.1",
+      "data_liberacao": "2024-01-14",
+      "tamanho": "45KB"
+    },
+    {
+      "id": "update_003",
+      "titulo": "Efeitos Visuais Matrix",
+      "descricao": "Novo easter egg com efeito Matrix interativo",
+      "categoria": "efeitos",
+      "obrigatoria": false,
+      "prioridade": "baixa",
+      "arquivos_afetados": [
+        "matrix.js",
+        "apps/CONFIGURACAO/scripts/matrix-config.js"
+      ],
+      "versao": "1.0",
+      "data_liberacao": "2024-01-13",
+      "tamanho": "8KB"
+    },
+    {
+      "id": "update_004",
+      "titulo": "Otimização de Performance",
+      "descricao": "Melhorias na velocidade e consumo de bateria",
+      "categoria": "performance",
+      "obrigatoria": false,
+      "prioridade": "media",
+      "arquivos_afetados": [
+        "script.js",
+        "service-worker.js",
+        "apps/**/script.js"
+      ],
+      "versao": "1.5",
+      "data_liberacao": "2024-01-12",
+      "tamanho": "25KB"
+    }
   ],
-  "obrigatorio": false
+  
+  "historico_atualizacoes": [
+    {
+      "versao": "2.0.0",
+      "data": "2024-01-01",
+      "mudancas": [
+        "Redesign completo do sistema",
+        "Nova identidade visual",
+        "Sistema de temas dinâmico"
+      ]
+    }
+  ],
+
+  "configuracoes_update": {
+    "verificar_atualizacoes": true,
+    "auto_download": false,
+    "notificacoes": true,
+    "intervalo_verificacao": 24,
+    "backup_antes_update": true
+  },
+
+  "contato": {
+    "whatsapp": "+5544998408460",
+    "instagram": "@encomendapalotina",
+    "suporte": "Atualizações via notificações no app"
+  }
+}{
+  "id": "update_003",
+  ...,
+  "arquivos_afetados": [
+    "apps/CONFIGURACAO/scripts/matrix-config.js"
+  ],
+  ...
 }

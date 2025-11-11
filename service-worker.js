@@ -1,61 +1,64 @@
-// service-worker.js
-const CACHE_NAME = 'portal-cliente-v1.2.0';
-const DYNAMIC_CACHE = 'portal-dynamic-v1';
-
-// Assets para cache imediato
-const STATIC_ASSETS = [
+// Service Worker Simplificado - Encomenda Palotina
+const CACHE_NAME = 'encomenda-palotina-v2.0.0';
+const APP_STATIC = [
   '/',
   '/index.html',
   '/styles.css',
   '/script.js',
   '/manifest.json',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+  '/matrix.js',
+  '/versao.json'
 ];
 
-// Instalação do Service Worker
+// Instalação - Cache dos arquivos essenciais
 self.addEventListener('install', (event) => {
-  console.log('🔄 Service Worker instalando...');
+  console.log('🔄 Service Worker Encomenda Palotina - Instalando...');
   
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('📦 Cacheando assets estáticos');
-        return cache.addAll(STATIC_ASSETS);
+        console.log('📦 Cacheando arquivos estáticos');
+        return cache.addAll(APP_STATIC);
       })
       .then(() => {
-        console.log('✅ Service Worker instalado');
+        console.log('✅ Service Worker instalado com sucesso');
         return self.skipWaiting();
+      })
+      .catch((error) => {
+        console.error('❌ Erro na instalação:', error);
       })
   );
 });
 
-// Ativação do Service Worker
+// Ativação - Limpeza de caches antigos
 self.addEventListener('activate', (event) => {
-  console.log('🎯 Service Worker ativando...');
+  console.log('🎯 Service Worker Ativando...');
   
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME && cacheName !== DYNAMIC_CACHE) {
+          if (cacheName !== CACHE_NAME) {
             console.log('🗑️ Removendo cache antigo:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     }).then(() => {
-      console.log('✅ Service Worker ativado');
+      console.log('✅ Service Worker ativado e pronto');
       return self.clients.claim();
     })
   );
 });
 
-// Estratégia: Cache First, depois Network
+// Estratégia: Cache First para melhor performance
 self.addEventListener('fetch', (event) => {
-  // Ignora requisições não GET
+  // Ignora requisições não-GET
   if (event.request.method !== 'GET') return;
-
+  
+  // Ignora requisições de chrome-extension
+  if (event.request.url.includes('chrome-extension')) return;
+  
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
@@ -64,37 +67,78 @@ self.addEventListener('fetch', (event) => {
           return cachedResponse;
         }
 
-        // Busca da rede e atualiza cache
+        // Busca da rede
         return fetch(event.request)
           .then((networkResponse) => {
-            // Clona a resposta porque ela só pode ser consumida uma vez
-            const responseToCache = networkResponse.clone();
+            // Não cacheia requisições de terceiros
+            if (!event.request.url.startsWith(self.location.origin)) {
+              return networkResponse;
+            }
 
-            caches.open(DYNAMIC_CACHE)
-              .then((cache) => {
-                // Cache apenas de requisições bem-sucedidas e do mesmo origin
-                if (networkResponse.status === 200 && 
-                    event.request.url.startsWith(self.location.origin)) {
+            // Cache apenas de requisições bem-sucedidas
+            if (networkResponse.status === 200) {
+              const responseToCache = networkResponse.clone();
+              caches.open(CACHE_NAME)
+                .then((cache) => {
                   cache.put(event.request, responseToCache);
-                }
-              });
+                });
+            }
 
             return networkResponse;
           })
-          .catch((error) => {
+          .catch(() => {
             // Fallback para página offline
             if (event.request.destination === 'document') {
-              return caches.match('/offline.html');
+              return caches.match('/index.html');
             }
-            throw error;
+            return new Response('🔴 Modo Offline - Encomenda Palotina', {
+              status: 503,
+              statusText: 'Service Unavailable'
+            });
           });
       })
   );
 });
 
-// Mensagens para atualização em background
+// Comunicação com a página principal
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+  
+  if (event.data && event.data.type === 'GET_VERSION') {
+    event.ports[0].postMessage({
+      version: '2.0.0',
+      name: 'Encomenda Palotina'
+    });
+  }
+});// Ouvir mensagens da página
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'UPDATE_FILE') {
+    caches.open(CACHE_NAME).then(cache => {
+      const response = new Response(event.data.content);
+      cache.put(event.data.file, response);
+    });
+  }
+});
+
+// Na estratégia de fetch, para o versao.json, sempre buscar da rede
+self.addEventListener('fetch', (event) => {
+  if (event.request.url.includes('versao.json')) {
+    event.respondWith(
+      fetch(event.request).then(response => {
+        // Atualiza o cache com a nova versão
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, response);
+        });
+        return response.clone();
+      }).catch(() => {
+        // Se não conseguiu buscar, tenta do cache
+        return caches.match(event.request);
+      })
+    );
+    return;
+  }
+
+  // ... resto do código do fetch ...
 });

@@ -1,0 +1,116 @@
+{
+  "global": {
+    "jurosMensal": 5.0,
+    "multaAtraso": 2.0,
+    "taxaAntecipacao": 1.5,
+    "carencia": 30,
+    "limiteMaximoParcelas": 12
+  },
+  "apps": {
+    "CADASTRO": {
+      "nome": "Cadastro de Clientes",
+      "taxaCadastro": 0.0,
+      "taxaManutencaoMensal": 0.0,
+      "limiteCreditoInicial": 1000.00
+    },
+    "EMPRESTIMOS": {
+      "nome": "Sistema de Empréstimos",
+      "jurosMensal": 8.0,
+      "multaAtraso": 5.0,
+      "taxaAbertura": 2.0,
+      "limiteMaximoParcelas": 24,
+      "tipos": {
+        "comGarantia": {
+          "jurosMensal": 6.0,
+          "limiteMaximo": 50000.00
+        },
+        "semGarantia": {
+          "jurosMensal": 12.0,
+          "limiteMaximo": 5000.00
+        },
+        "diario": {
+          "jurosDiario": 0.3,
+          "multaDiaria": 1.0
+        }
+      }
+    },
+    "PRODUTOS": {
+      "nome": "Venda de Produtos",
+      "margemLucro": 30.0,
+      "taxaCartao": 2.5,
+      "descontoAvista": 10.0,
+      "categorias": {
+        "novos": {
+          "entradaMinima": 20.0,
+          "parcelasMaximas": 12
+        },
+        "usados": {
+          "entradaMinima": 30.0,
+          "parcelasMaximas": 10,
+          "jurosMensal": 7.0
+        },
+        "moveis": {
+          "taxaMontagem": 100.0,
+          "entradaMinima": 25.0
+        }
+      }
+    },
+    "VEICULOS_AUTOMOTORES": {
+      "nome": "Veículos Automotores",
+      "jurosMensal": 4.5,
+      "multaAtraso": 3.0,
+      "entradaMinima": 20.0,
+      "parcelasMaximas": 36,
+      "tipos": {
+        "carrosNovos": {
+          "jurosMensal": 3.5,
+          "seguroObrigatorio": true
+        },
+        "carrosUsados": {
+          "jurosMensal": 5.5,
+          "vistoriaObrigatoria": true
+        },
+        "motos": {
+          "jurosMensal": 6.0,
+          "entradaMinima": 30.0
+        }
+      }
+    },
+    "VEICULOS_ELETRICOS": {
+      "nome": "Veículos Elétricos",
+      "jurosMensal": 3.0,
+      "multaAtraso": 2.5,
+      "entradaMinima": 15.0,
+      "parcelasMaximas": 48,
+      "descontoSustentabilidade": 5.0
+    },
+    "RENEGOCIACAO": {
+      "nome": "Renegociação",
+      "descontoPagamentoAvista": 15.0,
+      "descontoAntecipacao": 10.0,
+      "limiteRenegociacoes": 3,
+      "tipos": {
+        "emAtraso": {
+          "jurosMensal": 1.5,
+          "multaAtraso": 1.0
+        },
+        "aVencer": {
+          "jurosMensal": 1.0,
+          "multaAtraso": 0.5
+        }
+      }
+    },
+    "FERRAMENTAS_AVANCADAS": {
+      "nome": "Ferramentas Avançadas",
+      "cetMensal": 6.5,
+      "iofDiario": 0.0082,
+      "iofAdicional": 0.38,
+      "taxas": {
+        "antecipacaoParcelas": 1.2,
+        "propostaPDF": 5.0,
+        "sistemaBingo": 50.0,
+        "sistemaSorteio": 30.0
+      }
+    }
+  }
+}

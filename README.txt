@@ -1,19 +1,51 @@
-Passos para Implantar a Versão 2.5.0:
+================================================================
+          ENCOMENDA PALOTINA - SISTEMA DE PARCELAS
+================================================================
 
-1. Substitua os arquivos na pasta D:\SISTEMA\Meu sistema de Parcelas.
-2. Adicione Workbox: Certifique-se de ter internet para carregar o CDN no head do index.html.
-3. HTTPS: No .htaccess, adicione:
-   RewriteEngine On
-   RewriteCond %{HTTPS} off
-   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-4. Compressão: No servidor, ative Brotli/Gzip para .html/.js/.css.
-5. Push Notifications: Cadastre no OneSignal.com, pegue appId e cole no setupNotifications().
-6. Widget Android: Use Bubblewrap (npm install -g @bubblewrap/cli) para gerar APK TWA: bubblewrap init --manifest manifest.json.
-7. Git: git add .; git commit -m "Versão 2.5.0 - 40 melhorias"; git push.
-8. .gitignore sugerido:
-   *.cache
-   node_modules
-   backup.json
+📋 DESCRIÇÃO DO SISTEMA
+Sistema completo para gestão de parcelas, empréstimos, veículos
+e produtos da Encomenda Palotina.
 
-Teste offline: Desconecte a internet, abra o app - deve mostrar mensagem bonita.
-Qualquer dúvida, pergunte ao Grok!
+🚀 FUNCIONALIDADES PRINCIPAIS
+• Cadastro completo de clientes
+• Cálculos de parcelas e empréstimos  
+• Catálogo de produtos novos e usados
+• Ferramentas financeiras avançadas
+• Sistema de renegociação
+• Cálculos para veículos automotores e elétricos
+• Compramos para você - lojas físicas e virtuais
+
+🎨 CARACTERÍSTICAS TÉCNICAS
+• PWA (Progressive Web App) - Instalável
+• Design responsivo para todos os dispositivos
+• Tema escuro/claro dinâmico
+• Performance otimizada
+• Interface moderna e intuitiva
+
+📱 COMO INSTALAR COMO APP
+1. Abra no Chrome/Edge no celular
+2. Toque em "Adicionar à tela inicial"
+3. O app será instalado como app nativo
+
+🎮 EASTER EGG MATRIX
+• Clique 10 vezes no logo OU
+• Pressione Ctrl+Alt+M
+• Efeito especial de chuva de código
+
+🔧 ARQUIVOS PRINCIPAIS
+index.html          - Página principal
+styles.css          - Estilos e temas
+script.js           - Lógica principal
+manifest.json       - Configuração PWA
+service-worker.js   - Cache offline
+matrix.js           - Easter egg
+versao.json         - Controle de versão
+
+📞 SUPORTE
+WhatsApp: (44) 99840-8460
+Instagram: @encomendapalotina
+
+🔄 ATUALIZAÇÕES
+Sistema atualizado automaticamente
+Versão atual: 2.0.0
+================================================================
