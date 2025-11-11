@@ -1,158 +1,190 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurações do Sistema - Encomenda Palotina</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Configurações do Sistema - Encomenda Palotina">
+    <meta name="theme-color" content="#8B5CF6">
+    
+    <title>Configurações | Encomenda Palotina</title>
+    
+    <!-- FAVICON -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
+    
+    <!-- FONTES E ÍCONES -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="config-container">
-        <!-- Header -->
-        <header class="config-header">
+    <!-- CONTAINER PRINCIPAL FIXO -->
+    <div class="app-container">
+        <!-- HEADER SIMPLES -->
+        <header id="global-header">
             <div class="header-content">
-                <a href="../../index.html" class="back-btn">
-                    <i class="fas fa-arrow-left"></i>
-                    Voltar
-                </a>
-                <h1><i class="fas fa-cogs"></i> Configurações do Sistema</h1>
-                <div class="header-info">
-                    <span class="version">v2.2.0</span>
-                    <span class="mode-badge" id="modeBadge">Modo Geral</span>
+                <div class="header-brand">
+                    <i class="fas fa-cogs header-icon"></i>
+                    <div class="header-titles">
+                        <h1 class="header-title">Configurações</h1>
+                        <div class="header-subtitle">Sistema de Parcelas</div>
+                    </div>
                 </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
         </header>
 
-        <!-- Layout Principal -->
-        <div class="config-layout">
-            <!-- Navegação Lateral -->
-            <nav class="config-nav">
-                <!-- Seletor de Modo -->
-                <div class="mode-selector">
-                    <button class="mode-btn active" data-mode="global">
-                        <i class="fas fa-globe"></i>
-                        Configurações Gerais
-                    </button>
-                    <button class="mode-btn" data-mode="app">
-                        <i class="fas fa-mobile-alt"></i>
-                        Configurações por App
-                    </button>
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="container">
+            <!-- GRID DE CONFIGURAÇÕES - 3 COLUNAS 5 LINHAS -->
+            <div class="home-grid" id="config-grid">
+                <!-- Configurações Gerais -->
+                <div class="home-card config-card" data-config="cores">
+                    <div class="card-icon"><i class="fas fa-palette"></i></div>
+                    <div class="card-title">Cores</div>
+                    <div class="card-subtitle">Personalizar cores</div>
+                    <div class="card-decoration decoration-float">🎨</div>
                 </div>
 
-                <!-- Seletor de App (visível apenas no modo app) -->
-                <div class="app-selector-section" id="appSelectorSection">
-                    <h3><i class="fas fa-list"></i> Selecione o App</h3>
-                    <select id="appSelector" class="app-selector">
-                        <option value="">-- Escolha um App --</option>
-                    </select>
+                <div class="home-card config-card" data-config="fontes">
+                    <div class="card-icon"><i class="fas fa-font"></i></div>
+                    <div class="card-title">Fontes</div>
+                    <div class="card-subtitle">Tipografia</div>
+                    <div class="card-decoration decoration-pulse">🔤</div>
                 </div>
 
-                <!-- Menu de Navegação -->
-                <div class="nav-menu">
-                    <!-- Configurações Gerais -->
-                    <div class="nav-group" id="globalNav">
-                        <h4><i class="fas fa-sliders-h"></i> Sistema Geral</h4>
-                        <button class="nav-item active" data-tab="global-appearance">
-                            <i class="fas fa-palette"></i>
-                            Aparência Geral
-                        </button>
-                        <button class="nav-item" data-tab="global-taxas">
-                            <i class="fas fa-chart-line"></i>
-                            Taxas Gerais
-                        </button>
-                        <button class="nav-item" data-tab="global-sounds">
-                            <i class="fas fa-volume-up"></i>
-                            Sons e Notificações
-                        </button>
-                        <button class="nav-item" data-tab="global-security">
-                            <i class="fas fa-shield-alt"></i>
-                            Segurança
-                        </button>
-                    </div>
-
-                    <!-- Configurações por App -->
-                    <div class="nav-group" id="appNav">
-                        <h4><i class="fas fa-cube"></i> Configurações do App</h4>
-                        <button class="nav-item" data-tab="app-appearance">
-                            <i class="fas fa-paint-brush"></i>
-                            Aparência
-                        </button>
-                        <button class="nav-item" data-tab="app-taxas">
-                            <i class="fas fa-percentage"></i>
-                            Taxas Específicas
-                        </button>
-                        <button class="nav-item" data-tab="app-behavior">
-                            <i class="fas fa-cogs"></i>
-                            Comportamento
-                        </button>
-                        <button class="nav-item" data-tab="app-permissions">
-                            <i class="fas fa-user-shield"></i>
-                            Permissões
-                        </button>
-                    </div>
-
-                    <!-- Sistema -->
-                    <div class="nav-group">
-                        <h4><i class="fas fa-tools"></i> Sistema</h4>
-                        <button class="nav-item" data-tab="themes">
-                            <i class="fas fa-paint-roller"></i>
-                            Temas Prontos
-                        </button>
-                        <button class="nav-item" data-tab="backup">
-                            <i class="fas fa-database"></i>
-                            Backup & Restauração
-                        </button>
-                        <button class="nav-item" data-tab="advanced">
-                            <i class="fas fa-rocket"></i>
-                            Avançado
-                        </button>
-                        <button class="nav-item" data-tab="easter-egg">
-                            <i class="fas fa-gamepad"></i>
-                            Easter Egg
-                        </button>
-                    </div>
+                <div class="home-card config-card" data-config="layout">
+                    <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="card-title">Layout</div>
+                    <div class="card-subtitle">Estrutura visual</div>
+                    <div class="card-decoration decoration-rotate">📐</div>
                 </div>
 
-                <!-- Status -->
-                <div class="nav-status">
-                    <div class="status-card">
-                        <div class="status-item">
-                            <span>Modo Atual:</span>
-                            <strong id="currentMode">Geral</strong>
-                        </div>
-                        <div class="status-item">
-                            <span>App Selecionado:</span>
-                            <strong id="currentApp">-</strong>
-                        </div>
-                        <div class="status-item">
-                            <span>Configurações:</span>
-                            <span class="status-badge" id="configStatus">✓ Salvas</span>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            <!-- Conteúdo Principal -->
-            <main class="config-main">
-                <!-- Loading -->
-                <div class="loading-section" id="loadingSection">
-                    <div class="loading-spinner"></div>
-                    <p>Carregando configurações...</p>
+                <!-- Taxas e Financeiro -->
+                <div class="home-card config-card" data-config="taxas-gerais">
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="card-title">Taxas Gerais</div>
+                    <div class="card-subtitle">Juros e multas</div>
+                    <div class="card-decoration decoration-bounce">💰</div>
                 </div>
 
-                <!-- Conteúdo das Abas -->
-                <div class="tab-content" id="tabContent">
-                    <!-- As abas serão carregadas dinamicamente via JavaScript -->
+                <div class="home-card config-card" data-config="taxas-apps">
+                    <div class="card-icon"><i class="fas fa-percentage"></i></div>
+                    <div class="card-title">Taxas por App</div>
+                    <div class="card-subtitle">Configurar apps</div>
+                    <div class="card-decoration decoration-shake">📱</div>
                 </div>
-            </main>
+
+                <div class="home-card config-card" data-config="emprestimos">
+                    <div class="card-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                    <div class="card-title">Empréstimos</div>
+                    <div class="card-subtitle">Taxas específicas</div>
+                    <div class="card-decoration decoration-fade">💸</div>
+                </div>
+
+                <!-- Sons e Efeitos -->
+                <div class="home-card config-card" data-config="sons">
+                    <div class="card-icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="card-title">Sons</div>
+                    <div class="card-subtitle">Efeitos sonoros</div>
+                    <div class="card-decoration decoration-float">🔊</div>
+                </div>
+
+                <div class="home-card config-card" data-config="notificacoes">
+                    <div class="card-icon"><i class="fas fa-bell"></i></div>
+                    <div class="card-title">Notificações</div>
+                    <div class="card-subtitle">Alertas e mensagens</div>
+                    <div class="card-decoration decoration-pulse">🔔</div>
+                </div>
+
+                <div class="home-card config-card" data-config="animacoes">
+                    <div class="card-icon"><i class="fas fa-film"></i></div>
+                    <div class="card-title">Animações</div>
+                    <div class="card-subtitle">Efeitos visuais</div>
+                    <div class="card-decoration decoration-rotate">🎬</div>
+                </div>
+
+                <!-- Sistema -->
+                <div class="home-card config-card" data-config="temas">
+                    <div class="card-icon"><i class="fas fa-paint-roller"></i></div>
+                    <div class="card-title">Temas Prontos</div>
+                    <div class="card-subtitle">Aplicar temas</div>
+                    <div class="card-decoration decoration-bounce">🎨</div>
+                </div>
+
+                <div class="home-card config-card" data-config="backup">
+                    <div class="card-icon"><i class="fas fa-database"></i></div>
+                    <div class="card-title">Backup</div>
+                    <div class="card-subtitle">Salvar configurações</div>
+                    <div class="card-decoration decoration-shake">💾</div>
+                </div>
+
+                <div class="home-card config-card" data-config="reset">
+                    <div class="card-icon"><i class="fas fa-undo"></i></div>
+                    <div class="card-title">Reset</div>
+                    <div class="card-subtitle">Restaurar padrão</div>
+                    <div class="card-decoration decoration-fade">🔄</div>
+                </div>
+
+                <!-- Easter Egg -->
+                <div class="home-card config-card" data-config="matrix">
+                    <div class="card-icon"><i class="fas fa-gamepad"></i></div>
+                    <div class="card-title">Easter Egg</div>
+                    <div class="card-subtitle">Efeitos especiais</div>
+                    <div class="card-decoration decoration-float">🎮</div>
+                </div>
+
+                <div class="home-card config-card" data-config="sobre">
+                    <div class="card-icon"><i class="fas fa-info-circle"></i></div>
+                    <div class="card-title">Sobre</div>
+                    <div class="card-subtitle">Informações</div>
+                    <div class="card-decoration decoration-pulse">ℹ️</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER PADRONIZADO -->
+        <footer class="home-footer">
+            <a href="https://wa.me/5544998408460" class="footer-button" target="_blank">
+                <i class="fab fa-whatsapp footer-icon"></i>
+                <span class="footer-text">WhatsApp</span>
+            </a>
+            
+            <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank">
+                <i class="fab fa-instagram footer-icon"></i>
+                <span class="footer-text">Instagram</span>
+            </a>
+            
+            <a href="../../index.html" class="footer-button">
+                <i class="fas fa-home footer-icon"></i>
+                <span class="footer-text">Voltar</span>
+            </a>
+        </footer>
+    </div>
+
+    <!-- MODAL DE CONFIGURAÇÕES -->
+    <div id="config-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Configuração</h2>
+                <button class="modal-close" id="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Conteúdo dinâmico -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modal-cancel">Cancelar</button>
+                <button class="btn btn-primary" id="modal-save">Salvar</button>
+            </div>
         </div>
     </div>
 
-    <!-- Notifications -->
-    <div class="notification-container" id="notificationContainer"></div>
-
-    <script src="config-manager.js"></script>
+    <!-- SCRIPTS -->
     <script src="script.js"></script>
 </body>
 </html>
