@@ -152,7 +152,6 @@ class HomePageManager {
         this.appsGrid = document.getElementById('apps-grid');
         this.emptyState = document.getElementById('emptyState');
         this.themeToggle = document.getElementById('themeToggle');
-        this.closeAppBtn = document.getElementById('closeApp');
         this.statusMessage = document.getElementById('status-message');
         this.splashScreen = document.getElementById('splash-screen');
         this.loadingIndicator = document.querySelector('.loading-indicator');
@@ -262,41 +261,6 @@ class HomePageManager {
             icon.className = 'fas fa-moon';
             icon.style.color = '#87CEEB'; // Azul céu para lua
         }
-    }
-
-    // === FECHAR APP ===
-    setupCloseApp() {
-        this.closeAppBtn.addEventListener('click', () => {
-            this.closeApplication();
-        });
-    }
-
-    closeApplication() {
-        this.announceStatus('Fechando aplicativo');
-        this.provideHapticFeedback();
-        
-        // Feedback visual no botão
-        this.closeAppBtn.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            this.closeAppBtn.style.transform = '';
-        }, 150);
-        
-        // Para PWA standalone
-        if (window.navigator.standalone) {
-            window.blur();
-            document.body.style.display = 'none';
-        } 
-        // Para navegador normal
-        else if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.close();
-        }
-        
-        // Fallback
-        setTimeout(() => {
-            window.location.href = 'about:blank';
-        }, 1000);
     }
 
     // === APPS COM SELEÇÃO ===
@@ -474,7 +438,6 @@ class HomePageManager {
 
     setupEventListeners() {
         this.themeToggle.addEventListener('click', () => this.toggleTheme());
-        this.setupCloseApp();
         
         // Observador de tema do sistema
         const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
@@ -506,7 +469,8 @@ document.addEventListener('DOMContentLoaded', () => {
         splashScreen.id = 'splash-screen';
         splashScreen.innerHTML = `
             <div class="splash-container">
-                <div class="splash-logo">🦇</div>
+                <div class="sapo-mascote">🐸</div>
+                <div class="sapo-shadow"></div>
                 <h1 class="splash-title">Portal de Cliente</h1>
                 <p class="splash-subtitle">Encomenda Palotina</p>
                 <div class="loading-bar">

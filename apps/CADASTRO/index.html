@@ -11,22 +11,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* RESET E CONFIGURAÇÕES GERAIS */
+        /* ===== VARIÁVEIS CSS PADRONIZADAS ===== */
         :root {
             --primary: #8B5CF6;
             --primary-dark: #7C3AED;
-            --secondary: #06B6D4;
+            --secondary: #87CEEB;
             --accent: #10B981;
             --text-primary: #F9FAFB;
-            --text-secondary: #D1D5DB;
-            --bg-overlay: rgba(0, 0, 0, 0.4);
+            --text-secondary: #E0E0E0;
+            --bg-primary: #121212;
             --card-bg: rgba(255, 255, 255, 0.08);
             --card-border: rgba(255, 255, 255, 0.15);
             --card-hover: rgba(255, 255, 255, 0.12);
-            --header-bg: rgba(15, 15, 15, 0.7);
-            --footer-bg: rgba(20, 20, 20, 0.8);
+            --header-bg: rgba(26, 26, 26, 0.95);
+            --footer-bg: rgba(26, 26, 26, 0.95);
             --border-radius: 16px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --bg-primary: #FFFFFF;
+            --card-bg: rgba(0, 0, 0, 0.03);
+            --card-hover: rgba(0, 0, 0, 0.06);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --header-bg: rgba(240, 240, 240, 0.95);
+            --footer-bg: rgba(240, 240, 240, 0.95);
+            --secondary: #4682B4;
         }
 
         * {
@@ -35,134 +47,216 @@
             box-sizing: border-box;
         }
 
+        html {
+            height: 100%;
+            overflow: hidden;
+            -webkit-text-size-adjust: 100%;
+            touch-action: manipulation;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background: #000000;
+            background: var(--bg-primary);
             height: 100dvh;
             overflow: hidden;
             position: relative;
             color: var(--text-primary);
             display: flex;
             flex-direction: column;
+            transition: var(--transition);
         }
 
-        /* IMAGEM DE FUNDO ESPECÍFICA PARA CADASTRO */
-        .image-background {
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100dvh;
+            width: 100vw;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            background-image: url('../../assets/backgrounds/videos/CADASTRO-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background: var(--bg-primary);
         }
 
-        /* OVERLAY PARA CONTRASTE */
-        .image-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: var(--bg-overlay);
-            z-index: -1;
-        }
-
-        /* HEADER REFINADO */
+        /* ===== HEADER COM BOTÃO DE TEMA ===== */
         #global-header {
             background: var(--header-bg);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--card-border);
-            padding: 1.2rem 1rem;
+            border-bottom: 2px solid var(--card-border);
+            padding: 1rem;
             position: relative;
             z-index: 100;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
         }
 
         .header-content {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
+            justify-content: space-between;
             max-width: 1200px;
             margin: 0 auto;
+            width: 100%;
+            gap: 16px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+            min-width: 0;
         }
 
         .header-icon {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             color: var(--primary);
-            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
+            filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.6));
+            animation: iconPulse 3s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.6));
+            }
+            25% { 
+                transform: scale(1.05) rotate(2deg);
+                filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.8));
+            }
+            50% { 
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.6));
+            }
+            75% { 
+                transform: scale(1.03) rotate(-1deg);
+                filter: drop-shadow(0 0 11px rgba(139, 92, 246, 0.7));
+            }
+        }
+
+        .header-titles {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            min-width: 0;
+            flex: 1;
         }
 
         .header-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0;
-            letter-spacing: 0.5px;
-            background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
 
         .header-subtitle {
-            font-size: 0.9rem;
-            font-weight: 400;
+            font-size: 0.8rem;
             color: var(--text-secondary);
-            margin-top: 2px;
-            text-align: center;
-        }
-
-        /* CONTAINER PRINCIPAL */
-        .container {
-            padding: 2rem 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex: 1;
-            position: relative;
-            z-index: 10;
+            font-weight: 500;
+            white-space: nowrap;
             overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
 
-        /* GRID DE MÓDULOS DE CADASTRO - 2x2 */
-        .module-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-auto-rows: minmax(140px, auto);
-            gap: 18px;
+        /* ===== BOTÃO TEMA CLARO/ESCURO ===== */
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            background: var(--card-hover);
+            transform: scale(1.05);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .theme-toggle .fa-sun {
+            color: #FFD700;
+        }
+
+        .theme-toggle .fa-moon {
+            color: #87CEEB;
+        }
+
+        .container {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
             width: 100%;
-            max-width: 450px;
-            height: 100%;
-            max-height: 700px;
-        }
-
-        /* CARDS PROFISSIONAIS */
-        .app-card {
-            aspect-ratio: 1 / 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            text-align: center;
-            text-decoration: none;
-            border-radius: var(--border-radius);
-            padding: 15px 10px;
-            position: relative;
-            overflow: hidden;
-            transition: var(--transition);
+        }
+
+        .home-grid {
+            display: grid;
+            gap: 16px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            min-height: 300px;
+            flex: 1;
+            align-content: center;
+        }
+
+        .home-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: var(--border-radius);
+            padding: 18px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            aspect-ratio: 1/1;
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
-        /* EFEITO DE GRADIENTE NO HOVER */
-        .app-card::after {
+        .home-card:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .home-card::after {
             content: '';
             position: absolute;
             top: 0;
@@ -171,54 +265,57 @@
             height: 100%;
             background: linear-gradient(135deg, 
                 rgba(139, 92, 246, 0.1) 0%, 
-                rgba(6, 182, 212, 0.05) 100%);
+                rgba(135, 206, 235, 0.05) 100%);
             opacity: 0;
             transition: var(--transition);
             z-index: -1;
         }
 
-        .app-card:hover::after {
+        .home-card:hover::after {
             opacity: 1;
         }
 
-        /* EFEITO HOVER REFINADO */
-        .app-card:hover {
+        .home-card:hover {
             background: var(--card-hover);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            transform: translateY(-5px);
-            box-shadow: 
-                0 10px 25px rgba(0, 0, 0, 0.2),
-                0 5px 10px rgba(139, 92, 246, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 
+                        0 5px 10px rgba(139, 92, 246, 0.1),
+                        0 0 15px rgba(139, 92, 246, 0.2);
         }
 
-        /* ÍCONES COM GRADIENTE */
+        .home-card:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease;
+        }
+
         .card-icon {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
+            font-size: 1.9rem;
+            margin-bottom: 14px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: var(--transition);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(1) rotate(0deg);
         }
 
-        .app-card:hover .card-icon {
-            transform: scale(1.15);
+        .home-card:hover .card-icon {
+            transform: scale(1.15) rotate(5deg);
             filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.4));
         }
 
-        /* TEXTOS MELHORADOS */
         .card-title {
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 4px;
             line-height: 1.2;
-            transition: var(--transition);
-        }
-
-        .app-card:hover .card-title {
-            color: var(--text-primary);
         }
 
         .card-subtitle {
@@ -226,14 +323,8 @@
             font-weight: 500;
             color: var(--text-secondary);
             line-height: 1.1;
-            transition: var(--transition);
         }
 
-        .app-card:hover .card-subtitle {
-            color: var(--text-secondary);
-        }
-
-        /* ÍCONES DECORATIVOS NO CANTO SUPERIOR DIREITO */
         .card-decoration {
             position: absolute;
             top: 8px;
@@ -241,61 +332,56 @@
             font-size: 0.9rem;
             opacity: 0.6;
             filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
+            animation-duration: 6s;
+            animation-iteration-count: infinite;
+            animation-timing-function: ease-in-out;
         }
 
-        /* ANIMAÇÕES DIFERENTES PARA OS ÍCONES DECORATIVOS */
-        .decoration-float {
-            animation: floatDecoration 6s infinite ease-in-out;
+        .decoration-float { animation-name: floatUnique1; }
+        .decoration-pulse { animation-name: pulseUnique1; }
+        .decoration-rotate { animation-name: rotateUnique1; }
+        .decoration-bounce { animation-name: bounceUnique1; }
+
+        @keyframes floatUnique1 {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            25% { transform: translateY(-4px) rotate(2deg) scale(1.05); }
+            50% { transform: translateY(2px) rotate(-1deg) scale(0.95); }
+            75% { transform: translateY(-2px) rotate(1deg) scale(1.02); }
         }
 
-        .decoration-pulse {
-            animation: pulseDecoration 4s infinite ease-in-out;
-        }
-
-        .decoration-rotate {
-            animation: rotateDecoration 8s infinite linear;
-        }
-
-        .decoration-bounce {
-            animation: bounceDecoration 5s infinite ease-in-out;
-        }
-
-        @keyframes floatDecoration {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-3px) rotate(5deg); }
-            50% { transform: translateY(2px) rotate(-3deg); }
-            75% { transform: translateY(-2px) rotate(2deg); }
-        }
-
-        @keyframes pulseDecoration {
+        @keyframes pulseUnique1 {
             0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.2); opacity: 0.8; }
+            33% { transform: scale(1.15); opacity: 0.8; }
+            66% { transform: scale(0.95); opacity: 0.5; }
         }
 
-        @keyframes rotateDecoration {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes rotateUnique1 {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(0.9); }
+            100% { transform: rotate(360deg) scale(1); }
         }
 
-        @keyframes bounceDecoration {
+        @keyframes bounceUnique1 {
             0%, 100% { transform: translateY(0px); }
-            25% { transform: translateY(-4px); }
-            50% { transform: translateY(2px); }
-            75% { transform: translateY(-2px); }
+            20% { transform: translateY(-5px) scale(1.1); }
+            40% { transform: translateY(3px) scale(0.95); }
+            60% { transform: translateY(-2px) scale(1.05); }
+            80% { transform: translateY(1px) scale(0.98); }
         }
 
-        /* FOOTER MELHORADO */
         .home-footer {
-            position: relative;
-            width: 100%;
             background: var(--footer-bg);
             backdrop-filter: blur(20px);
-            border-top: 1px solid var(--card-border);
-            padding: 1.2rem 1rem;
+            border-top: 2px solid var(--card-border);
+            padding: 1rem;
+            position: relative;
             z-index: 100;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
+            flex-shrink: 0;
         }
 
         .footer-button {
@@ -303,47 +389,56 @@
             backdrop-filter: blur(15px);
             border: 1px solid var(--card-border);
             border-radius: 12px;
-            padding: 12px 18px;
+            padding: 14px 16px;
             color: var(--text-primary);
             text-decoration: none;
             font-size: 0.82rem;
             font-weight: 500;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             transition: var(--transition);
             flex: 1;
             max-width: 160px;
-            justify-content: center;
+            min-width: 0;
+            text-align: center;
+            cursor: pointer;
+            min-height: 48px;
+            width: 100%;
         }
 
         .footer-button:hover {
             background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-button:active {
+            transform: translateY(0);
         }
 
         .footer-icon {
             font-size: 1.1rem;
+            flex-shrink: 0;
         }
 
-        .footer-button:nth-child(1) .footer-icon {
-            color: #25D366;
-        }
-
-        .footer-button:nth-child(2) .footer-icon {
+        .footer-button:nth-child(1) .footer-icon { color: #25D366; }
+        .footer-button:nth-child(2) .footer-icon { 
             background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .footer-button:nth-child(3) .footer-icon { color: var(--primary); }
+        .footer-button:nth-child(4) .footer-icon { color: #FFD700; }
 
-        .footer-button:nth-child(3) .footer-icon {
-            color: var(--primary);
+        .footer-button.home-btn {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
         }
 
-        /* ANIMAÇÕES DE ENTRADA REFINADAS */
         @keyframes cardEntrance {
             from {
                 opacity: 0;
@@ -355,218 +450,293 @@
             }
         }
 
-        .app-card {
+        .home-card {
             animation: cardEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             opacity: 0;
         }
 
-        /* DELAY PROGRESSIVO NAS ANIMAÇÕES */
-        .app-card:nth-child(1) { animation-delay: 0.05s; }
-        .app-card:nth-child(2) { animation-delay: 0.1s; }
-        .app-card:nth-child(3) { animation-delay: 0.15s; }
-        .app-card:nth-child(4) { animation-delay: 0.2s; }
-
-        /* INDICADOR DE CARREGAMENTO */
-        .loading-indicator {
+        .toast {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transform-origin: left;
-            animation: loading 1.5s ease-in-out;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 12px 20px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
         }
 
-        @keyframes loading {
-            0% { transform: scaleX(0); }
-            50% { transform: scaleX(1); }
-            100% { transform: scaleX(0); opacity: 0; }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
-        /* RESPONSIVIDADE MELHORADA */
+        .toast.success .toast-icon {
+            color: #10B981;
+        }
+
         @media (max-width: 768px) {
-            .header-title {
-                font-size: 1.2rem;
-            }
+            .header-title { font-size: 1.4rem; }
+            .header-subtitle { font-size: 0.75rem; }
+            .header-icon { font-size: 1.8rem; }
             
-            .header-subtitle {
-                font-size: 0.8rem;
-            }
-            
-            .card-decoration {
-                font-size: 0.8rem;
-                top: 6px;
-                right: 6px;
+            .home-footer { gap: 10px; padding: 0.8rem; }
+            .footer-button { 
+                padding: 12px 14px; 
+                font-size: 0.78rem; 
+                max-width: 140px; 
+                min-height: 44px;
             }
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: 1.5rem 0.8rem;
-            }
+            .container { padding: 0.8rem; }
+            .home-card { padding: 15px 8px; }
             
-            .module-grid {
-                gap: 14px;
-                max-height: 620px;
-            }
+            .header-title { font-size: 1.3rem; }
+            .header-subtitle { font-size: 0.7rem; }
+            .header-icon { font-size: 1.5rem; }
+            .header-brand { gap: 12px; }
             
-            .app-card {
-                padding: 12px 8px;
-            }
+            .card-icon { width: 60px; height: 60px; font-size: 1.7rem; }
+            .card-title { font-size: 0.75rem; }
+            .card-subtitle { font-size: 0.65rem; }
             
-            .card-icon {
-                font-size: 1.6rem;
-                margin-bottom: 10px;
+            .home-footer { gap: 8px; padding: 0.8rem; }
+            .footer-button { 
+                padding: 11px 12px; 
+                font-size: 0.75rem; 
+                max-width: 120px; 
+                gap: 6px; 
+                min-height: 42px;
             }
-            
-            .card-title {
-                font-size: 0.8rem;
-            }
-            
-            .card-subtitle {
-                font-size: 0.68rem;
-            }
-            
-            .card-decoration {
-                font-size: 0.75rem;
-                top: 5px;
-                right: 5px;
-            }
-            
-            .header-title {
-                font-size: 1.1rem;
-            }
-            
-            .header-icon {
-                font-size: 1.5rem;
-            }
-            
-            .home-footer {
-                padding: 1rem;
-                gap: 10px;
-            }
-            
-            .footer-button {
-                padding: 10px 14px;
-                font-size: 0.78rem;
-                max-width: 130px;
-            }
+            .theme-toggle { width: 44px; height: 44px; }
         }
 
         @media (max-width: 360px) {
-            .container {
-                padding: 1rem 0.6rem;
-            }
+            .container { padding: 0.6rem; }
+            .header-title { font-size: 1.2rem; }
+            .header-subtitle { font-size: 0.65rem; }
+            .header-content { gap: 8px; }
+            .header-brand { gap: 8px; }
+            .header-icon { font-size: 1.3rem; }
             
-            .module-grid {
-                gap: 12px;
-            }
+            .card-icon { width: 55px; height: 55px; font-size: 1.6rem; }
+            .card-title { font-size: 0.7rem; }
+            .card-subtitle { font-size: 0.6rem; }
             
-            .header-title {
-                font-size: 1rem;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .card-decoration {
-                font-size: 0.7rem;
+            .home-footer { gap: 6px; padding: 0.6rem; }
+            .footer-button { 
+                padding: 10px 8px; 
+                font-size: 0.7rem; 
+                max-width: 110px; 
+                gap: 4px; 
+                min-height: 40px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- INDICADOR DE CARREGAMENTO -->
-    <div class="loading-indicator"></div>
-
-    <!-- IMAGEM DE FUNDO ESPECÍFICA PARA CADASTRO -->
-    <div class="image-background"></div>
-
-    <!-- OVERLAY PARA CONTRASTE -->
-    <div class="image-overlay"></div>
-
-    <!-- HEADER MELHORADO -->
-    <header id="global-header">
-        <div class="header-content">
-            <i class="fas fa-users-cog header-icon"></i>
-            <div>
-                <h1 class="header-title">Sistema de Cadastro</h1>
-                <div class="header-subtitle">Encomenda Palotina</div>
+    <div class="app-container">
+        <header id="global-header">
+            <div class="header-content">
+                <div class="header-brand">
+                    <i class="fas fa-users-cog header-icon" aria-hidden="true"></i>
+                    <div class="header-titles">
+                        <h1 class="header-title">Sistema de Cadastro</h1>
+                        <div class="header-subtitle">Encomenda Palotina</div>
+                    </div>
+                </div>
+                <!-- BOTÃO TEMA CLARO/ESCURO RESTAURADO -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="container">
-        <div class="module-grid">
-            <!-- APP 1: CRIAR CADASTRO -->
-            <a href="Criar Cadastro/index.html" class="app-card">
-                <div class="card-icon"><i class="fas fa-user-plus"></i></div>
-                <div class="card-title">Criar Cadastro</div>
-                <div class="card-subtitle">Adicionar novo registro</div>
-                <div class="card-decoration decoration-float" style="animation-delay: 0.2s;">✨</div>
-            </a>
+        <main class="container">
+            <div class="home-grid" id="apps-grid">
+                <a href="Criar Cadastro/index.html" class="home-card" aria-label="Criar Cadastro - Adicionar novo registro">
+                    <div class="card-icon"><i class="fas fa-user-plus"></i></div>
+                    <div class="card-title">Criar Cadastro</div>
+                    <div class="card-subtitle">Adicionar novo registro</div>
+                    <div class="card-decoration decoration-float">✨</div>
+                </a>
 
-            <!-- APP 2: ATUALIZAR CADASTRO -->
-            <a href="Atualizar Cadastro/index.html" class="app-card">
-                <div class="card-icon"><i class="fas fa-user-edit"></i></div>
-                <div class="card-title">Atualizar Cadastro</div>
-                <div class="card-subtitle">Modificar dados existentes</div>
-                <div class="card-decoration decoration-pulse" style="animation-delay: 1.3s;">📝</div>
-            </a>
+                <a href="Atualizar Cadastro/index.html" class="home-card" aria-label="Atualizar Cadastro - Modificar dados existentes">
+                    <div class="card-icon"><i class="fas fa-user-edit"></i></div>
+                    <div class="card-title">Atualizar Cadastro</div>
+                    <div class="card-subtitle">Modificar dados existentes</div>
+                    <div class="card-decoration decoration-pulse">📝</div>
+                </a>
 
-            <!-- APP 3: ENVIAR ARQUIVOS -->
-            <a href="Enviar Arquivos/index.html" class="app-card">
-                <div class="card-icon"><i class="fas fa-upload"></i></div>
-                <div class="card-title">Enviar Arquivos</div>
-                <div class="card-subtitle">Upload de documentos</div>
-                <div class="card-decoration decoration-rotate" style="animation-delay: 0.8s;">📎</div>
+                <a href="Enviar Arquivos/index.html" class="home-card" aria-label="Enviar Arquivos - Upload de documentos">
+                    <div class="card-icon"><i class="fas fa-upload"></i></div>
+                    <div class="card-title">Enviar Arquivos</div>
+                    <div class="card-subtitle">Upload de documentos</div>
+                    <div class="card-decoration decoration-rotate">📎</div>
+                </a>
+                
+                <a href="../../apps/CONFIGURACAO/index.html" class="home-card" aria-label="Configurações - Ajustes do Sistema">
+                    <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                    <div class="card-title">Configurações</div>
+                    <div class="card-subtitle">Ajustes do Sistema</div>
+                    <div class="card-decoration decoration-bounce">⚙️</div>
+                </a>
+            </div>
+        </main>
+
+        <footer class="home-footer">
+            <a href="https://wa.me/5544998408460" class="footer-button" target="_blank" aria-label="Contato via WhatsApp">
+                <i class="fab fa-whatsapp footer-icon" aria-hidden="true"></i>
+                WhatsApp
             </a>
             
-            <!-- APP 4: CONFIGURAÇÕES -->
-            <a href="../../apps/CONFIGURACAO/index.html" class="app-card">
-                <div class="card-icon"><i class="fas fa-cogs"></i></div>
-                <div class="card-title">Configurações</div>
-                <div class="card-subtitle">Ajustes do Sistema</div>
-                <div class="card-decoration decoration-bounce" style="animation-delay: 2.1s;">⚙️</div>
+            <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank" aria-label="Siga-nos no Instagram">
+                <i class="fab fa-instagram footer-icon" aria-hidden="true"></i>
+                Instagram
             </a>
-        </div>
-    </main>
+            
+            <a href="../../index.html" class="footer-button home-btn" aria-label="Voltar para Home">
+                <i class="fas fa-home footer-icon" aria-hidden="true"></i>
+                Home
+            </a>
+            
+            <!-- BOTÃO AJUDA CORRIGIDO -->
+            <a href="http://127.0.0.1:5500/apps/AJUDA/cadastro.html" class="footer-button" aria-label="Ajuda e Suporte">
+                <i class="fas fa-question-circle footer-icon" aria-hidden="true"></i>
+                Ajuda
+            </a>
+        </footer>
+    </div>
 
-    <!-- FOOTER MELHORADO -->
-    <footer class="home-footer">
-        <a href="https://wa.me/5544998408460" class="footer-button" target="_blank">
-            <i class="fab fa-whatsapp footer-icon"></i>
-            WhatsApp
-        </a>
-        
-        <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank">
-            <i class="fab fa-instagram footer-icon"></i>
-            Instagram
-        </a>
-        
-        <a href="../../index.html" class="footer-button">
-            <i class="fas fa-home footer-icon"></i>
-            Home
-        </a>
-    </footer>
+    <div class="toast success" id="successToast">
+        <i class="fas fa-check-circle toast-icon"></i>
+        <span class="toast-message">Cadastro criado com sucesso</span>
+    </div>
 
     <script>
-        // INICIALIZAÇÃO MELHORADA
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎯 Sistema de Cadastro Profissional - Iniciando...');
-            
-            // Adiciona classe de carregamento completo
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 800);
-            
-            console.log('✅ Sistema de cadastro inicializado!');
+        class CategoryPageManager {
+            constructor() {
+                this.appsGrid = document.getElementById('apps-grid');
+                this.themeToggle = document.getElementById('themeToggle');
+                this.successToast = document.getElementById('successToast');
+                this.currentTheme = this.getStoredTheme();
+                
+                this.init();
+            }
+
+            init() {
+                console.log('🚀 Sistema de Cadastro - Inicializando...');
+                
+                this.setupTheme();
+                this.setupEventListeners();
+                this.setupAccessibility();
+                
+                console.log('✅ Sistema de cadastro inicializado!');
+            }
+
+            setupTheme() {
+                document.documentElement.setAttribute('data-theme', this.currentTheme);
+                this.updateThemeIcon();
+                localStorage.setItem('theme', this.currentTheme);
+            }
+
+            getStoredTheme() {
+                const stored = localStorage.getItem('theme');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                return stored || (systemPrefersDark ? 'dark' : 'light');
+            }
+
+            toggleTheme() {
+                this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+                this.setupTheme();
+                this.provideHapticFeedback();
+            }
+
+            updateThemeIcon() {
+                const icon = this.themeToggle.querySelector('i');
+                if (this.currentTheme === 'dark') {
+                    icon.className = 'fas fa-sun';
+                    icon.style.color = '#FFD700';
+                } else {
+                    icon.className = 'fas fa-moon';
+                    icon.style.color = '#87CEEB';
+                }
+            }
+
+            provideHapticFeedback() {
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            }
+
+            showSuccessToast(message = "Cadastro criado com sucesso ✅") {
+                this.successToast.querySelector('.toast-message').textContent = message;
+                this.successToast.classList.add('show');
+                
+                setTimeout(() => {
+                    this.successToast.classList.remove('show');
+                }, 3000);
+            }
+
+            setupAccessibility() {
+                this.detectAccessibilityPreferences();
+                
+                const cards = document.querySelectorAll('.home-card');
+                cards.forEach(card => {
+                    const title = card.querySelector('.card-title').textContent;
+                    const subtitle = card.querySelector('.card-subtitle').textContent;
+                    card.setAttribute('aria-label', `${title} - ${subtitle}`);
+                });
+            }
+
+            detectAccessibilityPreferences() {
+                const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+                if (reducedMotion.matches) {
+                    document.documentElement.style.setProperty('--transition', 'none');
+                }
+            }
+
+            setupEventListeners() {
+                this.themeToggle.addEventListener('click', () => this.toggleTheme());
+                
+                const createCard = document.querySelector('a[href*="Criar Cadastro"]');
+                if (createCard) {
+                    createCard.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.provideHapticFeedback();
+                        this.showSuccessToast();
+                        
+                        setTimeout(() => {
+                            window.location.href = 'Criar Cadastro/index.html';
+                        }, 1000);
+                    });
+                }
+                
+                const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+                themeMedia.addEventListener('change', (e) => {
+                    if (!localStorage.getItem('theme')) {
+                        this.currentTheme = e.matches ? 'dark' : 'light';
+                        this.setupTheme();
+                    }
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.categoryPageManager = new CategoryPageManager();
         });
     </script>
 </body>

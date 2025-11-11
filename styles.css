@@ -21,8 +21,8 @@
   --card-bg: rgba(255, 255, 255, 0.08);
   --card-hover: rgba(255, 255, 255, 0.12);
   --card-border: rgba(255, 255, 255, 0.15);
-  --header-bg: rgba(30, 30, 30, 0.95); /* Mais escuro para destaque */
-  --footer-bg: rgba(30, 30, 30, 0.95); /* Mais escuro para destaque */
+  --header-bg: rgba(30, 30, 30, 0.95);
+  --footer-bg: rgba(30, 30, 30, 0.95);
   
   /* Efeitos */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -60,10 +60,10 @@
   --card-bg: rgba(0, 0, 0, 0.03);
   --card-hover: rgba(0, 0, 0, 0.06);
   --card-border: rgba(0, 0, 0, 0.1);
-  --header-bg: rgba(240, 240, 240, 0.95); /* Cinza claro para destaque */
-  --footer-bg: rgba(240, 240, 240, 0.95); /* Cinza claro para destaque */
+  --header-bg: rgba(240, 240, 240, 0.95);
+  --footer-bg: rgba(240, 240, 240, 0.95);
   
-  --secondary: #4682B4; /* Azul mais forte no claro */
+  --secondary: #4682B4;
 }
 
 /* ===== RESET E BASE ===== */
@@ -234,6 +234,7 @@ body {
   margin-bottom: 0.5rem;
   background: linear-gradient(90deg, #8B5CF6, #52BE80);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: titleGlow 2s ease-in-out infinite;
   letter-spacing: 0.5px;
@@ -300,7 +301,7 @@ body {
   100% { transform: scaleX(1); }
 }
 
-/* ===== HEADER DESTACADO ===== */
+/* ===== HEADER PADRONIZADO ===== */
 #global-header {
   background: var(--header-bg);
   backdrop-filter: blur(20px);
@@ -320,33 +321,105 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  gap: 16px;
 }
 
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
 }
 
 .header-icon {
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   color: var(--primary);
-  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
+  filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.6));
+  animation: iconPulse 3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes iconPulse {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.6));
+  }
+  25% { 
+    transform: scale(1.05) rotate(2deg);
+    filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.8));
+  }
+  50% { 
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.6));
+  }
+  75% { 
+    transform: scale(1.03) rotate(-1deg);
+    filter: drop-shadow(0 0 11px rgba(139, 92, 246, 0.7));
+  }
+}
+
+.header-titles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  flex: 1;
 }
 
 .header-title {
   font-size: 1.4rem;
-  font-weight: 600;
+  font-weight: 700;
   background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1.2;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  animation: titleSlide 8s ease-in-out infinite;
+}
+
+@keyframes titleSlide {
+  0%, 100% { 
+    transform: translateX(0);
+  }
+  25% { 
+    transform: translateX(2px);
+  }
+  50% { 
+    transform: translateX(0);
+  }
+  75% { 
+    transform: translateX(-1px);
+  }
 }
 
 .header-subtitle {
   font-size: 0.9rem;
   color: var(--text-secondary);
-  font-weight: 400;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  animation: subtitleSlide 6s ease-in-out infinite;
+}
+
+@keyframes subtitleSlide {
+  0%, 100% { 
+    transform: translateX(0);
+  }
+  33% { 
+    transform: translateX(-1px);
+  }
+  66% { 
+    transform: translateX(1px);
+  }
 }
 
 /* ===== BOTÃO TEMA ÚNICO ===== */
@@ -364,6 +437,7 @@ body {
   color: var(--text-primary);
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .theme-toggle:hover {
@@ -376,11 +450,11 @@ body {
 }
 
 .theme-toggle .fa-sun {
-  color: #FFD700; /* Amarelo para o sol */
+  color: #FFD700;
 }
 
 .theme-toggle .fa-moon {
-  color: #87CEEB; /* Azul céu para a lua */
+  color: #87CEEB;
 }
 
 /* ===== CONTAINER PRINCIPAL ALINHADO ===== */
@@ -488,6 +562,7 @@ body {
   margin-bottom: 14px;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: var(--transition);
   width: var(--icon-size);
@@ -634,20 +709,22 @@ body {
   backdrop-filter: blur(15px);
   border: 1px solid var(--card-border);
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 14px 16px;
   color: var(--text-primary);
   text-decoration: none;
   font-size: 0.82rem;
   font-weight: 500;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   transition: var(--transition);
   flex: 1;
-  max-width: 140px;
-  justify-content: center;
+  max-width: 160px;
+  min-width: 0;
   text-align: center;
   cursor: pointer;
+  min-height: 48px;
 }
 
 .footer-button:hover {
@@ -663,17 +740,26 @@ body {
 
 .footer-icon {
   font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.footer-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 /* Cores específicas para botões do footer */
-.footer-button:nth-child(1) .footer-icon,
-.footer-button:nth-child(4) .footer-icon { 
-  color: #25D366; /* Verde para WhatsApp e Sair */
+.footer-button:nth-child(1) .footer-icon { 
+  color: #25D366;
 }
 
 .footer-button:nth-child(2) .footer-icon { 
   background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -761,6 +847,7 @@ body {
 
   .header-title { font-size: 1.2rem; }
   .header-subtitle { font-size: 0.8rem; }
+  .header-icon { font-size: 1.8rem; }
   .card-decoration { font-size: 0.8rem; }
   
   .sapo-mascote { font-size: 4rem; }
@@ -772,9 +859,10 @@ body {
   }
   
   .footer-button {
-    padding: 10px 12px;
-    font-size: 0.75rem;
-    max-width: 130px;
+    padding: 12px 14px;
+    font-size: 0.78rem;
+    max-width: 140px;
+    min-height: 46px;
   }
 }
 
@@ -798,7 +886,9 @@ body {
   .home-card { padding: 15px 8px; }
   
   .header-title { font-size: 1.1rem; }
+  .header-subtitle { font-size: 0.75rem; }
   .header-icon { font-size: 1.5rem; }
+  .header-brand { gap: 12px; }
   
   .sapo-mascote { font-size: 3.5rem; }
   .splash-title { font-size: 1.4rem; }
@@ -811,9 +901,10 @@ body {
   }
   
   .footer-button {
-    padding: 10px 8px;
-    font-size: 0.7rem;
-    max-width: 110px;
+    padding: 11px 12px;
+    font-size: 0.75rem;
+    max-width: 120px;
+    min-height: 44px;
     gap: 6px;
   }
 
@@ -840,7 +931,10 @@ body {
 
   .container { padding: 0.6rem; }
   .header-title { font-size: 1rem; }
+  .header-subtitle { font-size: 0.7rem; }
   .header-content { gap: 8px; }
+  .header-brand { gap: 8px; }
+  .header-icon { font-size: 1.3rem; }
   .card-decoration { font-size: 0.7rem; }
 
   .sapo-mascote { font-size: 3rem; }
@@ -854,9 +948,10 @@ body {
   }
   
   .footer-button {
-    padding: 8px 6px;
-    font-size: 0.65rem;
-    max-width: 100px;
+    padding: 10px 8px;
+    font-size: 0.7rem;
+    max-width: 110px;
+    min-height: 42px;
     gap: 4px;
   }
 
@@ -882,6 +977,12 @@ body {
 
   .sapo-mascote { font-size: 6rem; }
   .splash-title { font-size: 2.5rem; }
+
+  .footer-button {
+    max-width: 180px;
+    padding: 16px 20px;
+    font-size: 0.85rem;
+  }
 
   .grid-12 { grid-template-columns: repeat(4, 1fr); }
   .grid-15 { grid-template-columns: repeat(5, 1fr); }
