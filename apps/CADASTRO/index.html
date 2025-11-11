@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ===== VARIÁVEIS CSS PADRONIZADAS ===== */
+        /* (O CSS permanece EXATAMENTE igual) */
         :root {
             --primary: #8B5CF6;
             --primary-dark: #7C3AED;
@@ -558,7 +558,7 @@
                         <div class="header-subtitle">Encomenda Palotina</div>
                     </div>
                 </div>
-                <!-- BOTÃO TEMA CLARO/ESCURO RESTAURADO -->
+                <!-- BOTÃO TEMA CLARO/ESCURO -->
                 <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -567,54 +567,58 @@
 
         <main class="container">
             <div class="home-grid" id="apps-grid">
-                <a href="Criar Cadastro/index.html" class="home-card" aria-label="Criar Cadastro - Adicionar novo registro">
+                <!-- APPS DE CADASTRO - LINKS CORRETOS BASEADOS NA ESTRUTURA -->
+                <a href="criar-cadastro/index.html" class="home-card" aria-label="Criar Cadastro - Adicionar novo registro">
                     <div class="card-icon"><i class="fas fa-user-plus"></i></div>
                     <div class="card-title">Criar Cadastro</div>
                     <div class="card-subtitle">Adicionar novo registro</div>
                     <div class="card-decoration decoration-float">✨</div>
                 </a>
 
-                <a href="Atualizar Cadastro/index.html" class="home-card" aria-label="Atualizar Cadastro - Modificar dados existentes">
+                <a href="atualizar-cadastro/index.html" class="home-card" aria-label="Atualizar Cadastro - Modificar dados existentes">
                     <div class="card-icon"><i class="fas fa-user-edit"></i></div>
                     <div class="card-title">Atualizar Cadastro</div>
                     <div class="card-subtitle">Modificar dados existentes</div>
                     <div class="card-decoration decoration-pulse">📝</div>
                 </a>
 
-                <a href="Enviar Arquivos/index.html" class="home-card" aria-label="Enviar Arquivos - Upload de documentos">
+                <a href="enviar-arquivos/index.html" class="home-card" aria-label="Enviar Arquivos - Upload de documentos">
                     <div class="card-icon"><i class="fas fa-upload"></i></div>
                     <div class="card-title">Enviar Arquivos</div>
                     <div class="card-subtitle">Upload de documentos</div>
                     <div class="card-decoration decoration-rotate">📎</div>
                 </a>
                 
-                <a href="../../apps/CONFIGURACAO/index.html" class="home-card" aria-label="Configurações - Ajustes do Sistema">
-                    <div class="card-icon"><i class="fas fa-cogs"></i></div>
-                    <div class="card-title">Configurações</div>
-                    <div class="card-subtitle">Ajustes do Sistema</div>
-                    <div class="card-decoration decoration-bounce">⚙️</div>
+                <a href="portal-do-cliente/index.html" class="home-card" aria-label="Portal do Cliente - Acesso ao sistema">
+                    <div class="card-icon"><i class="fas fa-user-circle"></i></div>
+                    <div class="card-title">Portal do Cliente</div>
+                    <div class="card-subtitle">Acesso ao sistema</div>
+                    <div class="card-decoration decoration-bounce">🌐</div>
                 </a>
             </div>
         </main>
 
         <footer class="home-footer">
+            <!-- WHATSAPP -->
             <a href="https://wa.me/5544998408460" class="footer-button" target="_blank" aria-label="Contato via WhatsApp">
                 <i class="fab fa-whatsapp footer-icon" aria-hidden="true"></i>
                 WhatsApp
             </a>
             
+            <!-- INSTAGRAM -->
             <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank" aria-label="Siga-nos no Instagram">
                 <i class="fab fa-instagram footer-icon" aria-hidden="true"></i>
                 Instagram
             </a>
             
+            <!-- HOME - CORRIGIDO -->
             <a href="../../index.html" class="footer-button home-btn" aria-label="Voltar para Home">
                 <i class="fas fa-home footer-icon" aria-hidden="true"></i>
                 Home
             </a>
             
-            <!-- BOTÃO AJUDA CORRIGIDO -->
-            <a href="http://127.0.0.1:5500/apps/AJUDA/cadastro.html" class="footer-button" aria-label="Ajuda e Suporte">
+            <!-- AJUDA - CORRIGIDO -->
+            <a href="../AJUDA/cadastro.html" class="footer-button" aria-label="Ajuda e Suporte">
                 <i class="fas fa-question-circle footer-icon" aria-hidden="true"></i>
                 Ajuda
             </a>
@@ -712,7 +716,7 @@
             setupEventListeners() {
                 this.themeToggle.addEventListener('click', () => this.toggleTheme());
                 
-                const createCard = document.querySelector('a[href*="Criar Cadastro"]');
+                const createCard = document.querySelector('a[href*="criar-cadastro"]');
                 if (createCard) {
                     createCard.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -720,7 +724,7 @@
                         this.showSuccessToast();
                         
                         setTimeout(() => {
-                            window.location.href = 'Criar Cadastro/index.html';
+                            window.location.href = 'criar-cadastro/index.html';
                         }, 1000);
                     });
                 }
