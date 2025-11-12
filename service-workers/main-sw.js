@@ -1,0 +1,1 @@
+﻿importScripts('cache-manager.js');

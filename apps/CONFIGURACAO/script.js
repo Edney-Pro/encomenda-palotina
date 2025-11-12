@@ -1,4 +1,4 @@
-// ===== SISTEMA DE CONFIGURAÇÕES SIMPLES E FUNCIONAL =====
+// ===== SISTEMA DE CONFIGURAÇÕES COMPLETO =====
 
 class ConfigSystem {
     constructor() {
@@ -14,6 +14,7 @@ class ConfigSystem {
         this.setupConfigCards();
         this.setupModal();
         this.setupEventListeners();
+        this.applyIconConfig();
         
         console.log('✅ Sistema de configurações pronto!');
     }
@@ -84,7 +85,35 @@ class ConfigSystem {
         this.modalTitle.textContent = configData.title;
         this.modalBody.innerHTML = configData.content;
         this.currentConfigType = configType;
+        
+        // Preencher formulários com valores atuais
+        this.fillFormWithCurrentValues();
+        
         this.modal.classList.add('active');
+    }
+
+    fillFormWithCurrentValues() {
+        if (!this.currentConfigType || !this.config[this.currentConfigType]) return;
+        
+        const formData = this.config[this.currentConfigType];
+        const inputs = this.modalBody.querySelectorAll('input, select, textarea');
+        
+        inputs.forEach(input => {
+            if (formData[input.name] !== undefined) {
+                if (input.type === 'checkbox') {
+                    input.checked = formData[input.name];
+                } else if (input.type === 'range') {
+                    input.value = formData[input.name];
+                    // Atualizar display do valor
+                    const valueDisplay = input.parentElement.querySelector('.value');
+                    if (valueDisplay) {
+                        valueDisplay.textContent = formData[input.name];
+                    }
+                } else {
+                    input.value = formData[input.name];
+                }
+            }
+        });
     }
 
     closeModal() {
@@ -102,6 +131,9 @@ class ConfigSystem {
         this.config[this.currentConfigType] = formData;
         this.saveConfigToStorage();
         
+        // Aplicar configurações em tempo real
+        this.applyConfig(this.currentConfigType, formData);
+        
         this.showNotification('Configurações salvas com sucesso!');
         this.closeModal();
     }
@@ -113,7 +145,7 @@ class ConfigSystem {
         inputs.forEach(input => {
             if (input.type === 'checkbox') {
                 formData[input.name] = input.checked;
-            } else if (input.type === 'number') {
+            } else if (input.type === 'number' || input.type === 'range') {
                 formData[input.name] = parseFloat(input.value) || 0;
             } else {
                 formData[input.name] = input.value;
@@ -121,6 +153,93 @@ class ConfigSystem {
         });
         
         return formData;
+    }
+
+    // === APLICAR CONFIGURAÇÕES EM TEMPO REAL ===
+    applyConfig(configType, configData) {
+        switch(configType) {
+            case 'cores':
+                this.applyColorConfig(configData);
+                break;
+            case 'icones':
+            case 'bordas':
+            case 'transparencia':
+            case 'sombra':
+                this.applyIconConfig();
+                break;
+            case 'fontes':
+                this.applyFontConfig(configData);
+                break;
+        }
+    }
+
+    applyColorConfig(configData) {
+        if (configData.primaryColor) {
+            document.documentElement.style.setProperty('--primary', configData.primaryColor);
+        }
+        if (configData.secondaryColor) {
+            document.documentElement.style.setProperty('--secondary', configData.secondaryColor);
+        }
+        if (configData.accentColor) {
+            document.documentElement.style.setProperty('--accent', configData.accentColor);
+        }
+    }
+
+    applyIconConfig() {
+        const iconConfig = this.config.icones || {};
+        const borderConfig = this.config.bordas || {};
+        const transparencyConfig = this.config.transparencia || {};
+        const shadowConfig = this.config.sombra || {};
+        
+        // Aplicar configurações de ícones
+        if (iconConfig.tamanho) {
+            document.documentElement.style.setProperty('--icon-size', iconConfig.tamanho + 'px');
+        }
+        if (iconConfig.rotacao !== undefined) {
+            document.documentElement.style.setProperty('--icon-rotate-hover', iconConfig.rotacao + 'deg');
+        }
+        if (iconConfig.escala !== undefined) {
+            document.documentElement.style.setProperty('--icon-scale-hover', iconConfig.escala);
+        }
+        if (iconConfig.velocidade !== undefined) {
+            document.documentElement.style.setProperty('--icon-animation-speed', iconConfig.velocidade + 's');
+        }
+        
+        // Aplicar configurações de bordas
+        if (borderConfig.raio !== undefined) {
+            document.documentElement.style.setProperty('--icon-border-radius', borderConfig.raio + 'px');
+        }
+        if (borderConfig.largura !== undefined) {
+            document.documentElement.style.setProperty('--icon-border-width', borderConfig.largura + 'px');
+        }
+        if (borderConfig.cor) {
+            document.documentElement.style.setProperty('--icon-border-color', borderConfig.cor);
+        }
+        
+        // Aplicar configurações de transparência
+        if (transparencyConfig.fundo !== undefined) {
+            document.documentElement.style.setProperty('--icon-background-opacity', transparencyConfig.fundo / 100);
+        }
+        if (transparencyConfig.hover !== undefined) {
+            document.documentElement.style.setProperty('--icon-hover-opacity', transparencyConfig.hover / 100);
+        }
+        if (transparencyConfig.blur !== undefined) {
+            document.documentElement.style.setProperty('--blur-intensity', transparencyConfig.blur + 'px');
+        }
+        
+        // Aplicar configurações de sombra
+        if (shadowConfig.intensidade !== undefined) {
+            document.documentElement.style.setProperty('--icon-shadow-intensity', shadowConfig.intensidade / 100);
+        }
+    }
+
+    applyFontConfig(configData) {
+        if (configData.fontFamily) {
+            document.documentElement.style.setProperty('--font-family', configData.fontFamily);
+        }
+        if (configData.fontSize) {
+            document.documentElement.style.setProperty('--font-size-base', configData.fontSize + 'px');
+        }
     }
 
     // === CONFIGURAÇÕES ===
@@ -156,8 +275,151 @@ class ConfigSystem {
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Tamanho da Fonte</label>
-                        <input type="range" class="form-input" name="fontSize" min="12" max="18" value="${this.config.fontes?.fontSize || 14}">
+                        <label class="form-label">Tamanho da Fonte Base</label>
+                        <input type="range" class="form-range" name="fontSize" min="12" max="18" value="${this.config.fontes?.fontSize || 14}">
+                        <div class="range-value">
+                            <span>Pequeno</span>
+                            <span class="value">${this.config.fontes?.fontSize || 14}</span>
+                            <span>Grande</span>
+                        </div>
+                    </div>
+                `
+            },
+            'icones': {
+                title: 'Configurações de Ícones',
+                content: `
+                    <div class="icon-preview">
+                        <div class="preview-card">
+                            <div class="preview-icon"><i class="fas fa-star"></i></div>
+                            <div class="preview-text">Preview</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tamanho do Ícone</label>
+                        <input type="range" class="form-range" name="tamanho" min="50" max="90" value="${this.config.icones?.tamanho || 70}">
+                        <div class="range-value">
+                            <span>Pequeno</span>
+                            <span class="value">${this.config.icones?.tamanho || 70}px</span>
+                            <span>Grande</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Rotação no Hover</label>
+                        <input type="range" class="form-range" name="rotacao" min="0" max="20" value="${this.config.icones?.rotacao || 5}">
+                        <div class="range-value">
+                            <span>Nenhuma</span>
+                            <span class="value">${this.config.icones?.rotacao || 5}°</span>
+                            <span>Máxima</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Escala no Hover</label>
+                        <input type="range" class="form-range" name="escala" min="1.0" max="1.3" step="0.05" value="${this.config.icones?.escala || 1.05}">
+                        <div class="range-value">
+                            <span>Normal</span>
+                            <span class="value">${this.config.icones?.escala || 1.05}x</span>
+                            <span>Máxima</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Velocidade da Animação</label>
+                        <input type="range" class="form-range" name="velocidade" min="0.1" max="1.0" step="0.1" value="${this.config.icones?.velocidade || 0.3}">
+                        <div class="range-value">
+                            <span>Rápido</span>
+                            <span class="value">${this.config.icones?.velocidade || 0.3}s</span>
+                            <span>Lento</span>
+                        </div>
+                    </div>
+                `
+            },
+            'bordas': {
+                title: 'Configurações de Bordas',
+                content: `
+                    <div class="icon-preview">
+                        <div class="preview-card">
+                            <div class="preview-icon"><i class="fas fa-square"></i></div>
+                            <div class="preview-text">Preview da Borda</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Raio da Borda</label>
+                        <input type="range" class="form-range" name="raio" min="0" max="30" value="${this.config.bordas?.raio || 16}">
+                        <div class="range-value">
+                            <span>Quadrada</span>
+                            <span class="value">${this.config.bordas?.raio || 16}px</span>
+                            <span>Redonda</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Largura da Borda</label>
+                        <input type="range" class="form-range" name="largura" min="0" max="5" value="${this.config.bordas?.largura || 1}">
+                        <div class="range-value">
+                            <span>Fina</span>
+                            <span class="value">${this.config.bordas?.largura || 1}px</span>
+                            <span>Grossa</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Cor da Borda</label>
+                        <input type="color" class="form-input" name="cor" value="${this.config.bordas?.cor || 'rgba(255, 255, 255, 0.15)'}">
+                    </div>
+                `
+            },
+            'transparencia': {
+                title: 'Configurações de Transparência',
+                content: `
+                    <div class="icon-preview">
+                        <div class="preview-card">
+                            <div class="preview-icon"><i class="fas fa-adjust"></i></div>
+                            <div class="preview-text">Preview Transparência</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Opacidade do Fundo</label>
+                        <input type="range" class="form-range" name="fundo" min="1" max="30" value="${(this.config.transparencia?.fundo || 8)}">
+                        <div class="range-value">
+                            <span>Transparente</span>
+                            <span class="value">${this.config.transparencia?.fundo || 8}%</span>
+                            <span>Sólido</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Opacidade no Hover</label>
+                        <input type="range" class="form-range" name="hover" min="5" max="40" value="${(this.config.transparencia?.hover || 12)}">
+                        <div class="range-value">
+                            <span>Leve</span>
+                            <span class="value">${this.config.transparencia?.hover || 12}%</span>
+                            <span>Forte</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Intensidade do Blur</label>
+                        <input type="range" class="form-range" name="blur" min="5" max="30" value="${this.config.transparencia?.blur || 20}">
+                        <div class="range-value">
+                            <span>Suave</span>
+                            <span class="value">${this.config.transparencia?.blur || 20}px</span>
+                            <span>Forte</span>
+                        </div>
+                    </div>
+                `
+            },
+            'sombra': {
+                title: 'Configurações de Sombras',
+                content: `
+                    <div class="icon-preview">
+                        <div class="preview-card">
+                            <div class="preview-icon"><i class="fas fa-cloud"></i></div>
+                            <div class="preview-text">Preview Sombra</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Intensidade da Sombra</label>
+                        <input type="range" class="form-range" name="intensidade" min="10" max="100" value="${this.config.sombra?.intensidade || 40}">
+                        <div class="range-value">
+                            <span>Suave</span>
+                            <span class="value">${this.config.sombra?.intensidade || 40}%</span>
+                            <span>Forte</span>
+                        </div>
                     </div>
                 `
             },
@@ -193,15 +455,12 @@ class ConfigSystem {
                     </div>
                     <div class="form-group">
                         <label class="form-label">Volume Geral</label>
-                        <input type="range" class="form-input" name="volume" min="0" max="100" value="${this.config.sons?.volume || 80}">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Som de Clique</label>
-                        <select class="form-select" name="somClique">
-                            <option value="suave" ${(this.config.sons?.somClique || 'suave') === 'suave' ? 'selected' : ''}>Suave</option>
-                            <option value="digital" ${(this.config.sons?.somClique || 'suave') === 'digital' ? 'selected' : ''}>Digital</option>
-                            <option value="classico" ${(this.config.sons?.somClique || 'suave') === 'classico' ? 'selected' : ''}>Clássico</option>
-                        </select>
+                        <input type="range" class="form-range" name="volume" min="0" max="100" value="${this.config.sons?.volume || 80}">
+                        <div class="range-value">
+                            <span>Mudo</span>
+                            <span class="value">${this.config.sons?.volume || 80}%</span>
+                            <span>Máximo</span>
+                        </div>
                     </div>
                 `
             },
@@ -297,16 +556,33 @@ class ConfigSystem {
     // === FUNÇÕES DO SISTEMA ===
     applyTheme(themeName) {
         const themes = {
-            'nubank': { primaryColor: '#820AD1', secondaryColor: '#CBA3F8' },
-            'mercadopago': { primaryColor: '#009EE3', secondaryColor: '#00B3E6' },
-            'inter': { primaryColor: '#FF7A00', secondaryColor: '#FFAD66' },
-            'palotina': { primaryColor: '#8b5cf6', secondaryColor: '#7c3aed' }
+            'nubank': { 
+                primaryColor: '#820AD1', 
+                secondaryColor: '#CBA3F8',
+                accentColor: '#00D4AA'
+            },
+            'mercadopago': { 
+                primaryColor: '#009EE3', 
+                secondaryColor: '#00B3E6',
+                accentColor: '#FFE600'
+            },
+            'inter': { 
+                primaryColor: '#FF7A00', 
+                secondaryColor: '#FFAD66',
+                accentColor: '#00C2FF'
+            },
+            'palotina': { 
+                primaryColor: '#8b5cf6', 
+                secondaryColor: '#7c3aed',
+                accentColor: '#10b981'
+            }
         };
         
         const theme = themes[themeName];
         if (theme) {
             this.config.cores = theme;
             this.saveConfigToStorage();
+            this.applyColorConfig(theme);
             this.showNotification(`Tema ${themeName} aplicado!`);
             this.closeModal();
         }
@@ -339,8 +615,9 @@ class ConfigSystem {
         if (confirm('Tem certeza que deseja resetar todas as configurações?')) {
             localStorage.removeItem('systemConfig');
             this.config = this.getDefaultConfig();
+            this.saveConfigToStorage();
+            location.reload(); // Recarrega para aplicar padrões
             this.showNotification('Sistema resetado para padrão!');
-            this.closeModal();
         }
     }
 
@@ -374,6 +651,25 @@ class ConfigSystem {
                 fontFamily: 'Inter',
                 fontSize: 14
             },
+            icones: {
+                tamanho: 70,
+                rotacao: 5,
+                escala: 1.05,
+                velocidade: 0.3
+            },
+            bordas: {
+                raio: 16,
+                largura: 1,
+                cor: 'rgba(255, 255, 255, 0.15)'
+            },
+            transparencia: {
+                fundo: 8,
+                hover: 12,
+                blur: 20
+            },
+            sombra: {
+                intensidade: 40
+            },
             taxasGerais: {
                 jurosMensal: 5.0,
                 multaAtraso: 2.0,
@@ -382,8 +678,7 @@ class ConfigSystem {
             },
             sons: {
                 sonsAtivos: true,
-                volume: 80,
-                somClique: 'suave'
+                volume: 80
             }
         };
     }
@@ -401,13 +696,58 @@ class ConfigSystem {
                 this.saveConfig();
             }
         });
+
+        // Atualizar preview em tempo real nos sliders
+        document.addEventListener('input', (e) => {
+            if (e.target.type === 'range' && this.modal.classList.contains('active')) {
+                const valueDisplay = e.target.parentElement.querySelector('.value');
+                if (valueDisplay) {
+                    valueDisplay.textContent = e.target.value + (e.target.name === 'tamanho' ? 'px' : 
+                                                               e.target.name === 'rotacao' ? '°' :
+                                                               e.target.name === 'escala' ? 'x' :
+                                                               e.target.name === 'velocidade' ? 's' :
+                                                               e.target.name === 'raio' ? 'px' :
+                                                               e.target.name === 'largura' ? 'px' :
+                                                               e.target.name === 'fundo' ? '%' :
+                                                               e.target.name === 'hover' ? '%' :
+                                                               e.target.name === 'blur' ? 'px' :
+                                                               e.target.name === 'intensidade' ? '%' :
+                                                               e.target.name === 'volume' ? '%' : '');
+                }
+                
+                // Aplicar preview em tempo real para configurações visuais
+                if (['icones', 'bordas', 'transparencia', 'sombra'].includes(this.currentConfigType)) {
+                    const previewData = this.collectFormData();
+                    this.applyConfig(this.currentConfigType, previewData);
+                }
+            }
+        });
     }
 
     // === NOTIFICAÇÕES ===
     showNotification(message) {
-        // Notificação simples
+        // Notificação simples - você pode implementar um sistema de toast aqui
         console.log('📢 ' + message);
-        // Você pode implementar um sistema de toast aqui
+        
+        // Notificação visual simples
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+        `;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
     }
 }
 
