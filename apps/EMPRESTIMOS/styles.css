@@ -1,0 +1,156 @@
+/* ===== VARIÁVEIS CSS ATUALIZADAS ===== */
+:root {
+  --primary: #8B5CF6;
+  --secondary: #87CEEB;
+  --bg-primary: #000000;
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.15);
+  --header-bg: rgba(30, 30, 30, 0.95);
+  --footer-bg: rgba(30, 30, 30, 0.95);
+  --text-primary: #F9FAFB;
+  --text-secondary: #D1D5DB;
+  --grid-gap: 16px;
+  --border-radius: 16px;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* FUNDO ESCURO VISÍVEL */
+.app-container, body {
+  background: var(--bg-primary) !important;
+  color: var(--text-primary);
+}
+
+/* HEADER E FOOTER COM MESMA ALTURA */
+#global-header, .home-footer {
+  height: 76px;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  background: var(--header-bg);
+  border: 2px solid var(--card-border);
+  backdrop-filter: blur(20px);
+}
+
+.home-footer { background: var(--footer-bg); }
+
+/* GRID 2x2 CENTRALIZADO */
+.home-grid.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--grid-gap);
+  place-content: center;
+  max-width: 500px;
+  max-height: 500px;
+  width: 100%;
+  height: 100%;
+}
+
+/* CARDS VISÍVEIS */
+.home-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  padding: 18px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--secondary);
+}
+
+.card-icon {
+  font-size: 1.9rem;
+  margin-bottom: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.card-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card-subtitle {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+/* ÍCONES FLUTUANTES */
+.card-decoration {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.9rem;
+  opacity: 0.6;
+  color: var(--primary);
+  animation: floatUnique1 6s ease-in-out infinite;
+}
+
+@keyframes floatUnique1 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-4px) rotate(2deg); }
+  50% { transform: translateY(2px) rotate(-1deg); }
+  75% { transform: translateY(-2px) rotate(1deg); }
+}
+
+/* FOOTER BOTÕES */
+.home-footer {
+  gap: var(--grid-gap);
+}
+
+.footer-button {
+  flex: 1;
+  height: 56px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.footer-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.footer-icon { font-size: 1.1rem; }
+.footer-button:nth-child(1) .footer-icon { color: #25D366; }
+.footer-button:nth-child(2) .footer-icon {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.footer-button:nth-child(3) .footer-icon { color: var(--primary); }
+
+/* RESPONSIVO */
+@media (max-width: 480px) {
+  .home-grid.grid-4 { gap: 12px; max-width: 380px; }
+  .footer-button { height: 50px; font-size: 0.75rem; }
+}
