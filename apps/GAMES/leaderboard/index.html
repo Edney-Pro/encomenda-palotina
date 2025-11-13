@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/js/timeTracker.js" defer></script>
+  <script src="/js/favicon.js"></script>
+  <script src="/js/panic.js"></script>
+  <script src="/js/autoclicker.js"></script>
+  <title>Grades & Attendance</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.png">  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;700&family=Orbitron:wght@400;500&family=VT323&family=Pixelify+Sans&display=swap");
+
+    :root {
+      --bg-primary: #0a0a1a;
+      --bg-secondary: #1a1a2e;
+      --bg-tertiary: #25253a;
+      --accent-pink: #ff6b9d;
+      --accent-blue: #6b9dff;
+      --accent-purple: #9d6bff;
+      --accent-cyan: #6bffd9;
+      --text-primary: #ffffff;
+      --text-secondary: #c0c0d0;
+      --shadow-md: 0 8px 15px rgba(0, 0, 0, 0.2);
+      --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.3);
+      --transition-normal: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Chakra Petch", sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(157, 107, 255, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 107, 157, 0.05) 0%, transparent 20%);
+    }
+
+    .leaderboard-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .leaderboard-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-bottom: 1.5rem;
+    }
+
+    .leaderboard-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+      border-radius: 2px;
+    }
+
+    h1 {
+      font-family: "Orbitron", sans-serif;
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-blue), var(--accent-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 10px rgba(255, 107, 157, 0.3);
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .game-logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      border: 4px solid transparent;
+      background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+                  linear-gradient(135deg, var(--accent-pink), var(--accent-blue)) border-box;
+      box-shadow: var(--shadow-md);
+      transition: all var(--transition-bounce);
+    }
+
+    .game-logo:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
+    }
+
+    .submit-btn, .submit-btn-link button {
+      padding: 0.9rem 1.8rem;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+      color: var(--text-primary);
+      font-family: "Chakra Petch", sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all var(--transition-bounce);
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      margin: 0.5rem;
+    }
+
+    .submit-btn::before, .submit-btn-link button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity var(--transition-normal);
+    }
+
+    .submit-btn:hover, .submit-btn-link button:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .submit-btn:hover::before, .submit-btn-link button:hover::before {
+      opacity: 1;
+    }
+
+    .leaderboard {
+      width: 100%;
+      background-color: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg),
+                  inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      border: 1px solid rgba(107, 157, 255, 0.2);
+      max-height: 70vh;
+      overflow-y: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .leaderboard::-webkit-scrollbar {
+      display: none;
+    }
+
+    #score-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, 
+                  rgba(37, 37, 58, 0.9), 
+                  rgba(26, 26, 46, 0.9));
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      transition: all var(--transition-bounce);
+      border: 1px solid rgba(107, 157, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .leaderboard-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(255, 107, 157, 0.3);
+    }
+
+    .leaderboard-item::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 107, 157, 0.1) 0%, transparent 70%);
+      transform: rotate(30deg);
+      transition: all var(--transition-normal);
+      opacity: 0;
+    }
+
+    .leaderboard-item:hover::before {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+
+    .user-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 1.5rem;
+      border: 3px solid transparent;
+      background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+                  linear-gradient(135deg, var(--accent-pink), var(--accent-blue)) border-box;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: all var(--transition-bounce);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .leaderboard-item:hover .user-icon {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+    }
+
+    .user-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .player-info {
+      flex-grow: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    .game-title {
+      font-family: "Pixelify Sans", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .game-title i {
+      color: var(--accent-pink);
+      transition: transform var(--transition-normal);
+    }
+
+    .leaderboard-item:hover .game-title i {
+      transform: scale(1.2);
+    }
+
+    .username {
+      font-family: "VT323", monospace;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .username i {
+      color: var(--accent-blue);
+      transition: transform var(--transition-normal);
+    }
+
+    .leaderboard-item:hover .username i {
+      transform: scale(1.2);
+    }
+
+    .date {
+      font-family: "VT323", monospace;
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .date i {
+      color: var(--accent-purple);
+      transition: transform var(--transition-normal);
+    }
+
+    .leaderboard-item:hover .date i {
+      transform: scale(1.2);
+    }
+
+    .score {
+      font-family: "Orbitron", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding: 0.8rem 1.2rem;
+      border-radius: 12px;
+      border: 2px solid rgba(107, 157, 255, 0.3);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      transition: all var(--transition-normal);
+      flex-shrink: 0;
+      margin-left: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .leaderboard-item:hover .score {
+      border-color: rgba(255, 107, 157, 0.5);
+      box-shadow: 0 5px 15px rgba(255, 107, 157, 0.2);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .leaderboard-container {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .leaderboard-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem 1rem;
+      }
+      
+      .user-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+        width: 70px;
+        height: 70px;
+      }
+      
+      .player-info {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+      
+      .game-title, .username, .date {
+        justify-content: center;
+      }
+      
+      .score {
+        margin-left: 0;
+        margin-top: 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      .submit-btn, .submit-btn-link button {
+        padding: 0.7rem 1.4rem;
+        font-size: 0.9rem;
+      }
+      
+      .game-title {
+        font-size: 1.3rem;
+      }
+      
+      .username, .date {
+        font-size: 1.2rem;
+      }
+      
+      .score {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="leaderboard-container">
+    <header class="leaderboard-header">
+      <h1>Game High Scores</h1>
+      <a href="https://forms.gle/ALawAdMFksLapeo76" class="submit-btn-link">
+        <button class="submit-btn">Submit High Score</button>
+      </a>
+      <a href="/">
+      </a>
+    </header>
+    <div class="leaderboard">
+      <ul id="score-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    const leaderboardData = [
+      {
+        playerName: "Hayden", 
+        gameTitle: "Most Hours On Site", 
+        username: "Hayden", 
+        score: "18+ Days", 
+        date: "11/21/2024", 
+        userIcon: "/images/clock1.png",
+        proofLink: "/proof/timerecord.png"
+      },
+      {
+        playerName: "Alex", 
+        gameTitle: "Gunspin", 
+        username: "Alex", 
+        score: "29321", 
+        date: "12/10/2024", 
+        userIcon: "/images/gunspin.png",
+        proofLink: "/proof/gunspinproof.png"
+      },
+      {
+        playerName: "Luke", 
+        gameTitle: "Block Blast", 
+        username: "Luke", 
+        score: "10008", 
+        date: "11/21/2024", 
+        userIcon: "/images/blockblast.png",
+      },
+
+      {
+        playerName: "AJ", 
+        gameTitle: "Crossy Road", 
+        username: "AJ", 
+        score: "242", 
+        date: "12/10/2024", 
+        userIcon: "/images/crossyroad.png",
+      },
+      {
+        playerName: "MONK", 
+        gameTitle: "Subway Surfers", 
+        username: "MONK", 
+        score: "25468", 
+        date: "12/09/2024", 
+        userIcon: "https://img.poki.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/81a0a3f18cf0ee129e56edb50fc52c3b.png",
+      },
+{
+        playerName: "Gavin", 
+        gameTitle: "Tetris", 
+        username: "Gavin", 
+        score: "11300", 
+        date: "11/26/2024", 
+        userIcon: "/images/tetris.png",
+      },
+{
+        playerName: "Lincoln", 
+        gameTitle: "Jetpack Joyride", 
+        username: "Lincoln", 
+        score: "22579", 
+        date: "12/10/2024", 
+        userIcon: "/images/jetpackjoyride.png",
+      }
+    ];
+
+    const scoreList = document.getElementById("score-list");
+
+    function createLeaderboardItem(data) {
+      const listItem = document.createElement("li");
+      listItem.classList.add("leaderboard-item");
+      listItem.innerHTML = `
+        <div class="user-icon"><img src="${data.userIcon}" alt="${data.username}" /></div>
+        <div class="player-info">
+          <p class="game-title"><i class="fas fa-gamepad"></i>${data.gameTitle}</p>
+          <h3 class="username"><i class="fas fa-user"></i>${data.username}</h3>
+          <p class="date"><i class="fas fa-calendar-alt"></i> ${data.date}</p>
+        </div>
+        <div class="score">${data.score}</div>
+      `;
+      scoreList.appendChild(listItem);
+    }
+
+    leaderboardData.forEach(item => createLeaderboardItem(item));
+  </script>
+
+</body>
+</html>

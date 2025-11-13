@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Grades & Attendence</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.png">
+<script src="/js/favicon.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+<style>
+a:link {
+  color: white;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: white;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:active {
+  color: white;
+  background-color: transparent;
+  text-decoration: none;
+}
+</style>
+
+
+</head>
+<body>
+    
+  <div class="container">
+    <h1>Minecraft</h1>
+    <div class="search-container">
+      <input type="text" style= "color:white" id="searchInput" onkeyup="searchButtons()" placeholder="Search for games...">
+    </div>
+   <center> <div class="button-container1">
+       <br>
+<button class="button"><a style="text-decoration:none" href="/">Go Back</a></button>
+</div></center>
+<center><div class="button-container">
+<button class="button"><a style="text-decoration:none" href='mc.html'><img src="/images/mc.png"> <span>Minecraft Singleplayer</span></a></button>
+<button class="button"><a style="text-decoration:none" href='1.12.2/'><img src="/images/mc.png" alt=""> <span>Minecraft 1.12.2</span></a></button>
+<button class="button"><a style="text-decoration:none" href='http://mc.schoolworkedu.org:8081'><img src="/images/mc.png" alt=""> <span>Proll's Server</span></a></button></center>
+
+
+  <script>
+    function searchButtons() {
+        // Get the search query from the input field
+        var query = document.getElementById("searchInput").value.toLowerCase();
+
+        // Get all the buttons on the page
+        var buttons = document.getElementsByTagName("button");
+
+        // Loop through the buttons and check if their text contains the search query
+        for (var i = 0; i < buttons.length; i++) {
+            var buttonText = buttons[i].textContent.toLowerCase();
+            if (buttonText.includes(query)) {
+                buttons[i].style.display = "flex"; // Show the button
+            } else {
+                buttons[i].style.display = "none"; // Hide the button
+            }
+        }
+    }
+  </script>
+</body>
+</html>

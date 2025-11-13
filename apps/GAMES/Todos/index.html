@@ -1,0 +1,415 @@
+<!-- apps/GAMES/todos/index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Todos os Jogos - Encomenda Palotina</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f23;
+            color: white;
+            touch-action: none;
+        }
+
+        .games-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+
+        /* Header Fixo */
+        .games-header {
+            height: 12vh;
+            background: #1a1a2e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 2px solid #6a11cb;
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-size: 1.3rem;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-title p {
+            color: #b0b0b0;
+            font-size: 0.8rem;
+        }
+
+        .back-btn {
+            background: #6a11cb;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        /* Grid Principal FIXO 7x12 */
+        .games-main {
+            flex: 1;
+            height: 76vh;
+            padding: 8px;
+            overflow: hidden;
+        }
+
+        .all-games-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            gap: 4px;
+            height: 100%;
+            width: 100%;
+        }
+
+        .game-item {
+            background: #16213e;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 3px 1px;
+            font-size: 0.7rem;
+            text-align: center;
+            min-height: 0;
+        }
+
+        .game-item:active {
+            background: #6a11cb;
+            transform: scale(0.95);
+        }
+
+        .game-icon {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .game-name {
+            font-size: 0.55rem;
+            line-height: 1.1;
+            font-weight: 500;
+        }
+
+        /* Footer Fixo */
+        .games-footer {
+            height: 12vh;
+            background: #1a1a2e;
+            border-top: 2px solid #6a11cb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            padding: 5px;
+        }
+
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .nav-btn {
+            background: #16213e;
+            border: 1px solid #2d3748;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            transition: all 0.2s ease;
+            padding: 5px 2px;
+            font-size: 0.7rem;
+        }
+
+        .nav-btn:active {
+            background: #6a11cb;
+            transform: scale(0.95);
+        }
+
+        .btn-icon {
+            font-size: 0.9rem;
+        }
+
+        .btn-text {
+            font-size: 0.6rem;
+        }
+
+        /* Bloquear scroll */
+        body {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Landscape */
+        @media (orientation: landscape) {
+            .games-header {
+                height: 10vh;
+            }
+            
+            .games-main {
+                height: 80vh;
+            }
+            
+            .games-footer {
+                height: 10vh;
+            }
+            
+            .all-games-grid {
+                gap: 3px;
+            }
+            
+            .game-item {
+                padding: 2px 1px;
+                font-size: 0.6rem;
+            }
+            
+            .game-icon {
+                font-size: 0.9rem;
+            }
+            
+            .game-name {
+                font-size: 0.5rem;
+            }
+        }
+
+        /* Telas muito pequenas */
+        @media (max-width: 360px) {
+            .all-games-grid {
+                gap: 2px;
+            }
+            
+            .game-item {
+                padding: 1px;
+                font-size: 0.5rem;
+            }
+            
+            .game-icon {
+                font-size: 0.8rem;
+            }
+            
+            .game-name {
+                font-size: 0.45rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="games-container">
+        <!-- Header -->
+        <header class="games-header">
+            <div class="header-title">
+                <h1>🎮 Todos os Jogos</h1>
+                <p>84 jogos disponíveis</p>
+            </div>
+            <button class="back-btn" onclick="goBack()">← Voltar</button>
+        </header>
+
+        <!-- Grid 7x12 FIXO com 84 jogos -->
+        <main class="games-main">
+            <div class="all-games-grid" id="gamesGrid">
+                <!-- Os jogos serão carregados via JavaScript -->
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="games-footer">
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="goHome()">
+                    <span class="btn-icon">🏠</span>
+                    <span class="btn-text">Home</span>
+                </button>
+                
+                <button class="nav-btn" onclick="goCategories()">
+                    <span class="btn-icon">📁</span>
+                    <span class="btn-text">Categorias</span>
+                </button>
+                
+                <button class="nav-btn" onclick="goSearch()">
+                    <span class="btn-icon">🔍</span>
+                    <span class="btn-text">Buscar</span>
+                </button>
+                
+                <button class="nav-btn" onclick="goRandom()">
+                    <span class="btn-icon">🎲</span>
+                    <span class="btn-text">Aleatório</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Lista de jogos (será carregada do JSON depois)
+        const jogos = [
+            {id: "1v1-lol", nome: "1v1.LOL", icon: "🎯"},
+            {id: "gun-mayhem", nome: "Gun Mayhem", icon: "🔫"},
+            {id: "gun-mayhem-2", nome: "Gun Mayhem 2", icon: "💥"},
+            {id: "tank-trouble", nome: "Tank Trouble", icon: "🚛"},
+            {id: "time-shooter", nome: "Time Shooter", icon: "⏱️"},
+            {id: "getaway-shootout", nome: "Getaway Shootout", icon: "🏃‍♂️"},
+            {id: "rooftop-sniper", nome: "Rooftop Sniper", icon: "🏢"},
+            {id: "hide-smash", nome: "Hide Smash", icon: "👊"},
+            {id: "pixel-gun", nome: "Pixel Gun", icon: "🔫"},
+            {id: "n-gon", nome: "N-Gon", icon: "⚡"},
+            {id: "house-of-hazards", nome: "House Hazards", icon: "🏠"},
+            {id: "bullet-force", nome: "Bullet Force", icon: "💣"},
+            {id: "combat-online", nome: "Combat Online", icon: "⚔️"},
+            {id: "block-blast", nome: "Block Blast", icon: "🧩"},
+            {id: "infinite-craft", nome: "Infinite Craft", icon: "∞"},
+            {id: "cut-the-rope", nome: "Cut the Rope", icon: "✂️"},
+            {id: "draw-the-hill", nome: "Draw Hill", icon: "📐"},
+            {id: "tetris", nome: "Tetris", icon: "🔷"},
+            {id: "mine-sweeper", nome: "Mine Sweeper", icon: "💣"},
+            {id: "stacktris", nome: "Stacktris", icon: "📦"},
+            {id: "2048", nome: "2048", icon: "🔢"},
+            {id: "sudoku", nome: "Sudoku", icon: "9️⃣"},
+            {id: "cupcake-2048", nome: "Cupcake 2048", icon: "🧁"},
+            {id: "slope", nome: "Slope", icon: "🎢"},
+            {id: "drift-boss", nome: "Drift Boss", icon: "🚗"},
+            {id: "crazy-tunnel-3d", nome: "Crazy Tunnel", icon: "🕳️"},
+            {id: "drift-hunters", nome: "Drift Hunters", icon: "🏎️"},
+            {id: "snow-rider-3d", nome: "Snow Rider", icon: "🛷"},
+            {id: "drive-mad", nome: "Drive Mad", icon: "😵"},
+            {id: "motox3m", nome: "Moto X3M", icon: "🏍️"},
+            {id: "retro-bowl", nome: "Retro Bowl", icon: "🏈"},
+            {id: "volley-random", nome: "Volley Random", icon: "🏐"},
+            {id: "basketball-bros", nome: "Basket Bros", icon: "🏀"},
+            {id: "soccer-random", nome: "Soccer Random", icon: "⚽"},
+            {id: "boxing-random", nome: "Boxing Random", icon: "🥊"},
+            {id: "basketball-stars", nome: "Basket Stars", icon: "⭐"},
+            {id: "basketball-random", nome: "Basket Random", icon: "🎯"},
+            {id: "stickman-golf", nome: "Stickman Golf", icon: "⛳"},
+            {id: "retro-bowl-college", nome: "Retro College", icon: "🎓"},
+            {id: "baldis-basics", nome: "Baldi's Basics", icon: "👨‍🏫"},
+            {id: "fnaf-1", nome: "FNAF 1", icon: "🐻"},
+            {id: "fnaf-2", nome: "FNAF 2", icon: "🤖"},
+            {id: "learn-to-fly", nome: "Learn to Fly", icon: "🐧"},
+            {id: "wall-smash", nome: "Wall Smash", icon: "🧱"},
+            {id: "lazy-jump-3d", nome: "Lazy Jump", icon: "😴"},
+            {id: "just-fall", nome: "Just Fall", icon: "👇"},
+            {id: "crossy-road", nome: "Crossy Road", icon: "🐔"},
+            {id: "run-2", nome: "Run 2", icon: "👟"},
+            {id: "run-3", nome: "Run 3", icon: "🌌"},
+            {id: "google-snake", nome: "Google Snake", icon: "🐍"},
+            {id: "jetpack-joyride", nome: "Jetpack", icon: "🚀"},
+            {id: "jack-smith", nome: "Jack Smith", icon: "🛠️"},
+            {id: "minecraft-classic", nome: "Minecraft", icon: "⛏️"},
+            {id: "stickman-games", nome: "Stickman Games", icon: "👤"},
+            {id: "riddle-school", nome: "Riddle School", icon: "🎒"},
+            {id: "bloons-td5", nome: "Bloons TD5", icon: "🎈"},
+            {id: "plants-vs-zombies", nome: "Plants vs Zombies", icon: "🌱"},
+            {id: "pandemic-2", nome: "Pandemic 2", icon: "🦠"},
+            {id: "idle-breakout", nome: "Idle Breakout", icon: "💰"},
+            {id: "adventure-capitalist", nome: "Adventure Capitalist", icon: "💼"},
+            {id: "mr-mine", nome: "Mr. Mine", icon: "⛏️"},
+            {id: "cookie-clicker", nome: "Cookie Clicker", icon: "🍪"},
+            {id: "checkout-frenzy", nome: "Checkout Frenzy", icon: "🛒"},
+            {id: "monkey-mart", nome: "Monkey Mart", icon: "🐒"},
+            {id: "windows-desktop", nome: "Windows Desktop", icon: "🖥️"},
+            {id: "spend-elons-money", nome: "Spend Elon's Money", icon: "🚀"},
+            {id: "duck-life", nome: "Duck Life", icon: "🦆"},
+            {id: "papas-games", nome: "Papa's Games", icon: "🍔"},
+            {id: "csgo-case-opener", nome: "CSGO Case", icon: "🎁"},
+            {id: "bitlife", nome: "BitLife", icon: "👶"},
+            {id: "duck-life-1", nome: "Duck Life 1", icon: "🥇"},
+            {id: "hole-io", nome: "Hole.io", icon: "🕳️"},
+            {id: "paper-io-2", nome: "Paper.io 2", icon: "📄"},
+            {id: "ovo", nome: "OVO", icon: "🥚"},
+            {id: "vex-games", nome: "Vex Games", icon: "🤖"},
+            {id: "geometry-dash", nome: "Geometry Dash", icon: "🔺"},
+            {id: "black-jack", nome: "Black Jack", icon: "♠️"},
+            {id: "dbz-devolution", nome: "DBZ Devo", icon: "🐉"},
+            {id: "tiny-fishing", nome: "Tiny Fishing", icon: "🎣"},
+            {id: "image-tracer", nome: "Image Tracer", icon: "🖼️"},
+            {id: "sand-boxels", nome: "Sand Boxels", icon: "🧪"},
+            {id: "subway-surfers", nome: "Subway Surfers", icon: "🚇"},
+            {id: "temple-run", nome: "Temple Run", icon: "🏃‍♂️"},
+            {id: "flappy-bird", nome: "Flappy Bird", icon: "🐦"}
+        ];
+
+        // Carregar jogos no grid
+        function loadGames() {
+            const grid = document.getElementById('gamesGrid');
+            grid.innerHTML = '';
+
+            jogos.forEach(jogo => {
+                const gameElement = document.createElement('div');
+                gameElement.className = 'game-item';
+                gameElement.innerHTML = `
+                    <div class="game-icon">${jogo.icon}</div>
+                    <div class="game-name">${jogo.nome}</div>
+                `;
+                gameElement.addEventListener('click', () => openGame(jogo.id));
+                grid.appendChild(gameElement);
+            });
+        }
+
+        // Navegação
+        function goBack() {
+            window.location.href = '../index.html';
+        }
+
+        function goHome() {
+            window.location.href = '../../../index.html';
+        }
+
+        function goCategories() {
+            window.location.href = '../index.html';
+        }
+
+        function goSearch() {
+            alert('🔍 Buscar jogos');
+        }
+
+        function goRandom() {
+            const randomGame = jogos[Math.floor(Math.random() * jogos.length)];
+            alert(`🎲 Jogo aleatório: ${randomGame.nome}`);
+        }
+
+        function openGame(gameId) {
+            alert(`🎮 Abrindo: ${gameId}`);
+            // window.location.href = `../categorias/action/${gameId}/index.html`;
+        }
+
+        // Bloquear scroll
+        document.addEventListener('wheel', preventDefault, { passive: false });
+        document.addEventListener('touchmove', preventDefault, { passive: false });
+        
+        function preventDefault(e) {
+            e.preventDefault();
+            return false;
+        }
+
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', loadGames);
+        console.log('🎮 Todos os 84 jogos carregados!');
+    </script>
+</body>
+</html>
