@@ -1,0 +1,462 @@
+<!-- apps/GAMES/index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Games - Encomenda Palotina</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f23;
+            color: white;
+            touch-action: none;
+        }
+
+        .games-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+
+        /* Header - 15% */
+        .games-header {
+            height: 15vh;
+            min-height: 60px;
+            background: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 2px solid #6a11cb;
+            padding: 10px 5px;
+            flex-shrink: 0;
+        }
+
+        .games-header h1 {
+            font-size: clamp(1.5rem, 6vw, 2rem);
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 2px;
+        }
+
+        .games-header p {
+            color: #b0b0b0;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            text-align: center;
+        }
+
+        /* Grid Principal - 70% */
+        .games-main {
+            flex: 1;
+            height: 70vh;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 8px;
+            height: 100%;
+            width: 100%;
+        }
+
+        .game-card {
+            background: #16213e;
+            border: 2px solid #2d3748;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 8px 5px;
+            min-height: 0;
+        }
+
+        .game-card:active {
+            background: #6a11cb;
+            transform: scale(0.95);
+        }
+
+        .game-icon {
+            font-size: clamp(1.5rem, 8vw, 2.5rem);
+            margin-bottom: 5px;
+        }
+
+        .game-card h3 {
+            font-size: clamp(0.7rem, 3vw, 0.9rem);
+            text-align: center;
+            margin-bottom: 3px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .game-count {
+            font-size: clamp(0.6rem, 2.5vw, 0.7rem);
+            color: #b0b0b0;
+            background: rgba(255,255,255,0.1);
+            padding: 2px 6px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Footer - 15% */
+        .games-footer {
+            height: 15vh;
+            min-height: 50px;
+            background: #1a1a2e;
+            border-top: 2px solid #6a11cb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            padding: 5px;
+        }
+
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+        }
+
+        .nav-btn {
+            background: #16213e;
+            border: 2px solid #2d3748;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            transition: all 0.2s ease;
+            padding: 5px 2px;
+            min-height: 0;
+        }
+
+        .nav-btn:active {
+            background: #6a11cb;
+            transform: scale(0.95);
+        }
+
+        .btn-icon {
+            font-size: clamp(1rem, 5vw, 1.3rem);
+        }
+
+        .btn-text {
+            font-size: clamp(0.6rem, 2.5vw, 0.7rem);
+            font-weight: 500;
+        }
+
+        /* Bloquear tudo que possa causar scroll */
+        body {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Portrait (celular em pé) */
+        @media (orientation: portrait) and (max-height: 700px) {
+            .games-header {
+                height: 14vh;
+                min-height: 50px;
+                padding: 5px;
+            }
+            
+            .games-main {
+                height: 72vh;
+                padding: 8px;
+            }
+            
+            .games-footer {
+                height: 14vh;
+                min-height: 45px;
+            }
+            
+            .games-grid {
+                gap: 6px;
+            }
+            
+            .game-card {
+                padding: 5px 3px;
+            }
+        }
+
+        /* Landscape (celular deitado) */
+        @media (orientation: landscape) {
+            .games-container {
+                flex-direction: row;
+            }
+            
+            .games-header {
+                width: 20%;
+                height: 100vh;
+                border-right: 2px solid #6a11cb;
+                border-bottom: none;
+                padding: 10px;
+            }
+            
+            .games-main {
+                width: 60%;
+                height: 100vh;
+                padding: 15px;
+            }
+            
+            .games-footer {
+                width: 20%;
+                height: 100vh;
+                border-left: 2px solid #6a11cb;
+                border-top: none;
+            }
+            
+            .nav-buttons {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 1fr);
+                width: 90%;
+                height: 80%;
+            }
+            
+            .games-grid {
+                gap: 10px;
+            }
+        }
+
+        /* Telas muito pequenas */
+        @media (max-width: 320px) {
+            .games-grid {
+                gap: 4px;
+            }
+            
+            .game-card {
+                padding: 3px 2px;
+            }
+            
+            .game-icon {
+                font-size: 1.2rem;
+                margin-bottom: 2px;
+            }
+            
+            .game-card h3 {
+                font-size: 0.6rem;
+            }
+            
+            .game-count {
+                font-size: 0.5rem;
+                padding: 1px 4px;
+            }
+        }
+
+        /* Telas grandes */
+        @media (min-width: 768px) {
+            .games-grid {
+                gap: 15px;
+                padding: 10px;
+            }
+            
+            .game-card {
+                padding: 15px 10px;
+                border-radius: 15px;
+            }
+            
+            .nav-buttons {
+                gap: 12px;
+            }
+            
+            .nav-btn {
+                padding: 10px 5px;
+                border-radius: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="games-container">
+        <!-- Header -->
+        <header class="games-header">
+            <h1>🎮 Games</h1>
+            <p>12 Categorias</p>
+        </header>
+
+        <!-- Grid 3x4 FIXO -->
+        <main class="games-main">
+            <div class="games-grid">
+                <!-- Linha 1 -->
+                <div class="game-card" data-game="action">
+                    <div class="game-icon">⚔️</div>
+                    <h3>Ação</h3>
+                    <span class="game-count">13</span>
+                </div>
+
+                <div class="game-card" data-game="puzzle">
+                    <div class="game-icon">🧩</div>
+                    <h3>Puzzle</h3>
+                    <span class="game-count">10</span>
+                </div>
+
+                <div class="game-card" data-game="racing">
+                    <div class="game-icon">🏎️</div>
+                    <h3>Corrida</h3>
+                    <span class="game-count">7</span>
+                </div>
+
+                <!-- Linha 2 -->
+                <div class="game-card" data-game="sports">
+                    <div class="game-icon">⚽</div>
+                    <h3>Esportes</h3>
+                    <span class="game-count">9</span>
+                </div>
+
+                <div class="game-card" data-game="horror">
+                    <div class="game-icon">😱</div>
+                    <h3>Terror</h3>
+                    <span class="game-count">3</span>
+                </div>
+
+                <div class="game-card" data-game="arcade">
+                    <div class="game-icon">🕹️</div>
+                    <h3>Arcade</h3>
+                    <span class="game-count">9</span>
+                </div>
+
+                <!-- Linha 3 -->
+                <div class="game-card" data-game="adventure">
+                    <div class="game-icon">🌍</div>
+                    <h3>Aventura</h3>
+                    <span class="game-count">4</span>
+                </div>
+
+                <div class="game-card" data-game="strategy">
+                    <div class="game-icon">🧠</div>
+                    <h3>Estratégia</h3>
+                    <span class="game-count">3</span>
+                </div>
+
+                <div class="game-card" data-game="idle">
+                    <div class="game-icon">💰</div>
+                    <h3>Idle</h3>
+                    <span class="game-count">4</span>
+                </div>
+
+                <!-- Linha 4 -->
+                <div class="game-card" data-game="simulation">
+                    <div class="game-icon">🏗️</div>
+                    <h3>Simulação</h3>
+                    <span class="game-count">9</span>
+                </div>
+
+                <div class="game-card" data-game="platformer">
+                    <div class="game-icon">🪜</div>
+                    <h3>Plataforma</h3>
+                    <span class="game-count">3</span>
+                </div>
+
+                <div class="game-card" data-game="todos">
+                    <div class="game-icon">🌟</div>
+                    <h3>Todos</h3>
+                    <span class="game-count">84</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="games-footer">
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="goHome()">
+                    <span class="btn-icon">🏠</span>
+                    <span class="btn-text">Home</span>
+                </button>
+                
+                <button class="nav-btn" onclick="goFavorites()">
+                    <span class="btn-icon">⭐</span>
+                    <span class="btn-text">Fav</span>
+                </button>
+                
+                <button class="nav-btn" onclick="goSearch()">
+                    <span class="btn-icon">🔍</span>
+                    <span class="btn-text">Buscar</span>
+                </button>
+                
+                <button class="nav-btn" onclick="goConfig()">
+                    <span class="btn-icon">⚙️</span>
+                    <span class="btn-text">Config</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Bloquear qualquer scroll
+        document.addEventListener('wheel', preventDefault, { passive: false });
+        document.addEventListener('touchmove', preventDefault, { passive: false });
+        document.addEventListener('scroll', preventDefault);
+        
+        function preventDefault(e) {
+            e.preventDefault();
+            return false;
+        }
+
+        // Navegação
+        function goHome() {
+            window.location.href = '../../index.html';
+        }
+
+        function goFavorites() {
+            alert('⭐ Favoritos');
+        }
+
+        function goSearch() {
+            alert('🔍 Buscar');
+        }
+
+        function goConfig() {
+            window.location.href = '../CONFIGURACAO/index.html';
+        }
+
+        // Clique nos cards
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Feedback tátil
+                this.style.background = '#6a11cb';
+                setTimeout(() => {
+                    this.style.background = '';
+                }, 200);
+                
+                const gameType = this.dataset.game;
+                alert(`Abrindo: ${gameType}`);
+            });
+        });
+
+        // Prevenir zoom com double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        console.log('🎮 Games Mobile - Carregado!');
+    </script>
+</body>
+</html>

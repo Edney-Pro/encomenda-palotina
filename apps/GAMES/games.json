@@ -1,0 +1,111 @@
+{
+  "jogos": [
+    {"id": "1v1-lol", "nome": "1v1.LOL", "categoria": "action", "icon": "🎯"},
+    {"id": "gun-mayhem", "nome": "Gun Mayhem", "categoria": "action", "icon": "🔫"},
+    {"id": "gun-mayhem-2", "nome": "Gun Mayhem 2", "categoria": "action", "icon": "💥"},
+    {"id": "tank-trouble", "nome": "Tank Trouble", "categoria": "action", "icon": "🚛"},
+    {"id": "time-shooter", "nome": "Time Shooter", "categoria": "action", "icon": "⏱️"},
+    {"id": "getaway-shootout", "nome": "Getaway Shootout", "categoria": "action", "icon": "🏃‍♂️"},
+    {"id": "rooftop-sniper", "nome": "Rooftop Sniper", "categoria": "action", "icon": "🏢"},
+    {"id": "hide-smash", "nome": "Hide and Smash", "categoria": "action", "icon": "👊"},
+    {"id": "pixel-gun", "nome": "Pixel Gun", "categoria": "action", "icon": "🔫"},
+    {"id": "n-gon", "nome": "N-Gon", "categoria": "action", "icon": "⚡"},
+    {"id": "house-of-hazards", "nome": "House of Hazards", "categoria": "action", "icon": "🏠"},
+    {"id": "bullet-force", "nome": "Bullet Force", "categoria": "action", "icon": "💣"},
+    {"id": "combat-online", "nome": "Combat Online", "categoria": "action", "icon": "⚔️"},
+
+    {"id": "block-blast", "nome": "Block Blast", "categoria": "puzzle", "icon": "🧩"},
+    {"id": "infinite-craft", "nome": "Infinite Craft", "categoria": "puzzle", "icon": "∞"},
+    {"id": "cut-the-rope", "nome": "Cut the Rope", "categoria": "puzzle", "icon": "✂️"},
+    {"id": "draw-the-hill", "nome": "Draw the Hill", "categoria": "puzzle", "icon": "📐"},
+    {"id": "tetris", "nome": "Tetris", "categoria": "puzzle", "icon": "🔷"},
+    {"id": "mine-sweeper", "nome": "Mine Sweeper", "categoria": "puzzle", "icon": "💣"},
+    {"id": "stacktris", "nome": "Stacktris", "categoria": "puzzle", "icon": "📦"},
+    {"id": "2048", "nome": "2048", "categoria": "puzzle", "icon": "🔢"},
+    {"id": "sudoku", "nome": "Sudoku", "categoria": "puzzle", "icon": "9️⃣"},
+    {"id": "cupcake-2048", "nome": "Cupcake 2048", "categoria": "puzzle", "icon": "🧁"},
+
+    {"id": "slope", "nome": "Slope", "categoria": "racing", "icon": "🎢"},
+    {"id": "drift-boss", "nome": "Drift Boss", "categoria": "racing", "icon": "🚗"},
+    {"id": "crazy-tunnel-3d", "nome": "Crazy Tunnel 3D", "categoria": "racing", "icon": "🕳️"},
+    {"id": "drift-hunters", "nome": "Drift Hunters", "categoria": "racing", "icon": "🏎️"},
+    {"id": "snow-rider-3d", "nome": "Snow Rider 3D", "categoria": "racing", "icon": "🛷"},
+    {"id": "drive-mad", "nome": "Drive Mad", "categoria": "racing", "icon": "😵"},
+    {"id": "motox3m", "nome": "Moto X3M", "categoria": "racing", "icon": "🏍️"},
+
+    {"id": "retro-bowl", "nome": "Retro Bowl", "categoria": "sports", "icon": "🏈"},
+    {"id": "volley-random", "nome": "Volley Random", "categoria": "sports", "icon": "🏐"},
+    {"id": "basketball-bros", "nome": "Basketball Bros", "categoria": "sports", "icon": "🏀"},
+    {"id": "soccer-random", "nome": "Soccer Random", "categoria": "sports", "icon": "⚽"},
+    {"id": "boxing-random", "nome": "Boxing Random", "categoria": "sports", "icon": "🥊"},
+    {"id": "basketball-stars", "nome": "Basketball Stars", "categoria": "sports", "icon": "⭐"},
+    {"id": "basketball-random", "nome": "Basketball Random", "categoria": "sports", "icon": "🎯"},
+    {"id": "stickman-golf", "nome": "Stickman Golf", "categoria": "sports", "icon": "⛳"},
+    {"id": "retro-bowl-college", "nome": "Retro Bowl College", "categoria": "sports", "icon": "🎓"},
+
+    {"id": "baldis-basics", "nome": "Baldi's Basics", "categoria": "horror", "icon": "👨‍🏫"},
+    {"id": "fnaf-1", "nome": "FNAF 1", "categoria": "horror", "icon": "🐻"},
+    {"id": "fnaf-2", "nome": "FNAF 2", "categoria": "horror", "icon": "🤖"},
+
+    {"id": "learn-to-fly", "nome": "Learn to Fly", "categoria": "arcade", "icon": "🐧"},
+    {"id": "wall-smash", "nome": "Wall Smash", "categoria": "arcade", "icon": "🧱"},
+    {"id": "lazy-jump-3d", "nome": "Lazy Jump 3D", "categoria": "arcade", "icon": "😴"},
+    {"id": "just-fall", "nome": "Just Fall", "categoria": "arcade", "icon": "👇"},
+    {"id": "crossy-road", "nome": "Crossy Road", "categoria": "arcade", "icon": "🐔"},
+    {"id": "run-2", "nome": "Run 2", "categoria": "arcade", "icon": "👟"},
+    {"id": "run-3", "nome": "Run 3", "categoria": "arcade", "icon": "🌌"},
+    {"id": "google-snake", "nome": "Google Snake", "categoria": "arcade", "icon": "🐍"},
+    {"id": "jetpack-joyride", "nome": "Jetpack Joyride", "categoria": "arcade", "icon": "🚀"},
+
+    {"id": "jack-smith", "nome": "Jack Smith", "categoria": "adventure", "icon": "🛠️"},
+    {"id": "minecraft-classic", "nome": "Minecraft Classic", "categoria": "adventure", "icon": "⛏️"},
+    {"id": "stickman-games", "nome": "Stickman Games", "categoria": "adventure", "icon": "👤"},
+    {"id": "riddle-school", "nome": "Riddle School", "categoria": "adventure", "icon": "🎒"},
+
+    {"id": "bloons-td5", "nome": "Bloons TD 5", "categoria": "strategy", "icon": "🎈"},
+    {"id": "plants-vs-zombies", "nome": "Plants vs Zombies", "categoria": "strategy", "icon": "🌱"},
+    {"id": "pandemic-2", "nome": "Pandemic 2", "categoria": "strategy", "icon": "🦠"},
+
+    {"id": "idle-breakout", "nome": "Idle Breakout", "categoria": "idle", "icon": "💰"},
+    {"id": "adventure-capitalist", "nome": "Adventure Capitalist", "categoria": "idle", "icon": "💼"},
+    {"id": "mr-mine", "nome": "Mr. Mine", "categoria": "idle", "icon": "⛏️"},
+    {"id": "cookie-clicker", "nome": "Cookie Clicker", "categoria": "idle", "icon": "🍪"},
+
+    {"id": "checkout-frenzy", "nome": "Checkout Frenzy", "categoria": "simulation", "icon": "🛒"},
+    {"id": "monkey-mart", "nome": "Monkey Mart", "categoria": "simulation", "icon": "🐒"},
+    {"id": "windows-desktop", "nome": "Windows Desktop", "categoria": "simulation", "icon": "🖥️"},
+    {"id": "spend-elons-money", "nome": "Spend Elon's Money", "categoria": "simulation", "icon": "🚀"},
+    {"id": "duck-life", "nome": "Duck Life", "categoria": "simulation", "icon": "🦆"},
+    {"id": "papas-games", "nome": "Papa's Games", "categoria": "simulation", "icon": "🍔"},
+    {"id": "csgo-case-opener", "nome": "CSGO Case Opener", "categoria": "simulation", "icon": "🎁"},
+    {"id": "bitlife", "nome": "BitLife", "categoria": "simulation", "icon": "👶"},
+    {"id": "duck-life-1", "nome": "Duck Life 1", "categoria": "simulation", "icon": "🥇"},
+
+    {"id": "hole-io", "nome": "Hole.io", "categoria": "io", "icon": "🕳️"},
+    {"id": "paper-io-2", "nome": "Paper.io 2", "categoria": "io", "icon": "📄"},
+
+    {"id": "ovo", "nome": "OVO", "categoria": "platformer", "icon": "🥚"},
+    {"id": "vex-games", "nome": "Vex Games", "categoria": "platformer", "icon": "🤖"},
+    {"id": "geometry-dash", "nome": "Geometry Dash", "categoria": "platformer", "icon": "🔺"},
+
+    {"id": "black-jack", "nome": "Black Jack", "categoria": "card", "icon": "♠️"},
+
+    {"id": "dbz-devolution", "nome": "DBZ Devolution", "categoria": "fighting", "icon": "🐉"},
+
+    {"id": "tiny-fishing", "nome": "Tiny Fishing", "categoria": "casual", "icon": "🎣"},
+
+    {"id": "image-tracer", "nome": "Image Tracer", "categoria": "tools", "icon": "🖼️"},
+
+    {"id": "sand-boxels", "nome": "Sand Boxels", "categoria": "sandbox", "icon": "🧪"},
+
+    {"id": "subway-surfers", "nome": "Subway Surfers", "categoria": "arcade", "icon": "🚇"},
+    {"id": "temple-run", "nome": "Temple Run", "categoria": "arcade", "icon": "🏃‍♂️"},
+    {"id": "flappy-bird", "nome": "Flappy Bird", "categoria": "arcade", "icon": "🐦"},
+    {"id": "doodle-jump", "nome": "Doodle Jump", "categoria": "arcade", "icon": "📱"},
+    {"id": "fruit-ninja", "nome": "Fruit Ninja", "categoria": "arcade", "icon": "🍉"},
+    {"id": "angry-birds", "nome": "Angry Birds", "categoria": "arcade", "icon": "🐦"},
+    {"id": "cut-the-rope-2", "nome": "Cut the Rope 2", "categoria": "puzzle", "icon": "🍭"},
+    {"id": "where-is-my-water", "nome": "Where is My Water", "categoria": "puzzle", "icon": "🐊"}
+  ],
+  "total": 84
+}
