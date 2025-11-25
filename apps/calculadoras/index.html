@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Calculadoras | Encomenda Palotina</title>
+    
+    <script src="../../core/scripts/loader-kernel.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div style="padding: 20px; padding-bottom: 100px;">
+        
+        <div style="margin-bottom: 25px;">
+            <h2 style="color: var(--text-primary); margin: 0; font-size: 1.5rem;">Calculadoras</h2>
+            <p style="color: var(--text-secondary); margin: 5px 0 0 0; font-size: 0.9rem;">Escolha uma categoria para calcular</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+            
+            <div onclick="window.location.href='./calculadoras-de-emprestimos/index.html'" 
+                 class="menu-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.2s;">
+                <div style="width: 50px; height: 50px; background: rgba(245, 158, 11, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-hand-holding-usd" style="font-size: 1.5rem; color: #F59E0B;"></i>
+                </div>
+                <span style="color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">Empréstimos</span>
+            </div>
+
+            <div onclick="window.location.href='./calculadoras-de-veiculos-automotores/index.html'" 
+                 class="menu-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.2s;">
+                <div style="width: 50px; height: 50px; background: rgba(239, 68, 68, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-car" style="font-size: 1.5rem; color: #EF4444;"></i>
+                </div>
+                <span style="color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">Automotores</span>
+            </div>
+
+            <div onclick="window.location.href='./calculadoras-de-veiculos-eletricos/index.html'" 
+                 class="menu-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.2s;">
+                <div style="width: 50px; height: 50px; background: rgba(234, 179, 8, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-bolt" style="font-size: 1.5rem; color: #EAB308;"></i>
+                </div>
+                <span style="color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">Elétricos</span>
+            </div>
+
+            <div onclick="window.location.href='./calculadoras-de-produtos/index.html'" 
+                 class="menu-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.2s;">
+                <div style="width: 50px; height: 50px; background: rgba(59, 130, 246, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-boxes" style="font-size: 1.5rem; color: #3B82F6;"></i>
+                </div>
+                <span style="color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">Produtos</span>
+            </div>
+
+            <div onclick="window.location.href='./calculadoras-de-renegociacao/index.html'" 
+                 class="menu-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.2s;">
+                <div style="width: 50px; height: 50px; background: rgba(236, 72, 153, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-handshake" style="font-size: 1.5rem; color: #EC4899;"></i>
+                </div>
+                <span style="color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">Renegociação</span>
+            </div>
+
+            <div onclick="window.location.href='./calculadoras-compramos-para-voce/index.html'" 
+                 class="menu-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.2s;">
+                <div style="width: 50px; height: 50px; background: rgba(20, 184, 166, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-shopping-cart" style="font-size: 1.5rem; color: #14B8A6;"></i>
+                </div>
+                <span style="color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">Compramos</span>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.menu-card').forEach(card => {
+            card.addEventListener('mousedown', () => card.style.transform = 'scale(0.96)');
+            card.addEventListener('mouseup', () => card.style.transform = 'scale(1)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
+            
+            // Suporte Touch
+            card.addEventListener('touchstart', () => card.style.transform = 'scale(0.96)');
+            card.addEventListener('touchend', () => card.style.transform = 'scale(1)');
+        });
+    </script>
+
+</body>
+</html>

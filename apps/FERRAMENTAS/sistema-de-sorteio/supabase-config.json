@@ -1,0 +1,6 @@
+﻿{
+    "auth_redirect_fail":  "https://portal-cadastro.vercel.app",
+    "notifications_table":  "public.system_notifications",
+    "supabase_url":  "https://tknxdmdooigvolvcppup.supabase.co",
+    "supabase_anon":  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRrbnhkbWRvb2lndm9sdmNwcHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1MjY3NzYsImV4cCI6MjA3OTEwMjc3Nn0.xpzoeQZrTLiBwmlcOCTtZ1LrpZvZdHrbnvctg_dwvu0"
+}

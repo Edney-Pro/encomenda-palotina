@@ -1,0 +1,114 @@
+{
+  "bluewave": {
+    "nome": "BlueWave",
+    "corPrimaria": "#009EE3",
+    "corSecundaria": "#00C2FF",
+    "fonte": "Roboto",
+    "estilo": "sólido"
+  },
+  "purplebank": {
+    "nome": "PurpleBank",
+    "corPrimaria": "#7B1FA2",
+    "corSecundaria": "#B266FF",
+    "fonte": "Poppins",
+    "estilo": "gradiente"
+  },
+  "orangeflow": {
+    "nome": "OrangeFlow",
+    "corPrimaria": "#FF7A00",
+    "corSecundaria": "#FFA84D",
+    "fonte": "Lato",
+    "estilo": "sólido"
+  },
+  "skyshop": {
+    "nome": "SkyShop",
+    "corPrimaria": "#007AFF",
+    "corSecundaria": "#50B8FF",
+    "fonte": "Montserrat",
+    "estilo": "gradiente"
+  },
+  "tealpay": {
+    "nome": "TealPay",
+    "corPrimaria": "#00C47A",
+    "corSecundaria": "#A1FFD4",
+    "fonte": "Inter",
+    "estilo": "sólido"
+  },
+  "goldcart": {
+    "nome": "GoldCart",
+    "corPrimaria": "#FFD600",
+    "corSecundaria": "#F7A400",
+    "fonte": "Open Sans",
+    "estilo": "sólido"
+  },
+  "crimsonpower": {
+    "nome": "CrimsonPower",
+    "corPrimaria": "#B71C1C",
+    "corSecundaria": "#FFD54F",
+    "fonte": "Orbitron",
+    "estilo": "gradiente"
+  },
+  "shadowknight": {
+    "nome": "ShadowKnight",
+    "corPrimaria": "#1C1C1C",
+    "corSecundaria": "#FFC400",
+    "fonte": "Rajdhani",
+    "estilo": "sólido"
+  },
+  "aquaguard": {
+    "nome": "AquaGuard",
+    "corPrimaria": "#00695C",
+    "corSecundaria": "#FFB300",
+    "fonte": "Exo 2",
+    "estilo": "translúcido"
+  },
+  "novashield": {
+    "nome": "NovaShield",
+    "corPrimaria": "#003F91",
+    "corSecundaria": "#D32F2F",
+    "fonte": "Source Sans Pro",
+    "estilo": "sólido"
+  },
+  "emeraldflash": {
+    "nome": "EmeraldFlash",
+    "corPrimaria": "#00C853",
+    "corSecundaria": "#FFD600",
+    "fonte": "Poppins",
+    "estilo": "neon"
+  },
+  "titaniumstorm": {
+    "nome": "TitaniumStorm",
+    "corPrimaria": "#455A64",
+    "corSecundaria": "#B0BEC5",
+    "fonte": "Cinzel",
+    "estilo": "gradiente"
+  },
+  "nubank": {
+    "nome": "Nubank",
+    "corPrimaria": "#820AD1",
+    "corSecundaria": "#CBA3F8",
+    "fonte": "Poppins",
+    "tema": "escuro"
+  },
+  "mercadopago": {
+    "nome": "Mercado Pago",
+    "corPrimaria": "#009EE3",
+    "corSecundaria": "#00B3E6",
+    "fonte": "Roboto",
+    "tema": "claro"
+  },
+  "inter": {
+    "nome": "Banco Inter",
+    "corPrimaria": "#FF7A00",
+    "corSecundaria": "#FFAD66",
+    "fonte": "Lato",
+    "tema": "claro"
+  },
+  "magalu": {
+    "nome": "Magazine Luiza",
+    "corPrimaria": "#007AFF",
+    "corSecundaria": "#50B8FF",
+    "fonte": "Montserrat",
+    "tema": "claro"
+  }
+}

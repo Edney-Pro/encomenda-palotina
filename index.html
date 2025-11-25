@@ -3,102 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Portal profissional para clientes da Encomenda Palotina">
-    <meta name="theme-color" content="#8B5CF6">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Portal Cliente">
+    <title>Encomenda Palotina | Portal V2.1</title>
     
-    <title>Portal de Cliente | Encomenda Palotina</title>
-    
-    <!-- FAVICON -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐸</text></svg>">
-    
-    <!-- PWA MANIFEST -->
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- APPLE TOUCH ICON -->
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    
-    <!-- FONTES E ÍCONES -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css">
-</head>
+    <script src="core/scripts/loader-kernel.js"></script>
+    
+    <script src="core/scripts/app-manager.js" defer></script> 
+    </head>
 <body>
-    <!-- SPLASH SCREEN COM SAPO -->
-    <div id="splash-screen">
-        <div class="splash-container">
-            <div class="sapo-mascote">🐸</div>
-            <div class="sapo-shadow"></div>
-            <h1 class="splash-title">Portal de Cliente</h1>
-            <p class="splash-subtitle">Encomenda Palotina</p>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
+    
+    <div id="splash-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s;">
+        <div style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden; border: 4px solid #8B5CF6; margin-bottom: 20px; animation: pulse 2s infinite;">
+            <img src="core/img/logo.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h2 style="color: white; font-family: sans-serif;">Carregando Sistema...</h2>
+    </div>
+
+    <script>
+        // Remove Splash após carregar
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.opacity = '0';
+                setTimeout(() => document.getElementById('splash-screen').remove(), 500);
+            }, 1500);
+        }
+    </script>
+
+    <div class="container" style="padding: 20px;">
+        <div class="home-grid" id="apps-grid">
             </div>
+        
+        <div class="empty-state" id="emptyState" style="display: none; text-align: center; color: #fff;">
+            <i class="fas fa-spinner fa-spin"></i> Carregando aplicativos...
         </div>
     </div>
 
-    <!-- INDICADOR DE CARREGAMENTO -->
-    <div class="loading-indicator"></div>
-
-    <!-- MENSAGEM DE STATUS PARA ACESSIBILIDADE -->
-    <div id="status-message" class="sr-only" aria-live="polite"></div>
-
-    <!-- CONTAINER PRINCIPAL FIXO -->
-    <div class="app-container">
-        <!-- HEADER PADRONIZADO -->
-        <header id="global-header">
-            <div class="header-content">
-                <div class="header-brand">
-                    <i class="fas fa-user-secret header-icon" aria-hidden="true"></i>
-                    <div class="header-titles">
-                        <h1 class="header-title">Portal de Cliente</h1>
-                        <div class="header-subtitle">Encomenda Palotina</div>
-                    </div>
-                </div>
-                <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
-        </header>
-
-        <!-- CONTEÚDO PRINCIPAL PERFEITAMENTE ALINHADO -->
-        <main class="container">
-            <div class="home-grid" id="apps-grid">
-                <!-- Apps carregados dinamicamente -->
-            </div>
-
-            <!-- ESTADO VAZIO -->
-            <div class="empty-state" id="emptyState">
-                <i class="fas fa-inbox empty-icon"></i>
-                <h3 class="empty-title">Nenhum app disponível</h3>
-                <p class="empty-subtitle">Todos os aplicativos estão ocultos ou em manutenção</p>
-            </div>
-        </main>
-
-        <!-- FOOTER ALINHADO E DESTACADO COM 3 BOTÕES PADRONIZADOS -->
-        <footer class="home-footer">
-            <a href="https://wa.me/5544998408460" class="footer-button" target="_blank" aria-label="Contato via WhatsApp">
-                <i class="fab fa-whatsapp footer-icon" aria-hidden="true"></i>
-                <span class="footer-text">WhatsApp</span>
-            </a>
-            
-            <a href="https://instagram.com/encomendapalotina" class="footer-button" target="_blank" aria-label="Siga-nos no Instagram">
-                <i class="fab fa-instagram footer-icon" aria-hidden="true"></i>
-                <span class="footer-text">Instagram</span>
-            </a>
-            
-            <a href="http://localhost/dolibarr/public/webportal/index.php" class="footer-button" aria-label="Acesse seu Portal">
-                <i class="fas fa-user-circle footer-icon" aria-hidden="true"></i>
-                <span class="footer-text">Seu Portal</span>
-            </a>
-        </footer>
-    </div>
-
-    <!-- SCRIPTS -->
-    <script src="script.js"></script>
 </body>
 </html>

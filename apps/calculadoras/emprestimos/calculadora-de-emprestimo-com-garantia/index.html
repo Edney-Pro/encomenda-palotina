@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Empréstimo com Garantia - Encomenda Palotina</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <!-- Header -->
+        <div class="calculator-header">
+            <div class="header-content">
+                <h1><i class="bi bi-shield-check me-2"></i>Empréstimo com Garantia</h1>
+                <p>Simule seu empréstimo deixando um produto como garantia</p>
+            </div>
+            <div class="settings-icon" onclick="abrirModalConfig()"><i class="bi bi-gear-fill"></i></div>
+        </div>
+
+        <div class="content-wrapper">
+            <!-- Barra de Progresso -->
+            <div class="progress-container">
+                <div class="progress"><div class="progress-bar" role="progressbar" style="width: 20%;" id="progressBar"></div></div>
+            </div>
+
+            <div class="content-area">
+                <!-- TELA 1: DADOS PESSOAIS -->
+                <div class="etapa active" id="tela1">
+                    <h4 class="section-title"><i class="bi bi-person-badge me-2"></i>Dados Pessoais</h4>
+                    <div class="mb-3"><label class="form-label">Nome completo:</label><input type="text" class="form-control" id="clientName" placeholder="Ex: João Silva Santos" required></div>
+                    <div class="mb-3"><label class="form-label">CPF:</label><input type="text" class="form-control" id="clientCPF" placeholder="Ex: 000.000.000-00" required></div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Chave PIX:</label>
+                        <div class="row g-2">
+                            <div class="col-6"><button type="button" class="btn btn-pix" onclick="selectPixType('cpf', this)"><i class="bi bi-person-vcard"></i> CPF</button></div>
+                            <div class="col-6"><button type="button" class="btn btn-pix" onclick="selectPixType('telefone', this)"><i class="bi bi-phone"></i> Telefone</button></div>
+                            <div class="col-6"><button type="button" class="btn btn-pix" onclick="selectPixType('email', this)"><i class="bi bi-envelope"></i> E-mail</button></div>
+                            <div class="col-6"><button type="button" class="btn btn-pix" onclick="selectPixType('aleatorio', this)"><i class="bi bi-shuffle"></i> Aleatória</button></div>
+                        </div>
+                        <input type="text" class="form-control mt-2" id="clientPix" placeholder="Selecione o tipo e digite a chave" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Banco para Recebimento:</label>
+                        <div class="banco-section-title">Bancos Digitais</div>
+                        <div class="row g-2">
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('Nubank', this)">Nubank</button></div>
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('Mercado Pago', this)">M. Pago</button></div>
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('Inter', this)">Inter</button></div>
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('PicPay', this)">PicPay</button></div>
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('C6 Bank', this)">C6 Bank</button></div>
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('Neon', this)">Neon</button></div>
+                        </div>
+                        <div class="banco-section-title mt-3">Bancos Físicos</div>
+                        <div class="row g-2">
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('Bco do Brasil', this)">Brasil</button></div>
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('Sicredi', this)">Sicredi</button></div>
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('Sicoob', this)">Sicoob</button></div>
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('Caixa', this)">Caixa</button></div>
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('Itaú', this)">Itaú</button></div>
+                            <div class="col-4"><button type="button" class="btn btn-banco" onclick="selectBanco('Bradesco', this)">Bradesco</button></div>
+                        </div>
+                         <button type="button" class="btn btn-selection w-100 mt-3" id="btnOutroBanco" onclick="abrirModalBanco()"><i class="bi bi-search"></i> Outro Banco</button>
+                    </div>
+                    
+                    <div class="dia-pagamento-container mt-3">
+                        <h6 class="mb-3"><i class="bi bi-calendar-heart me-2"></i>Escolha a data da 1ª parcela (limite de 33 dias)</h6>
+                        <div class="row g-3" id="opcoesDiaPagamentoContainer"></div>
+                    </div>
+                </div>
+
+                <!-- TELA 2: STATUS DO CLIENTE -->
+                <div class="etapa" id="tela2"><h4 class="section-title"><i class="bi bi-person-check me-2"></i>Status do Cliente</h4><div class="d-grid gap-2 mb-3"><button type="button" class="btn btn-selection" onclick="selectClientStatus('yes', this)"><i class="bi bi-person-check"></i> Já sou cliente</button><button type="button" class="btn btn-selection" onclick="selectClientStatus('no', this)"><i class="bi bi-person-x"></i> Não sou cliente</button></div></div>
+
+                <!-- TELA 3: SITUAÇÃO DO CLIENTE -->
+                <div class="etapa" id="tela3"><h4 class="section-title"><i class="bi bi-person-lines-fill me-2"></i>Situação do Cliente</h4><div id="clientStatusOptions" class="hidden"><h6 class="mb-3">Selecione sua situação atual:</h6><div class="d-grid gap-2"><button type="button" class="btn btn-selection" onclick="selectClientSituation('no', this)"><i class="bi bi-check-circle"></i> Parcelas em Dia</button><button type="button" class="btn btn-selection" onclick="selectClientSituation('yes', this)"><i class="bi bi-exclamation-triangle"></i> Parcela Pendente</button></div></div><div id="nonClientForm" class="hidden"><h6 class="mb-3">Como ficou sabendo do nosso serviço?</h6><div class="d-grid gap-2 mb-3"><button type="button" class="btn btn-selection" onclick="selectSource('instagram', this)"><i class="bi bi-instagram"></i> Instagram</button><button type="button" class="btn btn-selection" onclick="selectSource('facebook', this)"><i class="bi bi-facebook"></i> Facebook</button><button type="button" class="btn btn-selection" onclick="selectSource('whatsapp', this)"><i class="bi bi-whatsapp"></i> Whatsapp</button><button type="button" class="btn btn-selection" onclick="selectSource('indicado', this)"><i class="bi bi-person-check"></i> Indicado</button></div><div class="mt-3 hidden" id="indicadoField"><input type="text" class="form-control" id="clientIndicado" placeholder="Quem te indicou?" required></div></div></div>
+
+                <!-- TELA 4: CONDIÇÕES DO EMPRÉSTIMO -->
+                <div class="etapa" id="tela4"><div class="slider-container"><h4 class="section-title"><i class="bi bi-cash-coin me-2"></i>1. Valor do Empréstimo</h4><input type="range" class="custom-slider" id="loanValue" min="100" max="15000" step="100" value="1000" oninput="atualizarVisores()"><div class="slider-value-display" id="loanValueDisplay">R$ 1.000,00</div><div class="garantia-info-small mt-3"><i class="bi bi-box-seam"></i> Valor do produto em garantia: <strong id="productValueDisplay">R$ 2.000,00</strong></div></div><div class="slider-container mt-4"><h4 class="section-title"><i class="bi bi-calendar-range me-2"></i>2. Meses para Pagamento</h4><input type="range" class="custom-slider" id="mesesPagamento" min="1" max="36" value="12" oninput="atualizarVisores()"><div class="slider-value-display" id="mesesPagamentoDisplay">12 meses</div></div><div class="visor-principal valor-parcela mt-4"><small>Sua Parcela Mensal Será</small><div class="valor-display" id="valorParcelaPrincipal">R$ 0,00</div></div></div>
+
+                <!-- TELA 5: RESUMO -->
+                <div class="etapa" id="tela5"><div class="summary-section"><div class="summary-header"><h5 class="text-center mb-1"><i class="bi bi-file-text me-2"></i>Resumo da Simulação</h5><small class="text-muted d-block text-center" id="dataOrcamento"></small></div><div class="summary-block" id="dadosPessoaisBlock"></div><div class="summary-block" id="emprestimoBlock"></div><div class="summary-block" id="garantiaBlock"></div><div class="summary-block" id="pagamentoBlock"></div><div class="summary-block mt-3" id="obsBlock"><h6 class="summary-block-title"><i class="bi bi-info-circle me-2"></i>Observações de Atraso</h6><p class="obs-text">Em caso de atraso, o valor da sua parcela será atualizado com os seguintes acréscimos:</p><ul class="obs-list"><li><strong>Multa por atraso:</strong> Valor único de <strong id="multaPercent">20%</strong>.</li><li><strong>Juros diários:</strong> Valor de <strong id="jurosPercent">0.8%</strong> por dia.</li></ul></div><button class="btn btn-simular-atraso w-100" onclick="abrirModalAtraso()"><i class="bi bi-exclamation-triangle-fill"></i> Simular Parcela em Atraso</button><button class="btn btn-whatsapp-final w-100 mt-3" onclick="enviarWhatsApp()"><i class="bi bi-whatsapp"></i> Compartilhar Resumo</button></div></div>
+            </div>
+        </div>
+
+        <!-- Rodapé e Botão de Ajuda -->
+        <div class="footer-actions"><div class="row g-2"><div class="col-4"><button class="btn btn-home w-100" onclick="alert('Função de Home não definida.')"><i class="bi bi-house"></i> Home</button></div><div class="col-4"><button class="btn btn-voltar w-100" onclick="voltarTela()"><i class="bi bi-arrow-left"></i> Voltar</button></div><div class="col-4"><button class="btn btn-avancar w-100" onclick="avancarTela()"><i class="bi bi-arrow-right"></i> Avançar</button></div></div></div>
+        <button class="btn-help-fab" onclick="abrirModalAjuda()"><i class="bi bi-question-lg"></i></button>
+
+        <!-- MODAIS -->
+        <div class="modal-overlay hidden" id="configModal"><div class="modal-content"><div id="pinView"><h4>Acesso Restrito</h4><p>Digite o PIN para acessar as configurações.</p><input type="password" id="pinInput" class="form-control" placeholder="PIN" onkeydown="if(event.key === 'Enter') verificarPIN()"><button class="btn btn-success w-100 mt-3" onclick="verificarPIN()">Acessar</button><button class="btn btn-secondary w-100 mt-2" onclick="fecharModalConfig()">Fechar</button></div><div id="settingsView" class="hidden"><h4>Configurações</h4><hr><div class="mb-3"><label class="form-label">Tema do Aplicativo</label><div class="d-flex gap-2"><button class="btn btn-selection w-100" id="btnThemeDark" onclick="definirTema('dark')"><i class="bi bi-moon-stars-fill"></i> Escuro</button><button class="btn btn-selection w-100" id="btnThemeLight" onclick="definirTema('light')"><i class="bi bi-sun-fill"></i> Claro</button></div></div><div class="mb-3"><label for="taxaInput" class="form-label">Taxa de Juros Mensal (%)</label><input type="number" id="taxaInput" class="form-control" step="0.1"></div><div class="mb-3"><label for="multaInput" class="form-label">Multa por Atraso (%)</label><input type="number" id="multaInput" class="form-control" step="1"></div><div class="mb-3"><label for="jurosInput" class="form-label">Juros Diários por Atraso (%)</label><input type="number" id="jurosInput" class="form-control" step="0.1"></div><button class="btn btn-success w-100 mt-3" onclick="salvarConfig()">Salvar e Fechar</button><button class="btn btn-secondary w-100 mt-2" onclick="fecharModalConfig()">Cancelar</button></div></div></div>
+        <div class="modal-overlay hidden" id="atrasoModal"><div class="modal-content modal-fullscreen"><div class="modal-header"><h4>Simulador de Atraso</h4></div><div class="modal-body"><p>Veja o valor atualizado de uma parcela em atraso.</p><div class="mb-3"><label for="diasAtrasoInput" class="form-label">Dias em Atraso:</label><input type="number" id="diasAtrasoInput" class="form-control" value="15" oninput="calcularSimulacaoAtraso()"></div><div class="atraso-details"><div class="d-flex justify-content-between"><span>Valor Original:</span> <span id="atrasoValorOriginal"></span></div><div class="d-flex justify-content-between"><span>Multa (<span id="atrasoMultaPercent"></span>%):</span> <span id="atrasoValorMulta"></span></div><div class="d-flex justify-content-between"><span>Juros (<span id="atrasoJurosPercent"></span>%/dia):</span> <span id="atrasoValorJuros"></span></div><hr><div class="d-flex justify-content-between fw-bold fs-5"><span>VALOR TOTAL:</span> <span id="atrasoValorTotal"></span></div></div></div><div class="modal-footer"><button class="btn btn-voltar w-100" onclick="fecharModalAtraso()"><i class="bi bi-arrow-left"></i> Voltar ao Resumo</button></div></div></div>
+        <div class="modal-overlay hidden" id="bancoModal"><div class="modal-content"><div class="d-flex justify-content-between align-items-center mb-3"><h5>Selecione um Banco</h5><button type="button" class="btn-close" onclick="fecharModalBanco()"></button></div><div class="d-grid gap-2"><button type="button" class="btn btn-selection" onclick="selectBancoModal('Santander', this)">Santander</button><button type="button" class="btn btn-selection" onclick="selectBancoModal('Banrisul', this)">Banrisul</button><button type="button" class="btn btn-selection" onclick="selectBancoModal('Safra', this)">Safra</button><button type="button" class="btn btn-selection" onclick="selectBancoModal('BTG Pactual', this)">BTG Pactual</button><button type="button" class="btn btn-selection" onclick="selectBancoModal('Original', this)">Original</button><button type="button" class="btn btn-selection" onclick="selectBancoModal('Pan', this)">Pan</button></div></div></div>
+        <div class="modal-overlay hidden" id="helpModal"><div class="modal-content"><div class="d-flex justify-content-between align-items-center mb-3"><h5><i class="bi bi-question-circle-fill me-2"></i>Ajuda da Calculadora</h5><button type="button" class="btn-close" onclick="fecharModalAjuda()"></button></div><ul class="nav nav-tabs" id="helpTabs" role="tablist"><li class="nav-item" role="presentation"><button class="nav-link active" id="etapa1-tab" data-bs-toggle="tab" data-bs-target="#etapa1-content" type="button" role="tab">Etapa 1</button></li><li class="nav-item" role="presentation"><button class="nav-link" id="etapa2-tab" data-bs-toggle="tab" data-bs-target="#etapa2-content" type="button" role="tab">Etapa 2 e 3</button></li><li class="nav-item" role="presentation"><button class="nav-link" id="etapa4-tab" data-bs-toggle="tab" data-bs-target="#etapa4-content" type="button" role="tab">Etapa 4</button></li><li class="nav-item" role="presentation"><button class="nav-link" id="etapa5-tab" data-bs-toggle="tab" data-bs-target="#etapa5-content" type="button" role="tab">Etapa 5</button></li></ul><div class="tab-content mt-3" id="helpTabsContent"><div class="tab-pane fade show active" id="etapa1-content" role="tabpanel"><h6><i class="bi bi-person-badge"></i> Dados Pessoais</h6><p>Nesta primeira etapa, preencha suas informações básicas para iniciar a simulação:</p><ul><li><strong>Nome e CPF:</strong> Essenciais para a identificação.</li><li><strong>Chave PIX e Banco:</strong> Informe onde você deseja receber o valor do empréstimo.</li><li><strong>Data da 1ª Parcela:</strong> Escolha o melhor dia para o primeiro pagamento. A data exata aparecerá no botão.</li></ul></div><div class="tab-pane fade" id="etapa2-content" role="tabpanel"><h6><i class="bi bi-person-check"></i> Status e Situação</h6><p>Aqui, precisamos entender seu relacionamento conosco:</p><ul><li><strong>Já é cliente?</strong> Se sim, informe se suas parcelas de empréstimos anteriores estão em dia ou pendentes.</li><li><strong>Não é cliente?</strong> Conte-nos como você nos conheceu. Se foi indicado, por favor, informe o nome de quem o indicou.</li></ul></div><div class="tab-pane fade" id="etapa4-content" role="tabpanel"><h6><i class="bi bi-sliders"></i> Condições</h6><p>Esta é a etapa principal, onde você define os valores:</p><ul><li><strong>Valor do Empréstimo:</strong> Deslize a barra para escolher quanto precisa. O valor do produto que você precisa ter como garantia (o dobro) será mostrado logo abaixo.</li><li><strong>Meses para Pagamento:</strong> Defina em quanto tempo deseja quitar o empréstimo.</li><li><strong>Visor de Parcela:</strong> O valor da sua parcela mensal será calculado e exibido automaticamente.</li></ul></div><div class="tab-pane fade" id="etapa5-content" role="tabpanel"><h6><i class="bi bi-file-text"></i> Resumo e Envio</h6><p>A última etapa consolida todas as informações:</p><ul><li><strong>Confira os Dados:</strong> Verifique se todos os detalhes da sua simulação estão corretos.</li><li><strong>Simular Atraso:</strong> Use o botão para ver como ficaria o valor da parcela com juros e multa por atraso.</li><li><strong>Compartilhar:</strong> Quando estiver tudo certo, clique em "Compartilhar Resumo" para enviar sua simulação diretamente para nosso WhatsApp e dar continuidade ao processo.</li></ul></div></div></div></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

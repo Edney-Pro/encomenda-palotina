@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Ferramentas Utilitárias - Encomenda Palotina">
-    <title>Ferramentas | Encomenda Palotina</title>
+    <meta name="description" content="Ferramentas Avançadas - Encomenda Palotina">
+    <title>Ferramentas Avançadas | Encomenda Palotina</title>
     
     <!-- FONTES E ÍCONES -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
             flex-direction: column;
         }
 
-        /* IMAGEM DE FUNDO ESPECÍFICA PARA FERRAMENTAS */
+        /* IMAGEM DE FUNDO ESPECÍFICA PARA FERRAMENTAS AVANÇADAS */
         .image-background {
             position: fixed;
             top: 0;
@@ -54,7 +54,7 @@
             width: 100vw;
             height: 100vh;
             z-index: -2;
-            background-image: url('../../assets/backgrounds/videos/FERRAMENTAS-bg.jpg');
+            background-image: url('../../assets/backgrounds/videos/FERRAMENTAS_AVANCADAS-bg.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -129,7 +129,7 @@
             overflow: hidden;
         }
 
-        /* GRID DE FERRAMENTAS - 3x4 (PADRÃO DO SISTEMA) */
+        /* GRID DE FERRAMENTAS AVANÇADAS - 3x4 */
         .module-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -141,7 +141,7 @@
             max-height: 700px;
         }
 
-        /* CARDS PROFISSIONAIS COMPACTOS (PADRÃO DO SISTEMA) */
+        /* CARDS PROFISSIONAIS COMPACTOS */
         .app-card {
             aspect-ratio: 1 / 1;
             display: flex;
@@ -233,7 +233,7 @@
             color: var(--text-secondary);
         }
 
-        /* ÍCONES DECORATIVOS NO CANTO SUPERIOR DIREITO */
+        /* ÍCONES DECORATIVOS NO CANTO SUPERIOR DIREITO - CORRIGIDO */
         .card-decoration {
             position: absolute;
             top: 6px;
@@ -302,19 +302,6 @@
         @keyframes fadeDecoration {
             0%, 100% { opacity: 0.4; transform: scale(1); }
             50% { opacity: 0.7; transform: scale(1.05); }
-        }
-
-        /* CARD PLACEHOLDER */
-        .placeholder-card {
-            background: none;
-            border: 1px dashed rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.2);
-        }
-
-        .placeholder-card:hover {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(255, 255, 255, 0.2);
-            transform: none;
         }
 
         /* FOOTER MELHORADO */
@@ -524,7 +511,7 @@
     <!-- INDICADOR DE CARREGAMENTO -->
     <div class="loading-indicator"></div>
 
-    <!-- IMAGEM DE FUNDO ESPECÍFICA PARA FERRAMENTAS -->
+    <!-- IMAGEM DE FUNDO ESPECÍFICA PARA FERRAMENTAS AVANÇADAS -->
     <div class="image-background"></div>
 
     <!-- OVERLAY PARA CONTRASTE -->
@@ -533,9 +520,9 @@
     <!-- HEADER MELHORADO -->
     <header id="global-header">
         <div class="header-content">
-            <i class="fas fa-tools header-icon"></i>
+            <i class="fas fa-chart-line header-icon"></i>
             <div>
-                <h1 class="header-title">Ferramentas Utilitárias</h1>
+                <h1 class="header-title">Ferramentas Avançadas</h1>
                 <div class="header-subtitle">Encomenda Palotina</div>
             </div>
         </div>
@@ -544,86 +531,101 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="container">
         <div class="module-grid">
-            <!-- APP 1: CONTAGEM DE DINHEIRO -->
-            <a href="app-de-contagem-de-dinheiro/index.html" class="app-card">
-                <div class="card-icon"><i class="fas fa-calculator"></i></div>
-                <div class="card-title">Contador de Dinheiro</div>
-                <div class="card-subtitle">Contagem rápida</div>
-                <div class="card-decoration decoration-float" style="animation-delay: 0.2s;">💵</div>
+            <!-- APP 1: ANTECIPAÇÃO DE PARCELAS -->
+            <a href="antecipacao-parcelas/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-forward"></i></div>
+                <div class="card-title">Antecipação Parcelas</div>
+                <div class="card-subtitle">Cálculo rápido</div>
+                <div class="card-decoration decoration-float" style="animation-delay: 0.2s;">⏱️</div>
             </a>
 
-            <!-- APP 2: DIVISÃO DE LUCROS -->
-            <a href="app-divisao-lucros-empresas/index.html" class="app-card">
-                <div class="card-icon"><i class="fas fa-share-alt"></i></div>
-                <div class="card-title">Divisão de Lucros</div>
-                <div class="card-subtitle">Partilha justa</div>
-                <div class="card-decoration decoration-pulse" style="animation-delay: 1.3s;">⚖️</div>
+            <!-- APP 2: CAPACIDADE DE PAGAMENTO -->
+            <a href="capacidade-pagamento/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="card-title">Capacidade Pagamento</div>
+                <div class="card-subtitle">Avaliar viabilidade</div>
+                <div class="card-decoration decoration-pulse" style="animation-delay: 1.3s;">📈</div>
             </a>
 
-            <!-- APP 3: CALCULADORA NORMAL -->
-            <a href="calculadora-normal/index.html" class="app-card">
-                <div class="card-icon"><i class="fas fa-plus-minus"></i></div>
-                <div class="card-title">Calculadora Normal</div>
-                <div class="card-subtitle">Cálculos básicos</div>
-                <div class="card-decoration decoration-rotate" style="animation-delay: 0.8s;">🧮</div>
+            <!-- APP 3: CET - CUSTO EFETIVO TOTAL -->
+            <a href="cet-custo-efetivo/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-percent"></i></div>
+                <div class="card-title">CET - Custo Efetivo</div>
+                <div class="card-subtitle">Cálculo financeiro</div>
+                <div class="card-decoration decoration-rotate" style="animation-delay: 0.8s;">💲</div>
             </a>
             
-            <!-- APP 4: MULTA POR ATRASO -->
-            <a href="multa-atraso/index.html" class="app-card">
-                <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                <div class="card-title">Multa por Atraso</div>
-                <div class="card-subtitle">Cálculo de juros</div>
-                <div class="card-decoration decoration-bounce" style="animation-delay: 2.1s;">⚠️</div>
+            <!-- APP 4: CONTROLE DE LIMITES -->
+            <a href="controle-limites/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-lock"></i></div>
+                <div class="card-title">Controle de Limites</div>
+                <div class="card-subtitle">Gestão de crédito</div>
+                <div class="card-decoration decoration-bounce" style="animation-delay: 2.1s;">🛑</div>
             </a>
 
-            <!-- CARDS VAZIOS PARA COMPLETAR O GRID 3x4 -->
-            <div class="app-card placeholder-card">
-                <div class="card-icon"><i class="fas fa-plus"></i></div>
-                <div class="card-title">Em Breve</div>
-                <div class="card-subtitle">Novas Ferramentas</div>
-            </div>
+            <!-- APP 5: DESVALORIZAÇÃO GARANTIA -->
+            <a href="desvalorizacao-garantia/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+                <div class="card-title">Desvalorização Garantia</div>
+                <div class="card-subtitle">Cálculo de perda</div>
+                <div class="card-decoration decoration-shake" style="animation-delay: 1.5s;">📉</div>
+            </a>
 
-            <div class="app-card placeholder-card">
-                <div class="card-icon"><i class="fas fa-plus"></i></div>
-                <div class="card-title">Em Breve</div>
-                <div class="card-subtitle">Novas Ferramentas</div>
-            </div>
+            <!-- APP 6: PROPOSTA PDF -->
+            <a href="proposta-pdf/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-file-pdf"></i></div>
+                <div class="card-title">Proposta PDF</div>
+                <div class="card-subtitle">Geração documentos</div>
+                <div class="card-decoration decoration-fade" style="animation-delay: 2.8s;">📄</div>
+            </a>
+            
+            <!-- APP 7: SISTEMA DE BINGO -->
+            <a href="sistema-de-bingo/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-dice"></i></div>
+                <div class="card-title">Sistema de Bingo</div>
+                <div class="card-subtitle">Sorteios</div>
+                <div class="card-decoration decoration-float" style="animation-delay: 1.9s;">🎰</div>
+            </a>
 
-            <div class="app-card placeholder-card">
-                <div class="card-icon"><i class="fas fa-plus"></i></div>
-                <div class="card-title">Em Breve</div>
-                <div class="card-subtitle">Novas Ferramentas</div>
-            </div>
+            <!-- APP 8: SISTEMA DE CONSÓRCIO -->
+            <a href="sistema-de-consorcio/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-users"></i></div>
+                <div class="card-title">Sistema de Consórcio</div>
+                <div class="card-subtitle">Administração</div>
+                <div class="card-decoration decoration-pulse" style="animation-delay: 2.5s;">👥</div>
+            </a>
+            
+            <!-- APP 9: SISTEMA DE SORTEIO -->
+            <a href="sistema-de-sorteio/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-dice-five"></i></div>
+                <div class="card-title">Sistema de Sorteio</div>
+                <div class="card-subtitle">Sorteios aleatórios</div>
+                <div class="card-decoration decoration-rotate" style="animation-delay: 0.9s;">🏆</div>
+            </a>
+            
+            <!-- APP 10: TROCA COM TROCO -->
+            <a href="troca-com-troco/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-exchange-alt"></i></div>
+                <div class="card-title">Troca com Troco</div>
+                <div class="card-subtitle">Cálculo diferença</div>
+                <div class="card-decoration decoration-bounce" style="animation-delay: 3.2s;">↔️</div>
+            </a>
 
-            <div class="app-card placeholder-card">
-                <div class="card-icon"><i class="fas fa-plus"></i></div>
-                <div class="card-title">Em Breve</div>
-                <div class="card-subtitle">Novas Ferramentas</div>
-            </div>
-
-            <div class="app-card placeholder-card">
-                <div class="card-icon"><i class="fas fa-plus"></i></div>
-                <div class="card-title">Em Breve</div>
-                <div class="card-subtitle">Novas Ferramentas</div>
-            </div>
-
-            <div class="app-card placeholder-card">
-                <div class="card-icon"><i class="fas fa-plus"></i></div>
-                <div class="card-title">Em Breve</div>
-                <div class="card-subtitle">Novas Ferramentas</div>
-            </div>
-
-            <div class="app-card placeholder-card">
-                <div class="card-icon"><i class="fas fa-plus"></i></div>
-                <div class="card-title">Em Breve</div>
-                <div class="card-subtitle">Novas Ferramentas</div>
-            </div>
-
-            <div class="app-card placeholder-card">
-                <div class="card-icon"><i class="fas fa-plus"></i></div>
-                <div class="card-title">Em Breve</div>
-                <div class="card-subtitle">Novas Ferramentas</div>
-            </div>
+            <!-- APP 11: UPGRADE PRODUTO -->
+            <a href="upgrade-produto/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-level-up-alt"></i></div>
+                <div class="card-title">Upgrade Produto</div>
+                <div class="card-subtitle">Ajuste de valor</div>
+                <div class="card-decoration decoration-shake" style="animation-delay: 1.2s;">⬆️</div>
+            </a>
+            
+            <!-- APP 12: CONFIGURAÇÕES -->
+            <a href="../../apps/CONFIGURACAO/index.html" class="app-card">
+                <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                <div class="card-title">Configurações</div>
+                <div class="card-subtitle">Sistema</div>
+                <div class="card-decoration decoration-fade" style="animation-delay: 2.2s;">⚙️</div>
+            </a>
         </div>
     </main>
 
@@ -648,14 +650,14 @@
     <script>
         // INICIALIZAÇÃO MELHORADA
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🛠️ Ferramentas Utilitárias - Iniciando...');
+            console.log('⚙️ Ferramentas Avançadas - Iniciando...');
             
             // Adiciona classe de carregamento completo
             setTimeout(() => {
                 document.body.classList.add('loaded');
             }, 800);
             
-            console.log('✅ Ferramentas utilitárias inicializadas!');
+            console.log('✅ Ferramentas avançadas inicializadas!');
         });
     </script>
 </body>

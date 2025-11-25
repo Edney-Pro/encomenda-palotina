@@ -1,0 +1,55 @@
+<footer style="position: fixed; bottom: 0; width: 100%; height: 70px; background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 9999;">
+    
+    <button onclick="window.location.href='/'" style="background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;">
+        <i class="fas fa-home" style="font-size: 1.4rem; color: #8B5CF6;"></i>
+        <span style="font-size: 0.7rem;">Início</span>
+    </button>
+
+    <button id="btn-admin-config" style="background: none; border: none; color: var(--text-secondary); display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;">
+        <i class="fas fa-cog" style="font-size: 1.4rem;"></i>
+        <span style="font-size: 0.7rem;">Config Taxas</span>
+    </button>
+
+</footer>
+
+<div id="admin-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center;">
+    <div style="background: #1F2937; padding: 25px; border-radius: 16px; width: 90%; max-width: 350px; text-align: center; border: 1px solid #374151;">
+        <h3 style="color: white; margin-bottom: 15px;">Acesso Administrativo</h3>
+        <p style="color: #9CA3AF; font-size: 0.9rem; margin-bottom: 20px;">Edney Silva (065.932.739-29)</p>
+        
+        <input type="password" id="admin-pin" placeholder="Digite o PIN" maxlength="8" 
+               style="width: 100%; padding: 12px; background: #374151; border: 1px solid #4B5563; color: white; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 1.2rem; letter-spacing: 5px;">
+        
+        <div style="display: flex; gap: 10px;">
+            <button onclick="document.getElementById('admin-modal').style.display='none'" style="flex: 1; padding: 10px; background: #EF4444; color: white; border: none; border-radius: 8px;">Cancelar</button>
+            <button onclick="verifyAdminPin()" style="flex: 1; padding: 10px; background: #10B981; color: white; border: none; border-radius: 8px;">Acessar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // LÓGICA DE ADMINISTRAÇÃO LOCAL
+    document.getElementById('btn-admin-config').addEventListener('click', () => {
+        document.getElementById('admin-modal').style.display = 'flex';
+        document.getElementById('admin-pin').value = '';
+        document.getElementById('admin-pin').focus();
+    });
+
+    function verifyAdminPin() {
+        const pin = document.getElementById('admin-pin').value;
+        if (pin === '68366836') {
+            alert('✅ Acesso Permitido! Abrindo painel de taxas...');
+            document.getElementById('admin-modal').style.display = 'none';
+            // AQUI VOCÊ PODE DISPARAR UM EVENTO PARA O APP ABRIR A CONFIG
+            // Exemplo: document.dispatchEvent(new CustomEvent('open-tax-config'));
+            if(typeof openTaxSettings === 'function') {
+                openTaxSettings();
+            } else {
+                alert('A função de configuração ainda não foi criada neste app.');
+            }
+        } else {
+            alert('❌ PIN Incorreto');
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+        }
+    }
+</script>

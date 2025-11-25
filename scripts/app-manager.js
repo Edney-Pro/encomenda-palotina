@@ -1,1 +1,0 @@
-﻿// Gerenciador de apps

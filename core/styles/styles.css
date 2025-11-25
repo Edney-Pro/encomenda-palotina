@@ -1,0 +1,38 @@
+/* ===== SISTEMA DE GRID DINÂMICO ===== */
+
+/* Base da Grid */
+.home-grid {
+    display: grid;
+    gap: 15px;
+    width: 100%;
+    padding: 10px;
+    max-width: 600px; /* Limite para não esticar demais em PC */
+    margin: 0 auto;
+}
+
+/* 4 Apps (2x2) e 6 Apps (2x3) -> 2 COLUNAS */
+.grid-4, .grid-6 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* 9 a 18 Apps -> 3 COLUNAS */
+.grid-9, .grid-12, .grid-15, .grid-18 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Altura dos Cards */
+.home-card {
+    aspect-ratio: 1.1/1; /* Mantém formato quadrado/retangular agradável */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    transition: transform 0.2s;
+}
+
+.home-card:active {
+    transform: scale(0.95);
+}
