@@ -1,4 +1,4 @@
-// Service Worker Simplificado - Encomenda Palotina
+// Service Worker - Encomenda Palotina
 const CACHE_NAME = 'encomenda-palotina-v2.0.0';
 const APP_STATIC = [
   '/',
@@ -10,135 +10,120 @@ const APP_STATIC = [
   '/versao.json'
 ];
 
-// Instalação - Cache dos arquivos essenciais
+/* -----------------------------
+      INSTALAÇÃO DO SW
+------------------------------*/
 self.addEventListener('install', (event) => {
-  console.log('🔄 Service Worker Encomenda Palotina - Instalando...');
-  
+  console.log('🔄 Instalando Service Worker...');
+
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('📦 Cacheando arquivos estáticos');
-        return cache.addAll(APP_STATIC);
-      })
+      .then(cache => cache.addAll(APP_STATIC))
       .then(() => {
-        console.log('✅ Service Worker instalado com sucesso');
+        console.log('✅ Instalado!');
         return self.skipWaiting();
       })
-      .catch((error) => {
-        console.error('❌ Erro na instalação:', error);
-      })
+      .catch(err => console.error('❌ Erro ao instalar:', err))
   );
 });
 
-// Ativação - Limpeza de caches antigos
+/* -----------------------------
+      ATIVAÇÃO / LIMPAR CACHES
+------------------------------*/
 self.addEventListener('activate', (event) => {
-  console.log('🎯 Service Worker Ativando...');
-  
+  console.log('🎯 Ativando Service Worker...');
+
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    caches.keys().then(names => {
       return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('🗑️ Removendo cache antigo:', cacheName);
-            return caches.delete(cacheName);
+        names.map(name => {
+          if (name !== CACHE_NAME) {
+            console.log('🗑️ Deletando cache antigo:', name);
+            return caches.delete(name);
           }
         })
       );
     }).then(() => {
-      console.log('✅ Service Worker ativado e pronto');
+      console.log('✅ Pronto para uso');
       return self.clients.claim();
     })
   );
 });
 
-// Estratégia: Cache First para melhor performance
+/* -----------------------------
+      FETCH - TRATAMENTO DE REDE
+------------------------------*/
 self.addEventListener('fetch', (event) => {
-  // Ignora requisições não-GET
-  if (event.request.method !== 'GET') return;
-  
-  // Ignora requisições de chrome-extension
-  if (event.request.url.includes('chrome-extension')) return;
-  
-  event.respondWith(
-    caches.match(event.request)
-      .then((cachedResponse) => {
-        // Retorna do cache se disponível
-        if (cachedResponse) {
-          return cachedResponse;
-        }
 
-        // Busca da rede
-        return fetch(event.request)
-          .then((networkResponse) => {
-            // Não cacheia requisições de terceiros
-            if (!event.request.url.startsWith(self.location.origin)) {
-              return networkResponse;
-            }
-
-            // Cache apenas de requisições bem-sucedidas
-            if (networkResponse.status === 200) {
-              const responseToCache = networkResponse.clone();
-              caches.open(CACHE_NAME)
-                .then((cache) => {
-                  cache.put(event.request, responseToCache);
-                });
-            }
-
-            return networkResponse;
-          })
-          .catch(() => {
-            // Fallback para página offline
-            if (event.request.destination === 'document') {
-              return caches.match('/index.html');
-            }
-            return new Response('🔴 Modo Offline - Encomenda Palotina', {
-              status: 503,
-              statusText: 'Service Unavailable'
-            });
+  // ⚠️ Requisição especial para versao.json → sempre buscar online
+  if (event.request.url.includes('versao.json')) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Atualiza cache com nova versão
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, response.clone());
           });
-      })
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Ignorar chrome-extension e métodos não GET
+  if (event.request.method !== 'GET') return;
+  if (event.request.url.includes('chrome-extension')) return;
+
+  // Estratégia Cache First padrão
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+
+      return fetch(event.request)
+        .then(network => {
+          // Apenas arquivos do mesmo domínio vão para o cache
+          if (network.status === 200 && event.request.url.startsWith(self.location.origin)) {
+            const clone = network.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          }
+          return network;
+        })
+        .catch(() => {
+          if (event.request.destination === 'document') {
+            return caches.match('/index.html');
+          }
+          return new Response('🔴 Modo Offline', {
+            status: 503,
+            statusText: 'Offline'
+          });
+        });
+    })
   );
 });
 
-// Comunicação com a página principal
+/* -----------------------------
+      MENSAGENS ENTRE APP ↔ SW
+------------------------------*/
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
+  
+  // Forçar atualização do SW
+  if (event.data?.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-  
-  if (event.data && event.data.type === 'GET_VERSION') {
+
+  // Pegar versão
+  if (event.data?.type === 'GET_VERSION') {
     event.ports[0].postMessage({
       version: '2.0.0',
       name: 'Encomenda Palotina'
     });
   }
-});// Ouvir mensagens da página
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'UPDATE_FILE') {
+
+  // Atualizar arquivo individual no cache
+  if (event.data?.type === 'UPDATE_FILE') {
     caches.open(CACHE_NAME).then(cache => {
-      const response = new Response(event.data.content);
-      cache.put(event.data.file, response);
+      cache.put(event.data.file, new Response(event.data.content));
     });
   }
-});
-
-// Na estratégia de fetch, para o versao.json, sempre buscar da rede
-self.addEventListener('fetch', (event) => {
-  if (event.request.url.includes('versao.json')) {
-    event.respondWith(
-      fetch(event.request).then(response => {
-        // Atualiza o cache com a nova versão
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, response);
-        });
-        return response.clone();
-      }).catch(() => {
-        // Se não conseguiu buscar, tenta do cache
-        return caches.match(event.request);
-      })
-    );
-    return;
-  }
-
-  // ... resto do código do fetch ...
 });
