@@ -1,42 +1,42 @@
 @echo off
-title Atualizador Git - Edney
+setlocal EnableExtensions
 
-echo.
 echo ----------------------------------------
 echo   ATUALIZANDO REPOSITORIO GIT
 echo ----------------------------------------
-echo.
 
-:: Adicionar arquivos antes de qualquer coisa
-echo > Adicionando arquivos locais...
-git add .
+:: 1. Finaliza rebase pendente, se houver
+git rebase --continue >nul 2>&1
 
-:: Criar commit mesmo que seja simples
-git commit -m "Atualização automática (%DATE% %TIME%)" >nul 2>&1
-
-:: Continuar mesmo se o commit estiver vazio
-echo > Puxando alteracoes do GitHub...
-git pull --rebase
-if errorlevel 1 (
-    echo.
-    echo [ERRO] Conflito encontrado! Corrija e depois rode:
-    echo    git add .
-    echo    git rebase --continue
-    echo.
-    pause
-    goto end
+:: 2. Verifica se esta em detached HEAD
+git symbolic-ref --short HEAD >nul 2>&1
+IF ERRORLEVEL 1 (
+    echo Salvando alteracoes em detached HEAD...
+    git add -A
+    git commit -m "Auto-commit: salvando alteracoes pendentes"
+    echo Voltando para a branch main...
+    git checkout main
 )
 
-echo.
-echo > Enviando para o GitHub...
-git push
+:: 3. Atualiza branch local com remoto
+echo Atualizando branch local...
+git pull --rebase origin main
 
-echo.
-echo ========================================
-echo   SUCESSO! Repositorio atualizado.
-echo ========================================
+:: 4. Verifica se ha alteracoes reais para commit
+git diff --quiet
+IF ERRORLEVEL 1 (
+    echo Realizando commit...
+    git add -A
+    git commit -m "Atualizacao automatica"
+) ELSE (
+    echo Nenhuma alteracao para comitar.
+)
 
-:end
-echo.
+:: 5. Push seguro
+echo Enviando para o repositorio remoto...
+git push origin main --force-with-lease
+
+echo ----------------------------------------
+echo   Atualizacao concluida!
+echo ----------------------------------------
 pause
-exit /b
